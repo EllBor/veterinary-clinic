@@ -1,0 +1,87 @@
+.collective{
+    padding-top: 100px;
+    padding-bottom: 200px;
+}
+
+.collective__inner{
+    display: flex;
+    justify-content: space-between;
+}
+
+.collective__title{
+    font-size: 80px;
+    font-weight: 400;
+    margin-bottom: 60px;
+}
+
+.collective__img{
+    margin-top: 50px;
+}
+
+.collective__nav-list{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.collective__item-link{
+    font-size: 20px;
+}
+
+.collective__item-link:hover{
+    color: #7893F5;
+}
+
+.collective__part-title, .collective__specialists-title{
+    font-size: 30px;
+    font-weight: 400;
+    margin-bottom: 30px;
+    margin-top: 50px;
+}
+
+.collective__part-text{
+    line-height: 28px;
+}
+
+.collective__part-about{
+    max-width: 900px;
+}
+
+.collective__specialists-grid{
+    display: grid;
+    grid-template-columns: repeat(2, 55%);
+    grid-template-rows: repeat(4, 30%);
+}
+
+.specialists__item-link{
+    display: flex;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+    width: 450px;
+    height: 255px;
+    border: none;
+    border-radius: 20px;
+    padding-left: 30px;
+    padding-top: 30px;
+    padding-bottom: 10px;
+    padding-right: 10px;
+    gap: 40px;
+}
+
+.specialists__item-link:hover{
+    border: solid 1px #333333;
+}
+
+.specialists__item-foto{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
+
+.specialists__item-info{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-size: 20px;
+    max-width: 230px;
+}

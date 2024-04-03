@@ -1,0 +1,40 @@
+.history{
+    padding-top: 80px;
+    padding-bottom: 100px;
+}
+
+.history__title{
+    font-size: 80px;
+    text-align: left;
+    font-weight: 400;
+}
+
+.history__img{
+    margin-top: 40px;
+    margin-bottom: 30px;
+}
+
+.history__item-imgs{
+    display: flex;
+    gap: 30px;
+    margin-bottom: 30px;
+    margin-top: 30px;
+}
+
+.history__item-title{
+    font-size: 40px;
+    margin-bottom: 25px;
+    margin-top: 20px;
+}
+
+.history__inner{
+    display: flex;
+    justify-content: space-between;
+}
+
+.history__item-text{
+    max-width: 900px;
+    font-size: 20px;
+    line-height: 25px;
+    margin-bottom: 10px;
+}
