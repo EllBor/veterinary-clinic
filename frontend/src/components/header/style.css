@@ -1,0 +1,74 @@
+.header{
+    margin-top: 25px;
+}
+
+.nav__list {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav__list-item:hover{
+    color: #7893F5;
+}
+
+.question__img{
+    width: 48px;
+    height: 48px;
+}
+
+.logo__img{
+    width: 75px;
+    height: 75px;
+    margin: 0 auto;
+}
+
+
+/* ------------------------------------------------ */
+.tooltip-text {
+    visibility: hidden;
+    position: absolute;
+    z-index: 1;
+    width: 100px;
+    color: white;
+    font-size: 12px;
+    background-color: #7893F5;
+    border-radius: 10px;
+    padding: 10px 15px 10px 15px;
+    
+  }
+  
+  /* сделать появление менее резким */
+  .hover-text:hover .tooltip-text { 
+    visibility: visible;
+  }
+  
+  #top {
+    top: -50px;
+    left: 84%;
+ }
+  
+  #bottom {
+    top: 25px;
+    left: -50%;
+  }
+  
+  #left {
+    top: -8px;
+    right: 120%;
+  }
+  
+  #right {
+    top: -8px;
+    left: 120%;
+  }
+  
+  .hover-text {
+    position: relative;
+    display: inline-block;
+    margin: 40px;
+    font-family: Arial;
+    text-align: center;
+  }
+  /* ------------------------------------------- */
