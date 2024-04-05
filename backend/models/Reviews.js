@@ -4,7 +4,6 @@ const ReviewsSchema = new mongoose.Schema({
     
     review_text: {
         type: String,
-        required: true
     },
     rating: {
         type: Number,
@@ -13,6 +12,7 @@ const ReviewsSchema = new mongoose.Schema({
     publication_date: {
         type: Date,
         required: true,
+        default: Date.now,
     },
     user: {
         type: mongoose.Schema.Types.ObjectId,
