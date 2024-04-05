@@ -24,7 +24,8 @@ const DoctorSchema = new mongoose.Schema({
                 required: true
             }
         }
-    ]
+    ],
+    avatarUrl: String,
 }, 
     {
         timestamps: true,

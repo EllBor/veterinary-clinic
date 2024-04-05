@@ -23,7 +23,8 @@ const ReviewsSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Doctor',
         required: true,
-    }
+    },
+    response: String,
 }, 
     {
         timestamps: true,
