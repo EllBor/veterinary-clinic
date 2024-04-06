@@ -17,22 +17,22 @@ export const getAll = async (req, res) => {
     }
 };
 
-export const getOne = async (req, res) => {
-    try {
-        const doctorId = req.params.id;
-        const doctor = await DoctorModel.findById(doctorId);
-        if(!doctor) {
-            return res.status(404).json({
-                message: "Врач не найден",
-            });
-        }
-        res.json(doctor);
+// export const getOne = async (req, res) => {
+//     try {
+//         const doctorId = req.params.id;
+//         const doctor = await DoctorModel.findById(doctorId);
+//         if(!doctor) {
+//             return res.status(404).json({
+//                 message: "Врач не найден",
+//             });
+//         }
+//         res.json(doctor);
 
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({
-        message: "Не удалось получить врача",
-      });
-    }
-};
+//     } catch (error) {
+//       console.log(error);
+//       res.status(500).json({
+//         message: "Не удалось получить врача",
+//       });
+//     }
+// };
   

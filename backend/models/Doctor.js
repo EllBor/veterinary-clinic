@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const DoctorSchema = new mongoose.Schema({
-    FullName: {
+    fullName: {
         type: String,
         required: true,
     },
@@ -10,7 +10,11 @@ const DoctorSchema = new mongoose.Schema({
         required: true,
     },
     experience: {
-        type: Number,
+        type: String,
+        required: true,
+    },
+    level_education: {
+        type: String,
         required: true,
     },
     appointment_dates: [

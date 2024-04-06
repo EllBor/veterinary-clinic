@@ -1,39 +1,26 @@
 import ReviewsModel from "../models/Reviews.js";
+import DoctorModel from "../models/Doctor.js";
 
 export const getAll = async (req, res) => {
-    try {
-        const review = await ReviewsModel.find();
-        if(!review) {
-            return res.status(404).json({
-                message: "Отзывы не найдены",
-            });
-        }
-        res.json(review);
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({
-        message: "Не удалось получить отзыв",
+  try {
+    const doctorId = req.params.doctorId;
+    const doctorExists = await DoctorModel.exists({ _id: doctorId });
+    if (!doctorExists) {
+      return res.status(404).json({
+        message: "Врач не найден",
       });
     }
-};
-
-export const getOne = async (req, res) => {
-    try {
-        const reviewId = req.params.id;
-        const review = await ReviewsModel.findById(reviewId);
-        if(!review) {
-            return res.status(404).json({
-                message: "Отзыв не найден",
-            });
-        }
-        res.json(review);
-        
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({
-        message: "Не удалось получить отзыв",
+    const review = await ReviewsModel.find({ doctor: doctorId });
+    if (!review) {
+      return res.status(404).json({
+        message: "Отзывы не найдены",
       });
     }
+    res.json(review);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Не удалось получить отзыв",
+    });
+  }
 };
-  
-  

@@ -4,18 +4,28 @@ import "../styles/style-specialist.css";
 import "../styles/flickity.css";
 
 import account_doc from "../images/account-doc.png";
-import feedback_foto from "../images/feedback-foto.svg";
 
+import {useDispatch, useSelector} from "react-redux";
 import Flickity from "react-flickity-component";
 import { coursesList } from "../helpers/coursesList";
 import Courses from "../components/courses/Courses";
 import React, { useState } from 'react';
 import FeedbackModel from '../components/modal/FeedbackModel';
 
+import Reviews from "../components/reviews/Reviews";
+import { fetchReviews } from "../redux/slices/reviews";
+
 const Specialist = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+
+  const dispatch = useDispatch();
+  const reviews = useSelector(state => state.reviews);
+  const isReviewsLoading = reviews.status === 'loading';
+  React.useEffect(() => {
+    dispatch(fetchReviews());
+  }, []);
   return (
     <main>
       <section className="account-specialist">
@@ -78,48 +88,19 @@ const Specialist = () => {
                   <h3 className="feedback-box__title">Отзывы</h3>
                   <span className="feedback-box__number">101 отзыв</span>
                 </div>
-
-                <div className="feedback__card-item">
-                  <div className="feedback__card-foto">
-                    <img src={feedback_foto} alt="" />
-                  </div>
-                  <div className="feedback__card-main">
-                    <h4 className="feedback__main-title">Пользоваель</h4>
-                    <p className="feedback__main-name">Виктория</p>
-                    <h4 className="feedback__main-title">Отзыв</h4>
-                    <p className="feedback__main-comments">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                      ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                      Duis aute irure dolor in reprehenderit in voluptate velit
-                      esse cillum dolore eu fugiat nulla pariatur. Excepteur
-                      sint occaecat cupidatat non proident, sunt in culpa qui
-                      officia deserunt mollit anim id est laborum, Lorem ip
-                    </p>
-                  </div>
-                </div>
-
-                <div className="feedback__card-item">
-                  <div className="feedback__card-foto">
-                    <img src={feedback_foto} alt="" />
-                  </div>
-                  <div className="feedback__card-main">
-                    <h4 className="feedback__main-title">Пользоваель</h4>
-                    <p className="feedback__main-name">Виктория</p>
-                    <h4 className="feedback__main-title">Отзыв</h4>
-                    <p className="feedback__main-comments">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-                      sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                      ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                      Duis aute irure dolor in reprehenderit in voluptate velit
-                      esse cillum dolore eu fugiat nulla pariatur. Excepteur
-                      sint occaecat cupidatat non proident, sunt in culpa qui
-                      officia deserunt mollit anim id est laborum, Lorem ip
-                    </p>
-                  </div>
-                </div>
+                {(isReviewsLoading ?[...Array(3)] : reviews.items || []).map((obj, index) => 
+                  isReviewsLoading ? (
+                    <Reviews key = {index} isLoading = {true}/>
+                  ):(
+                    <Reviews
+                      key={obj._id}
+                      review_text = {obj.review_text}
+                      rating = {obj.rating}
+                      publication_date = {obj.publication_date}
+                      user = {obj.user}
+                      level_education = {obj.level_education}
+                    />
+                  ))}
               </div>
             </div>
           </div>

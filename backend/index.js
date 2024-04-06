@@ -1,5 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
+import cors from 'cors';
 
 import { registerValidation } from "./validations/auth.js";
 
@@ -24,16 +25,16 @@ mongoose
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
 app.post('/auth/login', UserController.login);
 app.post('/auth/register', registerValidation, UserController.register);
 app.get('/auth/me', checkAuth, UserController.getMe);
 
 app.get('/doctor', DoctorController.getAll);
-app.get('/doctor:id', DoctorController.getOne);
+// app.get('/doctor:id', DoctorController.getOne);
 
-app.get('/reviews', checkAuth, ReviewController.getAll);
-app.get('/reviews/:id', checkAuth, ReviewController.getOne);
+app.get('/reviews/:doctorId', ReviewController.getAll);
 
 app.get('/users/:userId/pets', checkAuth, PetsController.getAll);
 app.get('/users/:userId/pets/:petId', checkAuth, PetsController.getOne);

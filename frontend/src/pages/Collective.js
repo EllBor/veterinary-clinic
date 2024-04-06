@@ -1,11 +1,22 @@
 import "../styles/style-collective.css";
 
+import React from "react";
 import { NavLink } from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
 
 import collective_page from "../images/collective-page.png";
-import doc_foto from "../images/doc-foto.png";
+
+import Doctors from "../components/doctors/Doctors";
+import { fetchDoctors } from "../redux/slices/doctors";
 
 const Collective = () => {
+  const dispatch = useDispatch();
+  const doctors = useSelector(state => state.doctors);
+  const isDoctorsLoading = doctors.status === 'loading';
+  React.useEffect(() => {
+    dispatch(fetchDoctors());
+  }, []);
+
   return (
     <main>
       <section className="collective">
@@ -39,149 +50,19 @@ const Collective = () => {
               <div className="collective__specialists">
                 <h3 className="collective__specialists-title">Специалисты</h3>
                 <div className="collective__specialists-grid">
-                  <div className="specialists__item">
-                    <a className="specialists__item-link" href="">
-                      <div className="specialists__item-foto">
-                        <img src={doc_foto} alt="" />
-                        <p>стаж 10 лет</p>
-                      </div>
-                      <div className="specialists__item-info">
-                        <h4>Врач</h4>
-                        <p>Иванова Анастасия Андреевна</p>
-                        <h4>Специализация</h4>
-                        <p>
-                          Терапия, УЗИ-диагностика, хирургия, ортопедия,
-                          лаборатория
-                        </p>
-                      </div>
-                    </a>
-                  </div>
-
-                  <div className="specialists__item">
-                    <a className="specialists__item-link" href="">
-                      <div className="specialists__item-foto">
-                        <img src={doc_foto} alt="" />
-                        <p>стаж 10 лет</p>
-                      </div>
-                      <div className="specialists__item-info">
-                        <h4>Врач</h4>
-                        <p>Иванова Анастасия Андреевна</p>
-                        <h4>Специализация</h4>
-                        <p>
-                          Терапия, УЗИ-диагностика, хирургия, ортопедия,
-                          лаборатория
-                        </p>
-                      </div>
-                    </a>
-                  </div>
-
-                  <div className="specialists__item">
-                    <a className="specialists__item-link" href="">
-                      <div className="specialists__item-foto">
-                        <img src={doc_foto} alt="" />
-                        <p>стаж 10 лет</p>
-                      </div>
-                      <div className="specialists__item-info">
-                        <h4>Врач</h4>
-                        <p>Иванова Анастасия Андреевна</p>
-                        <h4>Специализация</h4>
-                        <p>
-                          Терапия, УЗИ-диагностика, хирургия, ортопедия,
-                          лаборатория
-                        </p>
-                      </div>
-                    </a>
-                  </div>
-
-                  <div className="specialists__item">
-                    <a className="specialists__item-link" href="">
-                      <div className="specialists__item-foto">
-                        <img src={doc_foto} alt="" />
-                        <p>стаж 10 лет</p>
-                      </div>
-                      <div className="specialists__item-info">
-                        <h4>Врач</h4>
-                        <p>Иванова Анастасия Андреевна</p>
-                        <h4>Специализация</h4>
-                        <p>
-                          Терапия, УЗИ-диагностика, хирургия, ортопедия,
-                          лаборатория
-                        </p>
-                      </div>
-                    </a>
-                  </div>
-
-                  <div className="specialists__item">
-                    <a className="specialists__item-link" href="">
-                      <div className="specialists__item-foto">
-                        <img src={doc_foto} alt="" />
-                        <p>стаж 10 лет</p>
-                      </div>
-                      <div className="specialists__item-info">
-                        <h4>Врач</h4>
-                        <p>Иванова Анастасия Андреевна</p>
-                        <h4>Специализация</h4>
-                        <p>
-                          Терапия, УЗИ-диагностика, хирургия, ортопедия,
-                          лаборатория
-                        </p>
-                      </div>
-                    </a>
-                  </div>
-
-                  <div className="specialists__item">
-                    <a className="specialists__item-link" href="">
-                      <div className="specialists__item-foto">
-                        <img src={doc_foto} alt="" />
-                        <p>стаж 10 лет</p>
-                      </div>
-                      <div className="specialists__item-info">
-                        <h4>Врач</h4>
-                        <p>Иванова Анастасия Андреевна</p>
-                        <h4>Специализация</h4>
-                        <p>
-                          Терапия, УЗИ-диагностика, хирургия, ортопедия,
-                          лаборатория
-                        </p>
-                      </div>
-                    </a>
-                  </div>
-
-                  <div className="specialists__item">
-                    <a className="specialists__item-link" href="">
-                      <div className="specialists__item-foto">
-                        <img src={doc_foto} alt="" />
-                        <p>стаж 10 лет</p>
-                      </div>
-                      <div className="specialists__item-info">
-                        <h4>Врач</h4>
-                        <p>Иванова Анастасия Андреевна</p>
-                        <h4>Специализация</h4>
-                        <p>
-                          Терапия, УЗИ-диагностика, хирургия, ортопедия,
-                          лаборатория
-                        </p>
-                      </div>
-                    </a>
-                  </div>
-
-                  <div className="specialists__item">
-                    <a className="specialists__item-link" href="">
-                      <div className="specialists__item-foto">
-                        <img src={doc_foto} alt="" />
-                        <p>стаж 10 лет</p>
-                      </div>
-                      <div className="specialists__item-info">
-                        <h4>Врач</h4>
-                        <p>Иванова Анастасия Андреевна</p>
-                        <h4>Специализация</h4>
-                        <p>
-                          Терапия, УЗИ-диагностика, хирургия, ортопедия,
-                          лаборатория
-                        </p>
-                      </div>
-                    </a>
-                  </div>
+                  {(isDoctorsLoading ?[...Array(3)] : doctors.items || []).map((obj, index) => 
+                  isDoctorsLoading ? (
+                    <Doctors key = {index} isLoading = {true}/>
+                  ):(
+                    <Doctors
+                      key={obj._id}
+                      specialization = {obj.specialization}
+                      avatarUrl = {obj.avatarUrl}
+                      fullName = {obj.fullName}
+                      experience = {obj.experience}
+                      level_education = {obj.level_education}
+                    />
+                  ))}
                 </div>
               </div>
             </div>

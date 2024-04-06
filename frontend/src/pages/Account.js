@@ -1,11 +1,25 @@
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+
 import "../styles/account.css";
 
 import pdf from "../images/pdf.png";
 import account_foto from "../images/account-foto.png";
-import pet_foto from "../images/pet-foto.png";
+
 import doc_foto from "../images/doc-foto.png";
 
+import { fetchPets } from "../redux/slices/pets";
+import Pets from "../components/pets/Pets";
+
 const Account = () => {
+
+  const dispatch = useDispatch();
+  const pets = useSelector(state => state.pets);
+  const isPetsLoading = pets.status === 'loading';
+  React.useEffect(() => {
+    dispatch(fetchPets());
+  }, []);
+  
   return (
     <main>
       <section className="account">
@@ -111,62 +125,21 @@ const Account = () => {
               <h2 className="info__title">Мои питомцы</h2>
               <div className="info__box">
                 <button className="info__btn-add">ДОБАВИТЬ НОВОГО ПИТОМЦА</button>
-
-                <div className="info__card-pet">
-                  <div className="info__card-foto card-foto">
-                    <img src={pet_foto} alt="" />
-                    <a href="#" className="info__card-text">
-                      изменить
-                    </a>
-                  </div>
-
-                  <div className="info__card-info">
-                    <h3 className="info__card-main">Имя питомца</h3>
-                    <h4 className="info__card-title">Тип</h4>
-                    <p>Собака</p>
-                    <h4 className="info__card-title">Пол</h4>
-                    <p>Мужской</p>
-                    <h4 className="info__card-title">Порода</h4>
-                    <p>Без породы</p>
-                    <h4 className="info__card-title">Возраст</h4>
-                    <p>1 год 2 месяца</p>
-                  </div>
-
-                  <div className="info__card-health">
-                    <h4 className="info__medical-title">Медицинская карта</h4>
-                    <div className="medical-card">
-                      <a className="medical-card__file" href="">
-                        <img src={pdf} alt="" />
-                        1025
-                      </a>
-                      <span className="medical-card__date">обновлена 25.06.23</span>
-                    </div>
-                    <h4 className="info__analyzes-title">Результаты анализов</h4>
-                    <div className="analyzes__box">
-                      <div className="analyzes__list-item">
-                        <a className="analyzes__item-file" href="">
-                          <img src={pdf} alt="" />
-                          ОАК
-                        </a>
-                        <span className="analyzes-card__date">25.06.23</span>
-                      </div>
-                      <div className="analyzes__list-item">
-                        <a className="analyzes__item-file" href="">
-                          <img src={pdf} alt="" />
-                          Узи брюшной полости
-                        </a>
-                        <span className="analyzes-card__date">25.06.23</span>
-                      </div>
-                      <div className="analyzes__list-item">
-                        <a className="analyzes__item-file" href="">
-                          <img src={pdf} alt="" />
-                          Биохимия крови
-                        </a>
-                        <span className="analyzes-card__date">25.06.23</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                {(isPetsLoading ?[...Array(3)] : pets.items || []).map((obj, index) => 
+                  isPetsLoading ? (
+                    <Pets key = {index} isLoading = {true}/>
+                  ):(
+                    <Pets
+                      key={obj._id}
+                      name = {obj.name}
+                      breed = {obj.breed}
+                      gender = {obj.gender}
+                      species = {obj.species}
+                      age = {obj.age}
+                      user = {obj.user}
+                      avatarUrl = {obj.avatarUrl}
+                    />
+                  ))}
               </div>
 
               <div className="account__note">
