@@ -14,6 +14,8 @@ import Stocks from "./pages/Stocks";
 import Appointment from "./pages/Appointment";
 import ServiceTherapy from "./pages/ServiceTherapy";
 import Specialist from "./pages/Specialist";
+import Login from "./pages/Login";
+import Registration from "./pages/Registration";
 
 function App() {
   return (
@@ -33,6 +35,8 @@ function App() {
             <Route path="/appointment" element={<Appointment />} />
             <Route path="/service-therapy" element={<ServiceTherapy />} />
             <Route path="/order" element={<Order />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/registration" element={<Registration />} />
           </Routes>
   
           <Footer />

@@ -8,17 +8,17 @@ import account_foto from "../images/account-foto.png";
 
 import doc_foto from "../images/doc-foto.png";
 
-import { fetchPets } from "../redux/slices/pets";
 import Pets from "../components/pets/Pets";
+import { fetchPets } from "../redux/slices/pets";
 
-const Account = () => {
-
+const Account = ({userId}) => {
   const dispatch = useDispatch();
   const pets = useSelector(state => state.pets);
   const isPetsLoading = pets.status === 'loading';
   React.useEffect(() => {
-    dispatch(fetchPets());
-  }, []);
+    console.log(userId);
+    dispatch(fetchPets(userId));
+  }, [userId]);
   
   return (
     <main>
