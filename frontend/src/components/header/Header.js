@@ -1,6 +1,9 @@
 import { NavLink } from "react-router-dom";
 import React, { useState } from 'react';
 import CityModal from '../../components/modal/CityModal';
+import { fetchAuth, selectIsAuth } from "../../redux/slices/auth";
+import { useDispatch, useSelector} from "react-redux";
+import { HashLink as Link } from 'react-router-hash-link';
 
 import "./style.css";
 
@@ -8,7 +11,9 @@ import logo from "../../images/logo.svg";
 import question from "../../images/question.svg";
 import map from "../../images/map.svg";
 
+
 const Header = () => {
+  const isAuth = useSelector(selectIsAuth);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -38,9 +43,9 @@ const Header = () => {
               </NavLink>
             </li>
             <li className="nav__list-item">
-              <NavLink className="nav__list-item" href="#">
+              <Link className="nav__list-item" to="/#contacts-section">
                 КОНТАКТЫ
-              </NavLink>
+              </Link>
             </li>
             <li className="nav__list-item hover-text">
               <NavLink className="nav__list-item question" href="#">

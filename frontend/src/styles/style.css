@@ -414,3 +414,6 @@ a {
   height: 18px;
 }
 
+.specialists__slider-link:hover, .history__link:hover{
+  color: #7893f5;
+}

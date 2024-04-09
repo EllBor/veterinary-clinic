@@ -123,7 +123,7 @@ const Home = () => {
           </div>
         </div>
       </section>
-      <section className="contacts">
+      <section className="contacts" id="contacts-section">
         <div className="container">
           <div className="contacts__all">
             <div className="contacts__address">

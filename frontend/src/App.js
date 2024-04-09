@@ -16,6 +16,7 @@ import ServiceTherapy from "./pages/ServiceTherapy";
 import Specialist from "./pages/Specialist";
 import Login from "./pages/Login";
 import Registration from "./pages/Registration";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
@@ -23,10 +24,11 @@ function App() {
       <div className="wrapper">
         <Router>
           <Header />
-
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/account" element={ <Account />} />
+            <Route element={<ProtectedRoute />}>
+              <Route path="/account" element={<Account />} />
+            </Route>
             <Route path="/specialist" element={<Specialist />} />
             <Route path="/stocks" element={ <Stocks />} />
             <Route path="/history" element={ <History />} />

@@ -2,7 +2,7 @@ import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 import axios from "../../axios";
 
 export const fetchPets = createAsyncThunk('pets/fetchPets', async (userId) => {
-    const { data } = await axios.get(`/users/:${userId}/pets`);
+    const { data } = await axios.get(`/users/${userId}/pets`);
     return data;
 });
 

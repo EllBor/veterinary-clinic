@@ -1,25 +1,42 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
 import "../styles/account.css";
 
 import pdf from "../images/pdf.png";
 import account_foto from "../images/account-foto.png";
-
 import doc_foto from "../images/doc-foto.png";
 
 import Pets from "../components/pets/Pets";
 import { fetchPets } from "../redux/slices/pets";
+import { logout } from "../redux/slices/auth";
+import { fetchUsers } from "../redux/slices/users";
+import UserCard from "../components/userCard/UserCard";
 
-const Account = ({userId}) => {
+const Account = () => {
+  const { id } = useParams();
   const dispatch = useDispatch();
-  const pets = useSelector(state => state.pets);
-  const isPetsLoading = pets.status === 'loading';
+  const pets = useSelector((state) => state.pets);
+  const users = useSelector((state) => state.users);
+  const isUsersLoading = users.status === "loading";
+  const isPetsLoading = pets.status === "loading";
+
   React.useEffect(() => {
-    console.log(userId);
-    dispatch(fetchPets(userId));
-  }, [userId]);
-  
+    dispatch(fetchPets(id));
+  }, [id]);
+
+  React.useEffect(() => {
+    dispatch(fetchUsers(id));
+  }, [id]);
+
+  const onClickLogout = () => {
+    if (window.confirm("Вы действительно хотите выйти?")) {
+      dispatch(logout());
+      window.localStorage.removeItem("token");
+    }
+  };
+
   return (
     <main>
       <section className="account">
@@ -30,21 +47,11 @@ const Account = ({userId}) => {
               <ul className="account__nav-list">
                 <li className="account__list-item">
                   <a className="account__item-link" href="#">
-                    ЛИЧНЫЕ ДАННЫЕ
-                  </a>
-                </li>
-                <li className="account__list-item">
-                  <a className="account__item-link" href="#">
-                    МОИ ПИТОМЦЫ
-                  </a>
-                </li>
-                <li className="account__list-item">
-                  <a className="account__item-link" href="#">
                     ЗАПИСЬ НА ПРИЕМ
                   </a>
                 </li>
                 <li className="account__list-item">
-                  <a className="account__item-link" href="#">
+                  <a className="account__item-link" onClick={onClickLogout}>
                     ВЫЙТИ
                   </a>
                 </li>
@@ -55,37 +62,20 @@ const Account = ({userId}) => {
                 </li>
               </ul>
             </nav>
-
-            <div className="account__personal">
-              <div className="personal__card">
-                <div className="personal__card-foto card-foto">
-                  <img src={account_foto} alt="" />
-                  <a href="#" className="personal__card-text">
-                    изменить
-                  </a>
-                </div>
-
-                <div className="personal__card-info">
-                  <h4 className="personal__card-title">Имя</h4>
-                  <p>Виктория</p>
-                  <h4 className="personal__card-title">Фамилия</h4>
-                  <p>Иванова</p>
-                  <h4 className="personal__card-title">Отчетсво</h4>
-                  <p>Александровна</p>
-                  <h4 className="personal__card-title">Телефон</h4>
-                  <p>+7 999 598-12-45</p>
-                </div>
-
-                <div className="personal__card-aboutme">
-                  <h4 className="personal__card-title">О себе</h4>
-                  <p className="personal__aboutme-text">
-                    Живу в Волгограде, очень люблю животных! Мечтаю завести
-                    много зверей и построить приют. Пока что у меня собака,
-                    кошка и рыбки :)
-                  </p>
-                </div>
-              </div>
-            </div>
+            {(isUsersLoading ? [] : users.items || []).map(
+              (obj, index) =>
+                isUsersLoading ? (
+                  <UserCard key={index} isLoading={true} />
+                ) : (
+                  <UserCard
+                    key={obj._id}
+                    phone={obj.phone}
+                    avatarUrl={obj.avatarUrl}
+                    fullName={obj.fullName}
+                    aboutUser={obj.aboutUser}
+                  />
+                )
+            )}
           </div>
           <div className="account__bottom">
             <div className="account__cheque">
@@ -103,7 +93,8 @@ const Account = ({userId}) => {
                 <div className="cheque__list-item">
                   <h3 className="cheque__item-title">
                     Чек об оплате от <span>15.06.23</span>
-                  </h3>2
+                  </h3>
+                  2
                   <a className="cheque__item-file" href="">
                     <img src={pdf} alt="" />
                     00098873774772
@@ -124,22 +115,26 @@ const Account = ({userId}) => {
             <div className="account__info">
               <h2 className="info__title">Мои питомцы</h2>
               <div className="info__box">
-                <button className="info__btn-add">ДОБАВИТЬ НОВОГО ПИТОМЦА</button>
-                {(isPetsLoading ?[...Array(3)] : pets.items || []).map((obj, index) => 
-                  isPetsLoading ? (
-                    <Pets key = {index} isLoading = {true}/>
-                  ):(
-                    <Pets
-                      key={obj._id}
-                      name = {obj.name}
-                      breed = {obj.breed}
-                      gender = {obj.gender}
-                      species = {obj.species}
-                      age = {obj.age}
-                      user = {obj.user}
-                      avatarUrl = {obj.avatarUrl}
-                    />
-                  ))}
+                <button className="info__btn-add">
+                  ДОБАВИТЬ НОВОГО ПИТОМЦА
+                </button>
+                {(isPetsLoading ? [] : pets.items || []).map(
+                  (obj, index) =>
+                    isPetsLoading ? (
+                      <Pets key={index} isLoading={true} />
+                    ) : (
+                      <Pets
+                        key={obj._id}
+                        name={obj.name}
+                        breed={obj.breed}
+                        gender={obj.gender}
+                        species={obj.species}
+                        age={obj.age}
+                        user={obj.user}
+                        avatarUrl={obj.avatarUrl}
+                      />
+                    )
+                )}
               </div>
 
               <div className="account__note">
