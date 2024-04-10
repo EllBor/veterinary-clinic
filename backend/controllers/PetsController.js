@@ -1,8 +1,7 @@
 import PetsModel from "../models/Pets.js";
-
 export const getAll = async (req, res) => {
     try {
-        const userId = req.params.userId;
+        const userId = req.params.user;
         const pets = await PetsModel.find({ user: userId });
         if (!pets || pets.length === 0) {
             return res.status(404).json({

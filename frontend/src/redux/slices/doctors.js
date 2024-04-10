@@ -26,6 +26,7 @@ const doctorsSlice = createSlice({
             .addCase(fetchDoctors.fulfilled, (state, action) => {
                 state.status = 'loaded';
                 state.items = action.payload;
+                console.log("action.payload doctor",action.payload);
             })
             .addCase(fetchDoctors.rejected, (state, action) => {
                 state.status = 'error';

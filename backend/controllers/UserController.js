@@ -122,7 +122,7 @@ export const getOne = async (req, res) => {
                 message: "Врач не найден",
             });
         }
-        res.json(user);
+        res.json([user]);
 
     } catch (error) {
       console.log(error);

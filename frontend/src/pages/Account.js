@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import "../styles/account.css";
 
 import pdf from "../images/pdf.png";
-import account_foto from "../images/account-foto.png";
+
 import doc_foto from "../images/doc-foto.png";
 
 import Pets from "../components/pets/Pets";
@@ -23,12 +23,9 @@ const Account = () => {
   const isPetsLoading = pets.status === "loading";
 
   React.useEffect(() => {
-    dispatch(fetchPets(id));
-  }, [id]);
-
-  React.useEffect(() => {
     dispatch(fetchUsers(id));
-  }, [id]);
+    dispatch(fetchPets(id));
+  }, []);
 
   const onClickLogout = () => {
     if (window.confirm("Вы действительно хотите выйти?")) {
@@ -62,7 +59,7 @@ const Account = () => {
                 </li>
               </ul>
             </nav>
-            {(isUsersLoading ? [] : users.items || []).map(
+            {(isUsersLoading ? [...Array(3)] : users.items || []).map(
               (obj, index) =>
                 isUsersLoading ? (
                   <UserCard key={index} isLoading={true} />
@@ -70,7 +67,9 @@ const Account = () => {
                   <UserCard
                     key={obj._id}
                     phone={obj.phone}
+                    email={obj.email}
                     avatarUrl={obj.avatarUrl}
+                    passwordHash={obj.passwordHash}
                     fullName={obj.fullName}
                     aboutUser={obj.aboutUser}
                   />
@@ -118,7 +117,7 @@ const Account = () => {
                 <button className="info__btn-add">
                   ДОБАВИТЬ НОВОГО ПИТОМЦА
                 </button>
-                {(isPetsLoading ? [] : pets.items || []).map(
+                {(isPetsLoading ? [...Array(3)] : pets.items || []).map(
                   (obj, index) =>
                     isPetsLoading ? (
                       <Pets key={index} isLoading={true} />

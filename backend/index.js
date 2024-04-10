@@ -37,8 +37,8 @@ app.get('/doctor', DoctorController.getAll);
 
 app.get('/reviews/:doctorId', ReviewController.getAll);
 
-app.get('/users/:userId/pets', checkAuth, PetsController.getAll);
-app.get('/users/:userId/pets/:petId', checkAuth, PetsController.getOne);
+app.get('/users/:id/pets', checkAuth, PetsController.getAll);
+app.get('/users/:id/pets/:petId', checkAuth, PetsController.getOne);
 // app.get('/users/:userId/pets/create', checkAuth, PetsController.create);
 // app.get('/users/:userId/pets/update:petId', checkAuth, PetsController.update);
 // app.get('/users/:userId/pets/delete:petId', checkAuth, PetsController.delete);

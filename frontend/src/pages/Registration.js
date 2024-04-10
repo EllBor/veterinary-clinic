@@ -1,5 +1,6 @@
 import "../styles/login-register.css";
 
+import { useState } from 'react';
 import { NavLink } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {useForm} from "react-hook-form";
@@ -9,6 +10,7 @@ import { selectIsAuth, fetchRegister  } from "../redux/slices/auth";
 
 const Registration = () => {
   const isAuth = useSelector(selectIsAuth);
+  const [userId, setUserId] = useState(null);
   const dispatch = useDispatch();
   const {register, handleSubmit,  formState: {errors, isValid}} = useForm({
     defaultValue: {
@@ -20,18 +22,15 @@ const Registration = () => {
   });
   const onSubmit = async (values) => {
     const data = await dispatch(fetchRegister(values));
-
-    if(!data.payload) {
-      return alert('Не удалось зарегистрироваться');
-    }
-
-    if('token' in data.payload) {
-      window.localStorage.setItem('token', data.payload.token);
+    if (data.payload && data.payload._id) {
+      setUserId(data.payload._id);
+    } else {
+      alert('Не удалось авторизоваться');
     }
   };
 
-  if (isAuth) {
-    return <Navigate to="/account"/>
+  if (isAuth && userId) {
+    return <Navigate to={`/account/${userId}`} replace />;
   }
 
   return (

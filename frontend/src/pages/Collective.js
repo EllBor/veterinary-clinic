@@ -13,9 +13,10 @@ const Collective = () => {
   const dispatch = useDispatch();
   const doctors = useSelector(state => state.doctors);
   const isDoctorsLoading = doctors.status === 'loading';
+  
   React.useEffect(() => {
     dispatch(fetchDoctors());
-  }, []);
+  }, [dispatch]);
 
   return (
     <main>
@@ -50,7 +51,7 @@ const Collective = () => {
               <div className="collective__specialists">
                 <h3 className="collective__specialists-title">Специалисты</h3>
                 <div className="collective__specialists-grid">
-                  {(isDoctorsLoading ?[...Array(3)] : doctors.items || []).map((obj, index) => 
+                  {(isDoctorsLoading ? [...Array(3)] : doctors.items || []).map((obj, index) => 
                   isDoctorsLoading ? (
                     <Doctors key = {index} isLoading = {true}/>
                   ):(
