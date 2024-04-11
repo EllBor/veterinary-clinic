@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams  } from "react-router-dom";
 
 import "../styles/style-specialist.css";
 import "../styles/flickity.css";
@@ -14,18 +14,25 @@ import FeedbackModel from '../components/modal/FeedbackModel';
 
 import Reviews from "../components/reviews/Reviews";
 import { fetchReviews } from "../redux/slices/reviews";
+import { fetchDoctors, fetchOneDoctor } from "../redux/slices/doctors";
+import DoctorAccount from "../components/doctorAccount/DoctorAccount";
 
 const Specialist = () => {
+  const { id } = useParams();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
-
   const dispatch = useDispatch();
+  const doctors = useSelector(state => state.doctors);
   const reviews = useSelector(state => state.reviews);
   const isReviewsLoading = reviews.status === 'loading';
+  const isDoctorsLoading = doctors.status === 'loading';
+
   React.useEffect(() => {
-    dispatch(fetchReviews());
+    dispatch(fetchReviews(id));
+    dispatch(fetchOneDoctor(id));
   }, []);
+
   return (
     <main>
       <section className="account-specialist">
@@ -49,21 +56,19 @@ const Specialist = () => {
               <NavLink className="appointment__back back" to="/collective">
                 НАЗАД
               </NavLink>
-              <div className="part-main__info-doc">
-                <h3 className="part-main__title">Иванова Анастасия Андреевна</h3>
-                <span className="part-main__experience">стаж 10 лет</span>
-              </div>
-              <p className="part-main__specialization">
-                Терапия, УЗИ-диагностика, хирургия, ортопедия
-              </p>
-              <p className="part-main__text">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor
-                in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur
-              </p>
+              {(isDoctorsLoading ? Array.from({ length: 3 }) : doctors.items || []).map((obj, index) => 
+                  isDoctorsLoading ? (
+                    <DoctorAccount key={`loading-doctor-${index}`} isLoading={true}/>
+                  ):(
+                    <DoctorAccount
+                      key={obj._id}
+                      specialization = {obj.specialization}
+                      avatarUrl = {obj.avatarUrl}
+                      fullName = {obj.fullName}
+                      experience = {obj.experience}
+                      level_education = {obj.level_education}
+                    />
+                  ))}
               <h4 className="part-main__courses-title">Пройденные курсы</h4>
               <div className="courses__slider">
               <Flickity
@@ -88,19 +93,20 @@ const Specialist = () => {
                   <h3 className="feedback-box__title">Отзывы</h3>
                   <span className="feedback-box__number">101 отзыв</span>
                 </div>
-                {(isReviewsLoading ?[...Array(3)] : reviews.items || []).map((obj, index) => 
+                {(isReviewsLoading ? Array.from({ length: 3 }) : reviews.items || []).map((obj, index) => 
                   isReviewsLoading ? (
-                    <Reviews key = {index} isLoading = {true}/>
-                  ):(
+                    <Reviews key={`loading-review-${index}`} isLoading={true}/>
+                  ) : (
                     <Reviews
-                      key={obj._id}
-                      review_text = {obj.review_text}
-                      rating = {obj.rating}
-                      publication_date = {obj.publication_date}
-                      user = {obj.user}
-                      level_education = {obj.level_education}
+                      key={obj._id} 
+                      review_text={obj.review_text}
+                      rating={obj.rating}
+                      publication_date={obj.publication_date}
+                      user={obj.user}
+                      level_education={obj.level_education}
                     />
                   ))}
+
               </div>
             </div>
           </div>

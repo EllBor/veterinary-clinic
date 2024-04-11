@@ -104,6 +104,12 @@
     background-image: url('../images/btn-add.svg');
     background-repeat: no-repeat;
     background-position: 124px;
+    box-shadow: 0px 4px 20px rgba(120, 147, 245, 0.5);
+    transition: 1s;
+}
+
+.info__btn-add:hover{
+    transform: scale(1.1);
 }
 
 .info__card-pet{

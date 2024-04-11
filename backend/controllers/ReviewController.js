@@ -3,7 +3,7 @@ import DoctorModel from "../models/Doctor.js";
 
 export const getAll = async (req, res) => {
   try {
-    const doctorId = req.params.doctorId;
+    const doctorId = req.params.id;
     const doctorExists = await DoctorModel.exists({ _id: doctorId });
     if (!doctorExists) {
       return res.status(404).json({

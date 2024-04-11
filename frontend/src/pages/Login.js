@@ -22,11 +22,16 @@ const Login = () => {
 
   const onSubmit = async (values) => {
     const data = await dispatch(fetchAuth(values));
-    if (data.payload && data.payload._id) {
-      setUserId(data.payload._id);
+    
+    if('token' in data.payload) {
+      window.localStorage.setItem('token', data.payload.token);
     } else {
       alert('Не удалось авторизоваться');
     }
+
+    if (data.payload && data.payload._id) {
+      setUserId(data.payload._id);
+    } 
   };
 
   if (isAuth && userId) {

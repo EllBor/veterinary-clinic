@@ -16,7 +16,7 @@ const Collective = () => {
   
   React.useEffect(() => {
     dispatch(fetchDoctors());
-  }, [dispatch]);
+  }, []);
 
   return (
     <main>
@@ -53,10 +53,11 @@ const Collective = () => {
                 <div className="collective__specialists-grid">
                   {(isDoctorsLoading ? [...Array(3)] : doctors.items || []).map((obj, index) => 
                   isDoctorsLoading ? (
-                    <Doctors key = {index} isLoading = {true}/>
+                    <Doctors key={`loading-doctors-${index}`} isLoading = {true}/>
                   ):(
                     <Doctors
-                      key={obj._id}
+                      key={`doctors-${obj._id}`}
+                      id={obj._id}
                       specialization = {obj.specialization}
                       avatarUrl = {obj.avatarUrl}
                       fullName = {obj.fullName}

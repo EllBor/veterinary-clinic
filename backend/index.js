@@ -33,16 +33,15 @@ app.get('/auth/me', checkAuth, UserController.getMe);
 app.get('/users/:id', UserController.getOne);
 
 app.get('/doctor', DoctorController.getAll);
-// app.get('/doctor:id', DoctorController.getOne);
+app.get('/doctor/:id', DoctorController.getOne);
 
-app.get('/reviews/:doctorId', ReviewController.getAll);
+app.get('/doctor/:id/reviews', ReviewController.getAll);
 
+app.post('/users/:id/pets', checkAuth, PetsController.create);
+app.delete('/users/:id/pets/:id', PetsController.remove);
+app.patch('/users/:id/pets/:id', PetsController.update);
 app.get('/users/:id/pets', checkAuth, PetsController.getAll);
-app.get('/users/:id/pets/:petId', checkAuth, PetsController.getOne);
-// app.get('/users/:userId/pets/create', checkAuth, PetsController.create);
-// app.get('/users/:userId/pets/update:petId', checkAuth, PetsController.update);
-// app.get('/users/:userId/pets/delete:petId', checkAuth, PetsController.delete);
-
+// app.get('/users/:id/pets/:id', checkAuth, PetsController.getOne);
 
 //вывести врача и ближайшую дату приема на определенную услугу
 //вывести запись на приема в лчином кабинете пользвоателя

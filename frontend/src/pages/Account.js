@@ -5,14 +5,14 @@ import { useParams } from "react-router-dom";
 import "../styles/account.css";
 
 import pdf from "../images/pdf.png";
-
 import doc_foto from "../images/doc-foto.png";
 
 import Pets from "../components/pets/Pets";
 import { fetchPets } from "../redux/slices/pets";
-import { logout } from "../redux/slices/auth";
+
 import { fetchUsers } from "../redux/slices/users";
 import UserCard from "../components/userCard/UserCard";
+import NavAccount from "../components/navAccount/navAccount.js";
 
 const Account = () => {
   const { id } = useParams();
@@ -27,38 +27,22 @@ const Account = () => {
     dispatch(fetchPets(id));
   }, []);
 
-  const onClickLogout = () => {
-    if (window.confirm("Вы действительно хотите выйти?")) {
-      dispatch(logout());
-      window.localStorage.removeItem("token");
-    }
-  };
-
   return (
     <main>
       <section className="account">
         <div className="container">
           <div className="account__top">
-            <nav className="account__nav">
-              <h1 className="account__title">Виктория</h1>
-              <ul className="account__nav-list">
-                <li className="account__list-item">
-                  <a className="account__item-link" href="#">
-                    ЗАПИСЬ НА ПРИЕМ
-                  </a>
-                </li>
-                <li className="account__list-item">
-                  <a className="account__item-link" onClick={onClickLogout}>
-                    ВЫЙТИ
-                  </a>
-                </li>
-                <li className="account__list-item">
-                  <a className="account__item-link" href="#">
-                    УДАЛИТЬ АККАУНТ
-                  </a>
-                </li>
-              </ul>
-            </nav>
+            {(isUsersLoading ? [...Array(3)] : users.items || []).map(
+              (obj, index) =>
+                isUsersLoading ? (
+                  <NavAccount key={index} isLoading={true} />
+                ) : (
+                  <NavAccount
+                    key={obj._id}
+                    fullName={obj.fullName}
+                  />
+                )
+            )}
             {(isUsersLoading ? [...Array(3)] : users.items || []).map(
               (obj, index) =>
                 isUsersLoading ? (
@@ -69,7 +53,6 @@ const Account = () => {
                     phone={obj.phone}
                     email={obj.email}
                     avatarUrl={obj.avatarUrl}
-                    passwordHash={obj.passwordHash}
                     fullName={obj.fullName}
                     aboutUser={obj.aboutUser}
                   />
@@ -93,7 +76,7 @@ const Account = () => {
                   <h3 className="cheque__item-title">
                     Чек об оплате от <span>15.06.23</span>
                   </h3>
-                  2
+
                   <a className="cheque__item-file" href="">
                     <img src={pdf} alt="" />
                     00098873774772

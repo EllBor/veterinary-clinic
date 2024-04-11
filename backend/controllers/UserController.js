@@ -12,7 +12,6 @@ export const login = async (req, res) => {
           message: "Неверный номер или пароль",
         });
       }
-  
       const isValidPass = await bcrypt.compare(
         req.body.password,
         user._doc.passwordHash
@@ -22,7 +21,6 @@ export const login = async (req, res) => {
           message: "Неверный номер или пароль",
         });
       }
-  
       const token = jwt.sign(
         {
           _id: user._id,
@@ -117,9 +115,10 @@ export const getOne = async (req, res) => {
     try {
         const usersId = req.params.id;
         const user = await UserModel.findById(usersId);
+
         if(!user) {
             return res.status(404).json({
-                message: "Врач не найден",
+                message: "Пользоваель не найден",
             });
         }
         res.json([user]);
@@ -127,7 +126,7 @@ export const getOne = async (req, res) => {
     } catch (error) {
       console.log(error);
       res.status(500).json({
-        message: "Не удалось получить врача",
+        message: "Не удалось получить пользователя",
       });
     }
 };

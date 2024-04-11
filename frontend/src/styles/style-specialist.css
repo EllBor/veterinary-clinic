@@ -18,7 +18,7 @@
 }
 
 .account-specialist__part-main{
-    max-width: 900px;
+    width: 900px;
     display: flex;
     flex-direction: column;
     gap: 30px;

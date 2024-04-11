@@ -1,8 +1,9 @@
 import {createSlice, createAsyncThunk} from "@reduxjs/toolkit";
 import axios from "../../axios";
 
-export const fetchReviews = createAsyncThunk('reviews/fetchReviews', async () => {
-    const {data} = await axios.get('/reviews');
+export const fetchReviews = createAsyncThunk('reviews/fetchReviews', async (id) => {
+    const {data} = await axios.get(`/doctor/${id}/reviews`);
+    console.log("data doctor Reviews",data);
     return data;
 })
 
@@ -26,6 +27,7 @@ const reviewsSlice = createSlice({
             .addCase(fetchReviews.fulfilled, (state, action) => {
                 state.status = 'loaded';
                 state.items = action.payload;
+                console.log("action.payload Reviews",action.payload);
             })
             .addCase(fetchReviews.rejected, (state, action) => {
                 state.status = 'error';

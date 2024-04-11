@@ -1,10 +1,10 @@
 import foto from "../../images/account-foto.png";
-const UserCard = ({ phone, avatarUrl, passwordHash, fullName, aboutUser}) => {
+const UserCard = ({ phone, avatarUrl, fullName, aboutUser }) => {
   const safeFullName = fullName || "";
   const parts = safeFullName.split(" ");
-  const name = parts[0]; 
-  const surname = parts[1]; 
-  const patronymic = parts[2]; 
+  const name = parts[1];
+  const surname = parts[0];
+  const patronymic = parts[2];
   return (
     <div className="account__personal">
       <div className="personal__card">
@@ -27,9 +27,7 @@ const UserCard = ({ phone, avatarUrl, passwordHash, fullName, aboutUser}) => {
 
         <div className="personal__card-aboutme">
           <h4 className="personal__card-title">О себе</h4>
-          <p className="personal__aboutme-text">
-            {aboutUser}
-          </p>
+          <p className="personal__aboutme-text">{aboutUser}</p>
         </div>
       </div>
     </div>
