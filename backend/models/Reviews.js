@@ -24,7 +24,6 @@ const ReviewsSchema = new mongoose.Schema({
         ref: 'Doctor',
         required: true,
     },
-    response: String,
 }, 
     {
         timestamps: true,

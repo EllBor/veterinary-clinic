@@ -28,6 +28,35 @@ const PetsSchema = new mongoose.Schema({
         required: true,
     },
     avatarUrl: String,
+    analysisResults: {
+        type: [{
+            analysisName: {
+                type: String,
+                required: true
+            },
+            date: {
+                type: Date,
+                required: true
+            },
+            fileUrl: {
+                type: String,
+                required: true
+            }
+        }],
+        default: null 
+    },
+    medicalCard: [
+        {
+            number:{
+                type: Number,
+                required: true
+            },
+            dateUpdate:{
+                type: Date,
+                required: true
+            }
+        }
+    ]
 }, 
     {
         timestamps: true,

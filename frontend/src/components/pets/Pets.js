@@ -6,9 +6,12 @@ const Pets = ({name, breed, gender, species, age, user, avatarUrl}) => {
     <div className="info__card-pet">
       <div className="info__card-foto card-foto">
         <img src={pet_foto} alt="" />
-        <a href="#" className="info__card-text">
-          изменить
-        </a>
+        <button className="info__card-text">
+          Обновить данные о питомце 
+        </button>
+        <button className="info__card-text">
+          Удалить данные о питомце
+        </button>
       </div>
 
       <div className="info__card-info">

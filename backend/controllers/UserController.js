@@ -130,3 +130,18 @@ export const getOne = async (req, res) => {
       });
     }
 };
+
+export const remove = async (req, res) => {
+  try {
+    const userId = req.params.id;
+    const user = await UserModel.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'Пользователь не найден' });
+    }
+    await UserModel.findByIdAndDelete(userId);
+    res.status(200).json({ message: 'Пользователь успешно удален' });
+  } catch (error) {
+    console.error('Ошибка при удалении пользователя:', error);
+    res.status(500).json({ message: 'Ошибка сервера' });
+  }
+};

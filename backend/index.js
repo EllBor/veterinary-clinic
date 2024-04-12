@@ -10,6 +10,8 @@ import * as UserController from "./controllers/UserController.js";
 import * as DoctorController from "./controllers/DoctorController.js";
 import * as ReviewController from "./controllers/ReviewController.js";
 import * as PetsController from "./controllers/PetsController.js";
+import * as AppointmentController from "./controllers/AppointmentController.js";
+import * as ServicesController from "./controllers/ServicesController.js";
 
 mongoose
   .connect(
@@ -30,21 +32,26 @@ app.use(cors());
 app.post('/auth/login', UserController.login);
 app.post('/auth/register', registerValidation, UserController.register);
 app.get('/auth/me', checkAuth, UserController.getMe);
+
+app.delete('/users/:id', UserController.remove);
 app.get('/users/:id', UserController.getOne);
 
 app.get('/doctor', DoctorController.getAll);
 app.get('/doctor/:id', DoctorController.getOne);
 
 app.get('/doctor/:id/reviews', ReviewController.getAll);
+app.post('/doctor/:doctorId/users/:userId/reviews', ReviewController.create);
 
-app.post('/users/:id/pets', checkAuth, PetsController.create);
-app.delete('/users/:id/pets/:id', PetsController.remove);
-app.patch('/users/:id/pets/:id', PetsController.update);
+app.post('/users/:userId/pets', checkAuth, PetsController.create);
+app.delete('/users/:userId/pets/:id', PetsController.remove);
+app.patch('/users/:userId/pets/:id', checkAuth, PetsController.update);
 app.get('/users/:id/pets', checkAuth, PetsController.getAll);
-// app.get('/users/:id/pets/:id', checkAuth, PetsController.getOne);
+
+//вывести запись на приема в лчином кабинете пользвоателя
+app.get('/users/:userId/appointments', AppointmentController.getAll);
 
 //вывести врача и ближайшую дату приема на определенную услугу
-//вывести запись на приема в лчином кабинете пользвоателя
+// app.get('/doctor/:doctorId/appointments', AppointmentController.getDoctorAndNearestAppointment);
 
 app.listen(4444, (err) => {
   if (err) {

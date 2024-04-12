@@ -1,5 +1,6 @@
 import { useDispatch } from "react-redux";
 import { logout } from "../../redux/slices/auth";
+import { NavLink } from "react-router-dom";
 
 const NavAccount = ({ fullName }) => {
   const safeFullName = fullName || "";
@@ -19,9 +20,9 @@ const NavAccount = ({ fullName }) => {
       <h1 className="account__title">{name}</h1>
       <ul className="account__nav-list">
         <li className="account__list-item">
-          <a className="account__item-link" href="#">
+          <NavLink className="account__item-link" to="/appointment">
             ЗАПИСЬ НА ПРИЕМ
-          </a>
+          </NavLink>
         </li>
         <li className="account__list-item">
           <a className="account__item-link" onClick={onClickLogout}>
