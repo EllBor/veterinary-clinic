@@ -11,7 +11,7 @@ export const registerValidation = [
 export const createValidation = [
   body("name", "Имя должно быть больше 3 символов").isLength({ min: 3 }),
   body("breed", "Название породы должно быть больше 3 символов").isLength({ min:3 }),
-  body("gender").isIn(["Male", "Female"]),
+  body("gender").isIn(["мужской", "женский"]),
   body("species", "Тип питомца должен быть больше 3 символов").isLength({ min:3 }),
   body("age", "Возраст должен быть больше 3 символов").isLength({ min:3 }),
   body("avatarUrl", "Неверный URL").optional().isURL(),

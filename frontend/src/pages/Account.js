@@ -1,7 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-
 import "../styles/account.css";
 
 import pdf from "../images/pdf.png";
@@ -9,10 +8,10 @@ import doc_foto from "../images/doc-foto.png";
 
 import Pets from "../components/pets/Pets";
 import { fetchPets } from "../redux/slices/pets";
-
 import { fetchUsers } from "../redux/slices/users";
 import UserCard from "../components/userCard/UserCard";
 import NavAccount from "../components/navAccount/navAccount.js";
+import PetCreateModal from "../components/modal/PetCreateModal.js";
 
 const Account = () => {
   const { id } = useParams();
@@ -26,6 +25,11 @@ const Account = () => {
     dispatch(fetchUsers(id));
     dispatch(fetchPets(id));
   }, []);
+
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   return (
     <main>
@@ -97,9 +101,10 @@ const Account = () => {
             <div className="account__info">
               <h2 className="info__title">Мои питомцы</h2>
               <div className="info__box">
-                <button className="info__btn-add">
+                <button className="info__btn-add" onClick={openModal}>
                   ДОБАВИТЬ НОВОГО ПИТОМЦА
                 </button>
+                <PetCreateModal isOpen={isModalOpen} onClose={closeModal} id={id} />
                 {(isPetsLoading ? [...Array(3)] : pets.items || []).map(
                   (obj, index) =>
                     isPetsLoading ? (

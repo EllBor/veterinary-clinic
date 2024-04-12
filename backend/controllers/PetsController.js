@@ -12,7 +12,7 @@ export const create = async (req, res) =>{
             avatarUrl: req.body.avatarUrl
         });
         const pet = await doc.save();
-        res.json(pet);
+        res.json([pet]);
     } catch (error) {
         console.log(error);
         res.status(500).json({
@@ -32,7 +32,6 @@ export const update = async (req, res) =>{
             gender: req.body.gender,
             species: req.body.species,
             age: req.body.age,
-            user: req.userId,
             avatarUrl: req.body.avatarUrl
         });
         const pet = await doc.save();
