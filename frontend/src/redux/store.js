@@ -6,6 +6,7 @@ import { authReducer } from './slices/auth';
 import { usersReducer } from './slices/users';
 import { appointmentReducer } from './slices/appointment';
 
+
 const store = configureStore({
     reducer: {
         doctors: doctorsReducer,

@@ -6,7 +6,6 @@ import { useDispatch, useSelector} from "react-redux";
 import { HashLink as Link } from 'react-router-hash-link';
 
 import "./style.css";
-
 import logo from "../../images/logo.svg";
 import question from "../../images/question.svg";
 import map from "../../images/map.svg";
@@ -14,9 +13,11 @@ import map from "../../images/map.svg";
 
 const Header = () => {
   const isAuth = useSelector(selectIsAuth);
+  const userId = useSelector((state) => state.auth.id);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+
   return (
     <header className="header">
       <div className="container">
@@ -27,11 +28,19 @@ const Header = () => {
                 <img className="logo__img" src={logo} alt="logo" />
               </NavLink>
             </li>
-            <li className="nav__list-item">
-              <NavLink className="nav__list-item" to="/account">
-                ЛИЧНЫЙ КАБИНЕТ
-              </NavLink>
-            </li>
+            {isAuth ? (
+              <li className="nav__list-item">
+                <NavLink className="nav__list-item" to={`/account/${userId}`}>
+                  ЛИЧНЫЙ КАБИНЕТ
+                </NavLink>
+              </li>
+            ) : (
+              <li className="nav__list-item">
+                <NavLink className="nav__list-item" to="/login">
+                  ЛИЧНЫЙ КАБИНЕТ
+                </NavLink>
+              </li>
+            )}
             <li className="nav__list-item">
               <NavLink className="nav__list-item" to="/history">
                 О НАС

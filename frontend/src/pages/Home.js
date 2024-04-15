@@ -1,6 +1,9 @@
 import "../styles/style.css";  
 import "../styles/flickity.css";
 
+import React from "react";
+import { NavLink } from "react-router-dom";
+
 import clock from "../images/clock.svg";
 import tel from "../images/tel.svg";
 import map from "../images/map.svg";
@@ -15,7 +18,6 @@ import { services } from "./../helpers/servicesList";
 import { reasons } from "./../helpers/reasonsList";
 import { specialistsList } from "./../helpers/specialistsList";
 import { topSliderList } from "../helpers/topSliderList";
-import { NavLink } from "react-router-dom";
 
 const Home = () => {
   return (

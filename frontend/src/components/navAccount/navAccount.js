@@ -19,6 +19,7 @@ const NavAccount = ({ fullName, id }) => {
   const onClickDeleteAccount = async () => {
     if (window.confirm("Вы действительно хотите удалить аккаунт?")) {
       await dispatch(fetchUsersDelete(id));
+      await dispatch(logout());
       window.localStorage.removeItem("token");
     }
   };
