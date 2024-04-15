@@ -218,3 +218,12 @@
     flex-direction: column;
     gap: 15px;
 }
+
+.info__btn{
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    width: 46px;
+    height: 46px;
+    margin-bottom: 20px;
+}

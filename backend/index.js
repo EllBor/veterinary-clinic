@@ -46,6 +46,7 @@ app.post('/users/:userId/pets', checkAuth, PetsController.create);
 app.delete('/users/:userId/pets/:id', PetsController.remove);
 app.patch('/users/:userId/pets/:id', checkAuth, PetsController.update);
 app.get('/users/:id/pets', checkAuth, PetsController.getAll);
+app.get('/users/:userId/pets/:id', checkAuth, PetsController.getOne);
 
 //вывести запись на приема в лчином кабинете пользвоателя
 app.get('/users/:userId/appointments', AppointmentController.getAll);

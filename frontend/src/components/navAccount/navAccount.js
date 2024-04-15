@@ -1,8 +1,9 @@
 import { useDispatch } from "react-redux";
 import { logout } from "../../redux/slices/auth";
 import { NavLink } from "react-router-dom";
+import { fetchUsersDelete } from "../../redux/slices/users";
 
-const NavAccount = ({ fullName }) => {
+const NavAccount = ({ fullName, id }) => {
   const safeFullName = fullName || "";
   const parts = safeFullName.split(" ");
   const name = parts[1];
@@ -11,6 +12,13 @@ const NavAccount = ({ fullName }) => {
   const onClickLogout = () => {
     if (window.confirm("Вы действительно хотите выйти?")) {
       dispatch(logout());
+      window.localStorage.removeItem("token");
+    }
+  };
+
+  const onClickDeleteAccount = async () => {
+    if (window.confirm("Вы действительно хотите удалить аккаунт?")) {
+      await dispatch(fetchUsersDelete(id));
       window.localStorage.removeItem("token");
     }
   };
@@ -30,7 +38,7 @@ const NavAccount = ({ fullName }) => {
           </a>
         </li>
         <li className="account__list-item">
-          <a className="account__item-link" href="#">
+          <a className="account__item-link" onClick={onClickDeleteAccount}>
             УДАЛИТЬ АККАУНТ
           </a>
         </li>

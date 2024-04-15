@@ -1,5 +1,6 @@
 import PetsModel from "../models/Pets.js";
 import UserModel from "../models/User.js";
+
 export const create = async (req, res) => {
   try {
     const doc = new PetsModel({
@@ -24,7 +25,7 @@ export const create = async (req, res) => {
 export const update = async (req, res) => {
   try {
     const petId = req.params.id;
-    await PostModel.updateOne(
+    await PetsModel.updateOne(
       {
         _id: petId,
       },
@@ -37,10 +38,13 @@ export const update = async (req, res) => {
         avatarUrl: req.body.avatarUrl,
       }
     );
-    const pet = await doc.save();
-    res.json({
-      success: true,
-    });
+    const pet = await PetsModel.findById(petId);
+    if (!pet) {
+      return res.status(404).json({
+        message: "Питомец не найден",
+      });
+    }
+    res.json([pet]);
   } catch (error) {
     console.log(error);
     res.status(500).json({
@@ -53,8 +57,7 @@ export const remove = async (req, res) => {
   try {
     const petId = req.params.id;
     const userId = req.params.userId;
-    PetsModel.deleteOne({ _id: petId, user: userId });
-    const pet = await doc.save();
+    await PetsModel.deleteOne({ _id: petId, user: userId });
     res.json({
       success: true,
     });
@@ -76,6 +79,31 @@ export const getAll = async (req, res) => {
       });
     }
     const pet = await PetsModel.find({ user: userId });
+    if (!pet) {
+      return res.status(404).json({
+        message: "Питомец не найдены",
+      });
+    }
+    res.json(pet);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Не удалось получить питомца",
+    });
+  }
+};
+
+export const getOne = async (req, res) => {
+  try {
+    const petId = req.params.id;
+    const userId = req.params.userId;
+    const userExists = await UserModel.exists({ _id: userId });
+    if (!userExists) {
+      return res.status(404).json({
+        message: "Пользователь не найден",
+      });
+    }
+    const pet = await PetsModel.find({ user: userId, _id: petId });
     if (!pet) {
       return res.status(404).json({
         message: "Питомец не найдены",

@@ -6,6 +6,12 @@ export const fetchUsers = createAsyncThunk('users/fetchUsers', async (id) => {
     return data;
 })
 
+export const fetchUsersDelete = createAsyncThunk('users/fetchUsersDelete', async (id) => {
+    const {data} = await axios.delete(`/users/${id}`);
+    return data;
+})
+
+
 const initialState = {
     users: {
         items: [],
@@ -31,6 +37,11 @@ const usersSlice = createSlice({
         .addCase(fetchUsers.rejected, (state, action) => {
             state.status = 'error';
             state.error = action.error.message;
+        })
+        .addCase(fetchUsersDelete.pending, (state, action) => {
+            state.users.items = state.users.items.filter(
+                (obj) => obj._id !== action.payload
+            );
         });
     },
 })

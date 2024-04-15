@@ -4,28 +4,31 @@ import { useParams } from "react-router-dom";
 import "../styles/account.css";
 
 import pdf from "../images/pdf.png";
-import doc_foto from "../images/doc-foto.png";
 
 import Pets from "../components/pets/Pets";
 import { fetchPets } from "../redux/slices/pets";
 import { fetchUsers } from "../redux/slices/users";
+import { fetchAppointment } from "../redux/slices/appointment";
 import UserCard from "../components/userCard/UserCard";
-import NavAccount from "../components/navAccount/navAccount.js";
-import PetCreateModal from "../components/modal/PetCreateModal.js";
+import NavAccount from "../components/navAccount/navAccount";
+import PetCreateModal from "../components/modal/PetCreateModal";
+import MakeAppointment from "../components/makeAppointment/MakeAppointment";
 
 const Account = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const pets = useSelector((state) => state.pets);
   const users = useSelector((state) => state.users);
+  const appointment = useSelector((state) => state.appointment);
   const isUsersLoading = users.status === "loading";
   const isPetsLoading = pets.status === "loading";
+  const isAppointmentLoading = appointment.status === "loading";
 
   React.useEffect(() => {
     dispatch(fetchUsers(id));
     dispatch(fetchPets(id));
+    dispatch(fetchAppointment(id));
   }, []);
-
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
@@ -41,10 +44,7 @@ const Account = () => {
                 isUsersLoading ? (
                   <NavAccount key={index} isLoading={true} />
                 ) : (
-                  <NavAccount
-                    key={obj._id}
-                    fullName={obj.fullName}
-                  />
+                  <NavAccount key={obj._id} fullName={obj.fullName} id={obj._id} />
                 )
             )}
             {(isUsersLoading ? [...Array(3)] : users.items || []).map(
@@ -101,10 +101,15 @@ const Account = () => {
             <div className="account__info">
               <h2 className="info__title">Мои питомцы</h2>
               <div className="info__box">
+                <p>{console.log(pets)}</p>
                 <button className="info__btn-add" onClick={openModal}>
                   ДОБАВИТЬ НОВОГО ПИТОМЦА
                 </button>
-                <PetCreateModal isOpen={isModalOpen} onClose={closeModal} id={id} />
+                <PetCreateModal
+                  isOpen={isModalOpen}
+                  onClose={closeModal}
+                  id={id}
+                />
                 {(isPetsLoading ? [...Array(3)] : pets.items || []).map(
                   (obj, index) =>
                     isPetsLoading ? (
@@ -112,12 +117,13 @@ const Account = () => {
                     ) : (
                       <Pets
                         key={obj._id}
+                        userId={id}
+                        petId={obj._id}
                         name={obj.name}
                         breed={obj.breed}
                         gender={obj.gender}
                         species={obj.species}
                         age={obj.age}
-                        user={obj.user}
                         avatarUrl={obj.avatarUrl}
                       />
                     )
@@ -126,32 +132,21 @@ const Account = () => {
 
               <div className="account__note">
                 <h2 className="note__title">Запись на прием</h2>
-                <div className="note__card">
-                  <div className="note__card-foto card-foto">
-                    <img src={doc_foto} alt="" />
-                    <a href="#" className="info__card-text">
-                      отменить прием
-                    </a>
-                  </div>
-
-                  <div className="note__card-info">
-                    <h4 className="note__card-title">Врач</h4>
-                    <p>Иванова Ивана Ивановна</p>
-                    <h4 className="note__card-title">
-                      Ссылка на онлайн-консультацию
-                    </h4>
-                    <a href="">https://zoom.us/</a>
-                  </div>
-
-                  <div className="note__card-pet">
-                    <h4 className="note__pet-title">Питомец</h4>
-                    <p>Имя питомца</p>
-                    <h4 className="note__pet-title">Дата</h4>
-                    <p>15.10.23</p>
-                    <h4 className="note__pet-title">Время</h4>
-                    <p>15:45</p>
-                  </div>
-                </div>
+                {(isAppointmentLoading
+                  ? [...Array(3)]
+                  : appointment.items || []
+                ).map((obj, index) =>
+                  isAppointmentLoading ? (
+                    <MakeAppointment key={index} isLoading={true} />
+                  ) : (
+                    <MakeAppointment
+                      key={obj._id}
+                      appointment_date_time={obj.appointment_date_time}
+                      status={obj.status}
+                      doctor={obj.doctor}
+                    />
+                  )
+                )}
               </div>
             </div>
           </div>

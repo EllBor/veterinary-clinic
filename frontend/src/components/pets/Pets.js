@@ -1,17 +1,42 @@
 import pet_foto from "../../images/pet-foto.png";
 import pdf from "../../images/pdf.png";
+import trash from "../../images/trash.svg";
+import update from "../../images/update.svg";
 
-const Pets = ({name, breed, gender, species, age, user, avatarUrl}) => {
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { fetchPetsDelete, fetchPets } from "../../redux/slices/pets";
+import PetUpdateModal from "../modal/PetUpdateModal";
+
+const Pets = ({
+  userId,
+  petId,
+  name,
+  breed,
+  gender,
+  species,
+  age,
+  avatarUrl,
+}) => {
+  const dispatch = useDispatch();
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
+  const onClickRemovePets = async () => {
+    if (
+      window.confirm("Вы действительно хотетите удалить информацию о питомце?")
+    ) {
+      await dispatch(fetchPetsDelete({ userId: userId, petId: petId }));
+      await dispatch(fetchPets(userId));
+    }
+  };
+
   return (
     <div className="info__card-pet">
       <div className="info__card-foto card-foto">
         <img src={pet_foto} alt="" />
-        <button className="info__card-text">
-          Обновить данные о питомце 
-        </button>
-        <button className="info__card-text">
-          Удалить данные о питомце
-        </button>
       </div>
 
       <div className="info__card-info">
@@ -59,6 +84,26 @@ const Pets = ({name, breed, gender, species, age, user, avatarUrl}) => {
             <span className="analyzes-card__date">25.06.23</span>
           </div>
         </div>
+      </div>
+      <div className="info__buttons">
+        <button className="info__btn" onClick={openModal}>
+          <img src={update} alt=""></img>
+        </button>
+        <PetUpdateModal
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          id={userId}
+          petId={petId}
+          name={name}
+          breed={breed}
+          gender={gender}
+          species={species}
+          age={age}
+          avatarUrl={avatarUrl}
+        />
+        <button className="info__btn" onClick={onClickRemovePets}>
+          <img src={trash} alt=""></img>
+        </button>
       </div>
     </div>
   );
