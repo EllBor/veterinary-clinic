@@ -1,8 +1,8 @@
 import { NavLink } from "react-router-dom";
 import React, { useState } from 'react';
 import CityModal from '../../components/modal/CityModal';
-import { fetchAuth, selectIsAuth } from "../../redux/slices/auth";
-import { useDispatch, useSelector} from "react-redux";
+import { selectIsAuth } from "../../redux/slices/auth";
+import { useSelector} from "react-redux";
 import { HashLink as Link } from 'react-router-hash-link';
 
 import "./style.css";

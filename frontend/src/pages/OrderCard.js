@@ -54,6 +54,30 @@ const OrderCard = () => {
                     <img src={visa} alt="" />
                   </div>
                 </div>
+                <div className="order__card-input">
+                  <div className="order__input-number">
+                    <label className="order__label order__label-number" for="number">Номер карты</label>
+                    <input className="order__input" type="number" id="number"/>
+                  </div>
+                  
+                  <div className="order__input-owner">
+                    <label className="order__label order__label-owner" for="owner">Владелец карты</label>
+                    <input className="order__input" type="text" id="owner"/>
+                  </div>
+                  
+                  <div className="order__input-date-cvv">
+                      <label className="order__label order__label-date" for="date">Дата истечения срока действия</label>
+                      <div className="order__date-wrapper">
+                        <input className="order__date-cvv " type="text" id="date1"/>
+                    </div>
+                      <input className="order__date-cvv order__date" type="text" id="date"/>
+
+                      <label className="order__label order__label-cvv" for="cvv2">CVV2</label>
+                      <input className="order__date-cvv" type="text" id="cvv2"/>
+                  </div>
+
+                 
+                </div>
               </div>
               <button className="top__slider-btn order-btn"  type="submit" >
                 ЗАПИСАТЬСЯ

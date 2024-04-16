@@ -55,6 +55,12 @@
     box-shadow: 2px 2px 20px rgba(0, 0, 0, 0.1);
     border-radius: 20px;
     cursor: pointer;
+    background-color: transparent;
+}
+
+.payment__btn{
+    background-color: transparent;
+    border: none;
 }
 
 .payment__item:hover{
@@ -120,18 +126,20 @@
 
 .order__card{
     width: 900px;
-    height: 300px;
+    height: 320px;
     background: rgba(120, 147, 245, 0.45);
     border-radius: 16px;
     margin-bottom: 40px;
+    padding-top: 30px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-bottom: 20px;
 }
 
 .order__card-top{
     display: flex;
     justify-content: space-between;
-    padding-top: 30px;
-    padding-left: 30px;
-    padding-right: 30px
+  
 }
 
 .order__top-left{
@@ -145,4 +153,75 @@
 .order__top-right{
     display: flex;
     gap: 20px;
+}
+
+.order__card-input{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.order__input{
+    width: 380px;
+    height: 50px;
+    border-radius: 10px;
+    border: solid 1px #A6A6A6;
+    padding: 20px;
+    font-size: 18px;
+}
+
+.order__date-cvv{
+    width: 64px;
+    height: 48px;
+    border-radius: 10px;
+    border: solid 1px #A6A6A6;
+    padding: 20px;
+    font-size: 18px;
+}
+
+.order__label{
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.order__label-number{
+    margin-right: 190px;
+}
+
+.order__label-owner{
+    margin-right: 165px;
+}
+
+.order__label-date{
+    margin-right: 35px;
+}
+
+.order__label-cvv{
+    margin-left: 20px;
+}
+
+.order__label-cvv{
+    margin-right: 20px;
+}
+
+.order__date{
+    margin-left: 12px;
+}
+
+.order__date-wrapper {
+    position: relative;
+    margin-right: 20px;
+    display: inline-block;
+}
+
+.order__date-wrapper::after {
+    content: '/';
+    position: absolute;
+    top: 0;
+    right: -20px; /* Помещаем символ справа от input */
+    font-size: 20px;
+    height: 100%;
+    display: flex;
+    align-items: center;
 }

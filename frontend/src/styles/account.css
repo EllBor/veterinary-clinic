@@ -114,15 +114,16 @@
 
 .info__card-pet{
     display: flex;
+    flex: 0 0 900px;
+    height: auto;
     justify-content: space-around;
     gap: 40px;
-    width: 900px;
-    height: 520px;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
     border-radius: 20px;
     padding: 30px;
     font-size: 20px;
     margin-top: 56px;
+    margin-bottom: 20px;
 }
 
 
@@ -229,6 +230,29 @@
 }
 
 .pets-container {
-    max-height: 600px; /* Установите желаемую максимальную высоту контейнера */
-    overflow-y: auto; /* Разрешить вертикальный скроллинг, если питомцев больше, чем может поместиться в контейнере */
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+    max-width: 920px;
+    gap: 20px;
+    padding: 0 10px; 
+  }
+  
+/* Стилизация самого скроллбара */
+.pets-container::-webkit-scrollbar {
+    width: 12px;  
+    height: 15px;
 }
+
+/* Стилизация трека скроллбара */
+.pets-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Стилизация ползунка скроллбара */
+.pets-container::-webkit-scrollbar-thumb {
+    background-color: #7893f5;
+    border-radius: 6px; 
+    border: 3px solid #f1f1f1; 
+}
+  
