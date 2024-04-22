@@ -14,7 +14,7 @@ import FeedbackModel from "../components/modal/FeedbackModel";
 
 import Reviews from "../components/reviews/Reviews";
 import { fetchReviews } from "../redux/slices/reviews";
-import { fetchDoctors, fetchOneDoctor } from "../redux/slices/doctors";
+import { fetchDoctorAppointments, fetchOneDoctor } from "../redux/slices/doctors";
 import DoctorAccount from "../components/doctorAccount/DoctorAccount";
 
 const Specialist = () => {
@@ -25,12 +25,14 @@ const Specialist = () => {
   const dispatch = useDispatch();
   const doctors = useSelector((state) => state.doctors);
   const reviews = useSelector((state) => state.reviews);
+  const nearestAppointment = useSelector((state) => state.doctors.nearestAppointment);
   const isReviewsLoading = reviews.status === "loading";
   const isDoctorsLoading = doctors.status === "loading";
 
   React.useEffect(() => {
     dispatch(fetchReviews(id));
     dispatch(fetchOneDoctor(id));
+    dispatch(fetchDoctorAppointments(id));
   }, []);
 
   return (
@@ -41,7 +43,7 @@ const Specialist = () => {
             <div className="account-specialist__foto">
               <img src={account_doc} alt="" />
               <p className="account-specialist__time">
-                ближайшая дата приема: 29.08.19
+                ближайшая дата приема: {nearestAppointment ? nearestAppointment.start_date_time : 'запись недоступна'}
               </p>
               <a className="account-specialist__btn" href="">
                 ЗАПИСАТЬСЯ

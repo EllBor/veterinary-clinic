@@ -6,10 +6,19 @@ const ServicesSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    description: {
-        type: String,
-    },
-    price: {
+    diagnostics: [
+        {
+          diagnostics_name: {
+            type: String,
+            required: true,
+          },
+          diagnostics_price: {
+            type: Number,
+            required: true,
+          },
+        },
+    ],
+    number: {
         type: Number,
         required: true
     }

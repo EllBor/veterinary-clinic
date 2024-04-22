@@ -6,9 +6,9 @@ const AppointmentSchema = new mongoose.Schema({
         ref: 'User',
         required: true
     },
-    service: {
+    doctor: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Services',
+        ref: 'Doctors',
         required: true
     },
     appointment_date_time: {
@@ -17,7 +17,7 @@ const AppointmentSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['запланирован', 'завершен', 'отменен'],
+        enum: ['запланирован', 'завершен', 'отменен', 'активен'],
         default: 'запланирован'
     }
 }, 

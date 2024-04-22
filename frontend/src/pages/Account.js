@@ -110,7 +110,7 @@ const Account = () => {
                   onClose={closeModal}
                   id={id}
                 />
-                <div className="pets-container">
+                <div className="account-container">
                 {(isPetsLoading ? [...Array(3)] : pets.items || []).map(
                   (obj, index) =>
                     isPetsLoading ? (
@@ -134,6 +134,7 @@ const Account = () => {
 
               <div className="account__note">
                 <h2 className="note__title">Запись на прием</h2>
+                <div className="account-container">
                 {(isAppointmentLoading
                   ? [...Array(3)]
                   : appointment.items || []
@@ -149,6 +150,7 @@ const Account = () => {
                     />
                   )
                 )}
+                </div>
               </div>
             </div>
           </div>

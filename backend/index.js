@@ -68,11 +68,11 @@ app.patch("/users/:userId/pets/:id", checkAuth, PetsController.update);
 app.get("/users/:id/pets", checkAuth, PetsController.getAll);
 app.get("/users/:userId/pets/:id", checkAuth, PetsController.getOne);
 
+app.get("/services/:id/appointments", ServicesController.getAllAppointments);
+app.get("/services", ServicesController.getAllServices);
+
 //вывести запись на приема в лчином кабинете пользвоателя
 app.get("/users/:userId/appointments", AppointmentController.getAll);
-
-//вывести врача и ближайшую дату приема на определенную услугу
-// app.get('/doctor/:doctorId/appointments', AppointmentController.getDoctorAndNearestAppointment);
 
 app.listen(4444, (err) => {
   if (err) {

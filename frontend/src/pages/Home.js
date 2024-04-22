@@ -3,21 +3,19 @@ import "../styles/flickity.css";
 
 import React from "react";
 import { NavLink } from "react-router-dom";
-
-import clock from "../images/clock.svg";
-import tel from "../images/tel.svg";
-import map from "../images/map.svg";
+import Flickity from "react-flickity-component";
 
 import Services from "../components/services/Services";
 import Reasons from "../components/reasons/Reasons";
-import Flickity from "react-flickity-component";
 import SpecialistsSlider from "../components/specialistsSlider/SpecialistsSlider";
 import TopSlider from "../components/topSlider/TopSlider";
+import Contacts from "../components/contacts/Contacts";
 
 import { services } from "./../helpers/servicesList";
 import { reasons } from "./../helpers/reasonsList";
 import { specialistsList } from "./../helpers/specialistsList";
 import { topSliderList } from "../helpers/topSliderList";
+
 
 const Home = () => {
   return (
@@ -127,7 +125,8 @@ const Home = () => {
       </section>
       <section className="contacts" id="contacts-section">
         <div className="container">
-          <div className="contacts__all">
+          <Contacts/>
+          {/* <div className="contacts__all">
             <div className="contacts__address">
               <h2 className="contacts__title">КОНТАКТЫ</h2>
               <div className="contacts__address-1 contacts__address">
@@ -193,7 +192,7 @@ const Home = () => {
                 frameborder="0"
               ></iframe>
             </div>
-          </div>
+          </div> */}
         </div>
       </section>
     </main>

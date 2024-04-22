@@ -11,6 +11,13 @@ export const fetchOneDoctor = createAsyncThunk('doctors/fetchOneDoctor', async (
     return data;
 })
 
+export const fetchDoctorAppointments = createAsyncThunk('doctors/fetchDoctorAppointments', async (id) => {
+    const {data} = await axios.get(`/doctor/${id}/appointments`);
+    return data;
+})
+
+
+
 const initialState = {
     doctors: {
         items: [],
@@ -31,7 +38,6 @@ const doctorsSlice = createSlice({
             .addCase(fetchDoctors.fulfilled, (state, action) => {
                 state.status = 'loaded';
                 state.items = action.payload;
-                console.log("action.payload doctor",action.payload);
             })
             .addCase(fetchDoctors.rejected, (state, action) => {
                 state.status = 'error';
@@ -44,9 +50,20 @@ const doctorsSlice = createSlice({
             .addCase(fetchOneDoctor.fulfilled, (state, action) => {
                 state.status = 'loaded';
                 state.items = action.payload;
-                console.log("action.payload doctor",action.payload);
             })
             .addCase(fetchOneDoctor.rejected, (state, action) => {
+                state.status = 'error';
+                state.error = action.error.message;
+            })
+            .addCase(fetchDoctorAppointments.pending, (state) => {
+                state.status = 'loading';
+                state.error = null;
+            })
+            .addCase(fetchDoctorAppointments.fulfilled, (state, action) => {
+                state.status = 'loaded';
+                state.nearestAppointment = action.payload.nearestAppointment;
+            })
+            .addCase(fetchDoctorAppointments.rejected, (state, action) => {
                 state.status = 'error';
                 state.error = action.error.message;
             });
