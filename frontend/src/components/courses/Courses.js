@@ -1,8 +1,8 @@
-const Courses = ({ title, date }) => {
+const Courses = ({ courseName, completionDate }) => {
   return (
     <div className="courses__slider-item">
-      <span className="courses__slider-date">{date}</span>
-      <p className="courses__slider-text">{title}</p>
+      <span className="courses__slider-date">{completionDate}</span>
+      <p className="courses__slider-text">{courseName}</p>
     </div>
   );
 };

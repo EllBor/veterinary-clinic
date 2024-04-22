@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
-import cors from 'cors';
+import multer from "multer";
+import cors from "cors";
 
 import { registerValidation } from "./validations/auth.js";
 
@@ -26,30 +27,49 @@ mongoose
 
 const app = express();
 
+const storage = multer.diskStorage({
+  destination: (_, __, cb) => {
+    cb(null, "uploads");
+  },
+  filename: (_, file, cb) => {
+    cb(null, file.originalname);
+  },
+});
+
+const upload = multer({ storage });
+
 app.use(express.json());
 app.use(cors());
+app.use("/uploads", express.static("uploads"));
 
-app.post('/auth/login', UserController.login);
-app.post('/auth/register', registerValidation, UserController.register);
-app.get('/auth/me', checkAuth, UserController.getMe);
+app.post("/upload", checkAuth, upload.single("image"), (req, res) => {
+  res.json({
+    url: `/uploads/${req.file.originalname}`,
+  });
+});
 
-app.delete('/users/:id', UserController.remove);
-app.get('/users/:id', UserController.getOne);
+app.post("/auth/login", UserController.login);
+app.post("/auth/register", registerValidation, UserController.register);
+app.get("/auth/me", checkAuth, UserController.getMe);
 
-app.get('/doctor', DoctorController.getAll);
-app.get('/doctor/:id', DoctorController.getOne);
+app.delete("/users/:id", UserController.remove);
+app.get("/users/:id", UserController.getOne);
 
-app.get('/doctor/:id/reviews', ReviewController.getAll);
-app.post('/doctor/:doctorId/users/:userId/reviews', ReviewController.create);
+app.get("/doctor", DoctorController.getAll);
+app.get("/doctor/:id", DoctorController.getOne);
+app.get("/doctor/:id/appointments", DoctorController.getDoctorAndNearestAppointment);
 
-app.post('/users/:userId/pets', checkAuth, PetsController.create);
-app.delete('/users/:userId/pets/:id', PetsController.remove);
-app.patch('/users/:userId/pets/:id', checkAuth, PetsController.update);
-app.get('/users/:id/pets', checkAuth, PetsController.getAll);
-app.get('/users/:userId/pets/:id', checkAuth, PetsController.getOne);
+app.get("/doctor/:id/reviews", ReviewController.getAll);
+app.post("/doctor/:doctorId/users/:userId/reviews", ReviewController.create);
+
+app.post("/users/:userId/pets", checkAuth, PetsController.create);
+app.delete("/users/:userId/pets/:id", PetsController.remove);
+app.patch("/users/:userId/pets/:id", checkAuth, PetsController.update);
+app.get("/users/:id/pets", checkAuth, PetsController.getAll);
+app.get("/users/:userId/pets/:id", checkAuth, PetsController.getOne);
 
 //вывести запись на приема в лчином кабинете пользвоателя
-app.get('/users/:userId/appointments', AppointmentController.getAll);
+app.get("/users/:userId/appointments", AppointmentController.getAll);
 
 //вывести врача и ближайшую дату приема на определенную услугу
 // app.get('/doctor/:doctorId/appointments', AppointmentController.getDoctorAndNearestAppointment);

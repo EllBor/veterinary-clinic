@@ -1,17 +1,38 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { fetchPetsCreate, fetchPets } from "../../redux/slices/pets";
+import axios from "../../axios";
 import { useForm } from "react-hook-form";
 import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 
 import "./styles/style-petcreate.css";
 
 const PetCreateModal = ({ isOpen, onClose, id }) => {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(false);
+    const [imageUrl, setImageUrl] = useState('');
     const { register, handleSubmit, formState: { errors, isValid } } = useForm({
         mode: 'onChange'
     });
+    const inputFileRef = React.useRef(null);
+
+    const handleChangeFile = async (event) => {
+        try {
+            const formData = new FormData();
+            const file = event.target.files[0];
+            formData.append('image', file);
+            const {data} = await axios.post('/upload', formData);
+            setImageUrl(data.url);
+        } catch (error) {
+            console.warn(error);
+            alert('Ошибка при загрузке файла');
+        }
+    };
+
+    const onClickRemoveImage = () => {
+        setImageUrl('');
+    };
 
     const onSubmit = async (data) => {
         try {
@@ -34,6 +55,18 @@ const PetCreateModal = ({ isOpen, onClose, id }) => {
                         <span className="close" onClick={onClose}>&times;</span>
                         <p className='modal-title'>Добавить питомца</p>
                         <form className='modal-form' onSubmit={handleSubmit(onSubmit)}>
+                            <Button onClick={() => inputFileRef.current.click()} disabled={loading}>
+                                Загрузить фото
+                            </Button>
+                            <input ref={inputFileRef} type="file" onChange={handleChangeFile} hidden></input>
+                            {imageUrl && (
+                                <>
+                                    <Button onClick={onClickRemoveImage} color="error" disabled={loading}>
+                                        Удалить
+                                    </Button>
+                                    <img className='modal-img' src={`http://localhost:4444${imageUrl}`} alt="Uploaded" />
+                                </>
+                            )}
                             <TextField 
                                 className='modal-input'
                                 type="text"

@@ -30,13 +30,17 @@ export const getAll = async (req, res) => {
         message: "Врач не найден",
       });
     }
-    const review = await ReviewsModel.find({ doctor: doctorId });
-    if (!review) {
+    const reviews = await ReviewsModel.find({ doctor: doctorId });
+    const reviewCount = reviews.length; 
+    if (reviewCount === 0) {
       return res.status(404).json({
-        message: "Отзывы не найдены",
+        message: "Отзывы не найдены",
       });
     }
-    res.json(review);
+    res.json({
+      reviewCount: reviewCount,
+      reviews: reviews
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({

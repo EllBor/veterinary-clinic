@@ -1,16 +1,16 @@
-import { NavLink, useParams  } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 
 import "../styles/style-specialist.css";
 import "../styles/flickity.css";
 
 import account_doc from "../images/account-doc.png";
 
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Flickity from "react-flickity-component";
 import { coursesList } from "../helpers/coursesList";
 import Courses from "../components/courses/Courses";
-import React, { useState } from 'react';
-import FeedbackModel from '../components/modal/FeedbackModel';
+import React, { useState } from "react";
+import FeedbackModel from "../components/modal/FeedbackModel";
 
 import Reviews from "../components/reviews/Reviews";
 import { fetchReviews } from "../redux/slices/reviews";
@@ -23,10 +23,10 @@ const Specialist = () => {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
   const dispatch = useDispatch();
-  const doctors = useSelector(state => state.doctors);
-  const reviews = useSelector(state => state.reviews);
-  const isReviewsLoading = reviews.status === 'loading';
-  const isDoctorsLoading = doctors.status === 'loading';
+  const doctors = useSelector((state) => state.doctors);
+  const reviews = useSelector((state) => state.reviews);
+  const isReviewsLoading = reviews.status === "loading";
+  const isDoctorsLoading = doctors.status === "loading";
 
   React.useEffect(() => {
     dispatch(fetchReviews(id));
@@ -46,7 +46,10 @@ const Specialist = () => {
               <a className="account-specialist__btn" href="">
                 ЗАПИСАТЬСЯ
               </a>
-              <button className="account-specialist__feedback" onClick={openModal}>
+              <button
+                className="account-specialist__feedback"
+                onClick={openModal}
+              >
                 ОСТАВИТЬ ОТЗЫВ
               </button>
               <FeedbackModel isOpen={isModalOpen} onClose={closeModal} />
@@ -56,22 +59,48 @@ const Specialist = () => {
               <NavLink className="appointment__back back" to="/collective">
                 НАЗАД
               </NavLink>
-              {(isDoctorsLoading ? Array.from({ length: 3 }) : doctors.items || []).map((obj, index) => 
-                  isDoctorsLoading ? (
-                    <DoctorAccount key={`loading-doctor-${index}`} isLoading={true}/>
-                  ):(
-                    <DoctorAccount
-                      key={obj._id}
-                      specialization = {obj.specialization}
-                      avatarUrl = {obj.avatarUrl}
-                      fullName = {obj.fullName}
-                      experience = {obj.experience}
-                      level_education = {obj.level_education}
-                    />
-                  ))}
+              {(isDoctorsLoading
+                ? Array.from({ length: 3 })
+                : doctors.items || []
+              ).map((obj, index) =>
+                isDoctorsLoading ? (
+                  <DoctorAccount
+                    key={`loading-doctor-${index}`}
+                    isLoading={true}
+                  />
+                ) : (
+                  <DoctorAccount
+                    key={obj._id}
+                    specialization={obj.specialization}
+                    avatarUrl={obj.avatarUrl}
+                    fullName={obj.fullName}
+                    experience={obj.experience}
+                    level_education={obj.level_education}
+                  />
+                )
+              )}
               <h4 className="part-main__courses-title">Пройденные курсы</h4>
               <div className="courses__slider">
-              <Flickity
+                {(isDoctorsLoading
+                  ? Array.from({ length: 3 })
+                  : doctors.items || []
+                ).map((obj, index) =>
+                  isDoctorsLoading ? (
+                    <Courses
+                      key={`loading-doctor-courses-${index}`}
+                      isLoading={true}
+                    />
+                  ) : (
+                    obj.courses.map((course, courseIndex) => (
+                      <Courses
+                        key={`${obj._id}-course-${courseIndex}`}
+                        courseName={course.course_name}
+                        completionDate={course.completion_date}
+                      />
+                    ))
+                  )
+                )}
+                {/* <Flickity
                   className="Slider"
                   elementType="div"
                   disableImagesLoaded="false"
@@ -86,27 +115,32 @@ const Specialist = () => {
                 {coursesList.map((project) => {
                   return <Courses key={project.id} title={project.title} date={project.date}  />;
                 })}
-                </Flickity>
+                </Flickity> */}
               </div>
               <div className="account-specialist__feedback-box">
                 <div className="feedback-box">
                   <h3 className="feedback-box__title">Отзывы</h3>
-                  <span className="feedback-box__number">101 отзыв</span>
+                  <span className="feedback-box__number">
+                    {reviews.items ? reviews.items.length : 0} отзыв
+                  </span>
                 </div>
-                {(isReviewsLoading ? Array.from({ length: 3 }) : reviews.items || []).map((obj, index) => 
+                {(isReviewsLoading
+                  ? Array.from({ length: 3 })
+                  : reviews.items || []
+                ).map((obj, index) =>
                   isReviewsLoading ? (
-                    <Reviews key={`loading-review-${index}`} isLoading={true}/>
+                    <Reviews key={`loading-review-${index}`} isLoading={true} />
                   ) : (
                     <Reviews
-                      key={obj._id} 
+                      key={obj._id}
                       review_text={obj.review_text}
                       rating={obj.rating}
                       publication_date={obj.publication_date}
                       user={obj.user}
                       level_education={obj.level_education}
                     />
-                  ))}
-
+                  )
+                )}
               </div>
             </div>
           </div>
