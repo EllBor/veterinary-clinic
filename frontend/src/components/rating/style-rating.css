@@ -19,7 +19,7 @@
 }
 .rating-area > input:checked ~ label {
 	color: #7893F5;
-	text-shadow: 1px 1px #c60;
+	text-shadow: 1px 1px rgb(128, 102, 201);
 }
 .rating-area:not(:checked) > label:hover,
 .rating-area:not(:checked) > label:hover ~ label {

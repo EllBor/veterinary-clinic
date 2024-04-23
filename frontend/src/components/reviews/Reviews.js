@@ -1,5 +1,8 @@
 import feedback_foto from "../../images/feedback-foto.svg";
 
+import RatingResult from "../rating/RatingResult";
+import "../rating/style-ratingresult.css"
+
 const Reviews = ({review_text, rating, publication_date, user}) => {
     return ( 
         <div className="feedback__card-item">
@@ -13,6 +16,9 @@ const Reviews = ({review_text, rating, publication_date, user}) => {
           <p className="feedback__main-comments">
             {review_text}
           </p>
+        </div>
+        <div className="feedback__rating">
+          <RatingResult rating={rating} />
         </div>
       </div>
      );

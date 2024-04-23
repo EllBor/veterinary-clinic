@@ -75,7 +75,7 @@ function FeedbackModel({ isOpen, onClose, id}) {
                                 {...register("review_text", { required: 'Напишите отзыв' })}
                             >
                             </textarea>
-                            <button className='modal-btn' onClick={openModal}  type='submit'>ОТПРАВИТЬ</button>
+                            <button className='modal-btn' onClick={openModal} type='submit'>ОТПРАВИТЬ</button>
                         </form>
                         <ThanksFeedbackModel isOpen={isModalOpen} onClose={closeModal} />
                     </div>
