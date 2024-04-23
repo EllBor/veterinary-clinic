@@ -13,10 +13,9 @@ export const fetchOneDoctor = createAsyncThunk('doctors/fetchOneDoctor', async (
 
 export const fetchDoctorAppointments = createAsyncThunk('doctors/fetchDoctorAppointments', async (id) => {
     const {data} = await axios.get(`/doctor/${id}/appointments`);
+    console.log(data);
     return data;
 })
-
-
 
 const initialState = {
     doctors: {

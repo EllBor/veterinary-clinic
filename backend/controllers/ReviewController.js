@@ -8,8 +8,8 @@ export const create = async (req, res) => {
       review_text: req.body.review_text,
       rating: req.body.rating,
       publication_date: req.body.publication_date,
-      user: req.userId,
-      doctor: req.doctorId,
+      user: req.params.userId,
+      doctor: req.params.doctorId,
     });
     const review = await doc.save();
     res.json([review]);
@@ -31,16 +31,14 @@ export const getAll = async (req, res) => {
       });
     }
     const reviews = await ReviewsModel.find({ doctor: doctorId });
-    const reviewCount = reviews.length; 
-    if (reviewCount === 0) {
+
+    if (reviews.length === 0) {
       return res.status(404).json({
         message: "Отзывы не найдены",
       });
     }
-    res.json({
-      reviewCount: reviewCount,
-      reviews: reviews
-    });
+
+    res.json(reviews);
   } catch (error) {
     console.log(error);
     res.status(500).json({

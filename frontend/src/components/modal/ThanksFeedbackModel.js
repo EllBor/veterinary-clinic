@@ -11,8 +11,7 @@ function ThanksFeedbackModel({ isOpen, onClose }) {
               &times;
             </span>
             <p className='modal-title'>
-            Спасибо! Мы рассмотрим Ваш отзыв 
-            и опубликуем его в ближайшее время
+            Спасибо за отзыв!
             </p>
             <button className='modal-btn' onClick={onClose}>OK</button>
           </div>

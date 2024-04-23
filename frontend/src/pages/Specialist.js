@@ -1,21 +1,21 @@
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useParams } from "react-router-dom";
+import Slider from 'react-slick';
 
 import "../styles/style-specialist.css";
-import "../styles/flickity.css";
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 import account_doc from "../images/account-doc.png";
 
-import { useDispatch, useSelector } from "react-redux";
-import Flickity from "react-flickity-component";
-import { coursesList } from "../helpers/coursesList";
 import Courses from "../components/courses/Courses";
-import React, { useState } from "react";
 import FeedbackModel from "../components/modal/FeedbackModel";
-
+import DoctorAccount from "../components/doctorAccount/DoctorAccount";
 import Reviews from "../components/reviews/Reviews";
+
 import { fetchReviews } from "../redux/slices/reviews";
 import { fetchDoctorAppointments, fetchOneDoctor } from "../redux/slices/doctors";
-import DoctorAccount from "../components/doctorAccount/DoctorAccount";
 
 const Specialist = () => {
   const { id } = useParams();
@@ -35,6 +35,14 @@ const Specialist = () => {
     dispatch(fetchDoctorAppointments(id));
   }, []);
 
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 2,
+    slidesToScroll: 1
+  };
+
   return (
     <main>
       <section className="account-specialist">
@@ -43,7 +51,7 @@ const Specialist = () => {
             <div className="account-specialist__foto">
               <img src={account_doc} alt="" />
               <p className="account-specialist__time">
-                ближайшая дата приема: {nearestAppointment ? nearestAppointment.start_date_time : 'запись недоступна'}
+                ближайшая дата приема: {nearestAppointment ? new Date(nearestAppointment.appointment_dates[0].start_date_time).toLocaleDateString() : 'запись недоступна'}
               </p>
               <a className="account-specialist__btn" href="">
                 ЗАПИСАТЬСЯ
@@ -53,8 +61,9 @@ const Specialist = () => {
                 onClick={openModal}
               >
                 ОСТАВИТЬ ОТЗЫВ
+                {console.log("reviews.items",reviews.items)}
               </button>
-              <FeedbackModel isOpen={isModalOpen} onClose={closeModal} />
+              <FeedbackModel isOpen={isModalOpen} onClose={closeModal} id={id}/>
             </div>
 
             <div className="account-specialist__part-main">
@@ -81,44 +90,28 @@ const Specialist = () => {
                   />
                 )
               )}
-              <h4 className="part-main__courses-title">Пройденные курсы</h4>
-              <div className="courses__slider">
-                {(isDoctorsLoading
-                  ? Array.from({ length: 3 })
-                  : doctors.items || []
-                ).map((obj, index) =>
-                  isDoctorsLoading ? (
-                    <Courses
-                      key={`loading-doctor-courses-${index}`}
-                      isLoading={true}
-                    />
-                  ) : (
-                    obj.courses.map((course, courseIndex) => (
-                      <Courses
-                        key={`${obj._id}-course-${courseIndex}`}
-                        courseName={course.course_name}
-                        completionDate={course.completion_date}
-                      />
-                    ))
-                  )
-                )}
-                {/* <Flickity
-                  className="Slider"
-                  elementType="div"
-                  disableImagesLoaded="false"
-                  reloadOnUpdate
-                  static
-                  options={{
-                    pageDots: false,
-                    wrapAround: true,
-                    freeScroll: true,
-                  }}
-                >
-                {coursesList.map((project) => {
-                  return <Courses key={project.id} title={project.title} date={project.date}  />;
-                })}
-                </Flickity> */}
-              </div>
+              <h4 className="part-main__courses-title">Пройденные курсы</h4> 
+              <Slider {...settings}>
+                  {(  isDoctorsLoading 
+                    ? Array.from({ length: 3 })
+                    : doctors.items || []
+                  ).map((obj, index) =>
+                    isDoctorsLoading  ? (
+                      <div key={`loading-doctor-courses-${index}`}>
+                        <Courses isLoading={true} />
+                      </div>
+                    ) : (
+                      obj.courses.map((course, courseIndex) => (
+                        <div key={`${obj._id}-course-${courseIndex}`}>
+                          <Courses
+                            courseName={course.course_name}
+                            completionDate={new Date(course.completion_date).getFullYear()}
+                          />
+                        </div>
+                      ))
+                    )
+                  )}
+                </Slider>
               <div className="account-specialist__feedback-box">
                 <div className="feedback-box">
                   <h3 className="feedback-box__title">Отзывы</h3>
