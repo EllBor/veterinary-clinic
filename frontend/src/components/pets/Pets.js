@@ -36,7 +36,7 @@ const Pets = ({
   return (
     <div className="info__card-pet">
       <div className="info__card-foto card-foto">
-        <img src={pet_foto} alt="" />
+        <img src={avatarUrl} alt="" />
       </div>
 
       <div className="info__card-info">

@@ -50,23 +50,25 @@ const PetCreateModal = ({ isOpen, onClose, id }) => {
     return (
         <div>
             {isOpen && (
-                <div className="modal">
+                <div className="pet__modal">
                     <div className="modal-content">
                         <span className="close" onClick={onClose}>&times;</span>
                         <p className='modal-title'>Добавить питомца</p>
                         <form className='modal-form' onSubmit={handleSubmit(onSubmit)}>
-                            <Button onClick={() => inputFileRef.current.click()} disabled={loading}>
-                                Загрузить фото
-                            </Button>
-                            <input ref={inputFileRef} type="file" onChange={handleChangeFile} hidden></input>
-                            {imageUrl && (
-                                <>
-                                    <Button onClick={onClickRemoveImage} color="error" disabled={loading}>
-                                        Удалить
-                                    </Button>
-                                    <img className='modal-img' src={`http://localhost:4444${imageUrl}`} alt="Uploaded" />
-                                </>
-                            )}
+                            <div className="modal-file">
+                                <Button onClick={() => inputFileRef.current.click()} disabled={loading}>
+                                    Загрузить фото
+                                </Button>
+                                <input ref={inputFileRef} type="file" onChange={handleChangeFile} hidden></input>
+                                {imageUrl && (
+                                    <>
+                                        <Button onClick={onClickRemoveImage} color="error" disabled={loading}>
+                                            Удалить
+                                        </Button>
+                                        <img className='modal-img' src={`http://localhost:4444${imageUrl}`} alt="Uploaded" />
+                                    </>
+                                )}
+                            </div>
                             <TextField 
                                 className='modal-input'
                                 type="text"

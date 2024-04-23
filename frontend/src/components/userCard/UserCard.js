@@ -1,18 +1,37 @@
+import React, { useState } from "react";
+
 import foto from "../../images/account-foto.png";
-const UserCard = ({ phone, avatarUrl, fullName, aboutUser }) => {
+import update from "../../images/update.svg";
+import UserUpdateModal from "../modal/UserUpdateModal";
+
+const UserCard = ({ id, phone, avatarUrl, fullName, aboutUser }) => {
   const safeFullName = fullName || "";
   const parts = safeFullName.split(" ");
   const name = parts[1];
   const surname = parts[0];
   const patronymic = parts[2];
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
   return (
     <div className="account__personal">
       <div className="personal__card">
         <div className="personal__card-foto card-foto">
-          <img src={foto} alt="" />
-          <a href="#" className="personal__card-text">
-            изменить
-          </a>
+          <img className="personal__card-img" src={foto} alt="" />
+          <button className="info__btn" onClick={openModal}>
+            <img src={update} alt=""></img>
+          </button>
+          <UserUpdateModal
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          id={id}
+          phone={phone}
+          name={name}
+          surname={surname}
+          patronymic={patronymic}
+          avatarUrl={avatarUrl}
+          aboutUser={aboutUser}
+          />
         </div>
         <div className="personal__card-info">
           <h4 className="personal__card-title">Имя</h4>

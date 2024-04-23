@@ -1,6 +1,6 @@
-import clock from "../images/clock.svg";
-import tel from "../images/tel.svg";
-import map from "../images/map.svg";
+import clock from "../../images/clock.svg";
+import tel from "../../images/tel.svg";
+import map from "../../images/map.svg";
 
 const Contacts = () => {
     return ( 

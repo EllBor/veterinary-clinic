@@ -53,6 +53,7 @@ app.post("/auth/register", registerValidation, UserController.register);
 app.get("/auth/me", checkAuth, UserController.getMe);
 
 app.delete("/users/:id", UserController.remove);
+app.patch("/users/:id", UserController.update);
 app.get("/users/:id", UserController.getOne);
 
 app.get("/doctor", DoctorController.getAll);

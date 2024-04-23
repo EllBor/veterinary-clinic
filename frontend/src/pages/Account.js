@@ -54,6 +54,7 @@ const Account = () => {
                 ) : (
                   <UserCard
                     key={obj._id}
+                    id={id}
                     phone={obj.phone}
                     email={obj.email}
                     avatarUrl={obj.avatarUrl}

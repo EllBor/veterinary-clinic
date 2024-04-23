@@ -1,6 +1,7 @@
-import DoctorServiceModel from "../models/DoctorService";
-import DoctorModel from "../models/Doctors";
-import AppointmentModel from "../models/Appointments";
+import DoctorServiceModel from "../models/DoctorService.js";
+import DoctorModel from "../models/Doctor.js";
+import AppointmentModel from "../models/Appointments.js";
+import ServiceModel from "../models/Services.js";
 
 export const getAllAppointments = async (req, res) => {
   try {

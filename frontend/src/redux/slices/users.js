@@ -11,6 +11,20 @@ export const fetchUsersDelete = createAsyncThunk('users/fetchUsersDelete', async
     return data;
 })
 
+export const fetchUsersUpdate = createAsyncThunk(
+    "users/fetchUsersUpdate",
+    async ({ userId, params }, thunkAPI) => {
+      try {
+        const { data } = await axios.patch(
+          `/users/${userId}`,
+          params
+        );
+        return data;
+      } catch (error) {
+        return thunkAPI.rejectWithValue(error.response.data);
+      }
+    }
+  );
 
 const initialState = {
     users: {
@@ -41,6 +55,18 @@ const usersSlice = createSlice({
             state.users.items = state.users.items.filter(
                 (obj) => obj._id !== action.payload
             );
+        })
+        .addCase(fetchUsersUpdate.pending, (state) => {
+            state.status = "loading";
+            state.error = null;
+        })
+          .addCase(fetchUsersUpdate.fulfilled, (state, action) => {
+            state.status = "loaded";
+            state.items = action.payload;
+        })
+          .addCase(fetchUsersUpdate.rejected, (state, action) => {
+            state.status = "error";
+            state.error = action.error.message;
         });
     },
 })

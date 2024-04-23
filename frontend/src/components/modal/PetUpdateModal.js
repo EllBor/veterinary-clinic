@@ -3,6 +3,10 @@ import { useDispatch } from "react-redux";
 import { fetchPetsUpdate, fetchPets } from "../../redux/slices/pets";
 import { useForm } from "react-hook-form";
 import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import axios from "../../axios";
+
+import "./styles/style-petcreate.css";
 
 const PetUpdateModal = ({
   isOpen,
@@ -18,6 +22,7 @@ const PetUpdateModal = ({
 }) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = React.useState(false);
+  const [imageUrl, setImageUrl] = useState('');
   const {
     register,
     handleSubmit,
@@ -25,6 +30,24 @@ const PetUpdateModal = ({
   } = useForm({
     mode: "onChange",
   });
+  const inputFileRef = React.useRef(null);
+
+  const handleChangeFile = async (event) => {
+    try {
+        const formData = new FormData();
+        const file = event.target.files[0];
+        formData.append('image', file);
+        const {data} = await axios.post('/upload', formData);
+        setImageUrl(data.url);
+    } catch (error) {
+        console.warn(error);
+        alert('Ошибка при загрузке файла');
+    }
+};
+
+const onClickRemoveImage = () => {
+    setImageUrl('');
+};
 
   const onSubmit = async (data) => {
     try {
@@ -44,13 +67,43 @@ const PetUpdateModal = ({
   return (
     <div>
       {isOpen && (
-        <div className="modal">
+        <div className="pet__modal">
           <div className="modal-content">
             <span className="close" onClick={onClose}>
               &times;
             </span>
             <p className="modal-title">Изменить данные о питомце</p>
             <form className="modal-form" onSubmit={handleSubmit(onSubmit)}>
+              <div className="modal-file">
+                <Button
+                  onClick={() => inputFileRef.current.click()}
+                  disabled={loading}
+                >
+                  Загрузить фото
+                </Button>
+                <input
+                  ref={inputFileRef}
+                  type="file"
+                  onChange={handleChangeFile}
+                  hidden
+                ></input>
+                {imageUrl && (
+                  <>
+                    <Button
+                      onClick={onClickRemoveImage}
+                      color="error"
+                      disabled={loading}
+                    >
+                      Удалить
+                    </Button>
+                    <img
+                      className="modal-img"
+                      src={`http://localhost:4444${imageUrl}`}
+                      alt="Uploaded"
+                    />
+                  </>
+                )}
+              </div>
               <TextField
                 className="modal-input"
                 type="text"
