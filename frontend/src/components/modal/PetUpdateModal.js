@@ -4,6 +4,7 @@ import { fetchPetsUpdate, fetchPets } from "../../redux/slices/pets";
 import { useForm } from "react-hook-form";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+
 import axios from "../../axios";
 
 import "./styles/style-petcreate.css";
@@ -149,15 +150,20 @@ const onClickRemoveImage = () => {
                 helperText={errors.age ? errors.age.message : ""}
               />
 
-              <select className="modal-form__select" >
-                <option defaultValue={gender}>{gender}</option>
-                <option>
-                    женский
-                 </option>
-                 <option>
-                    мужской
-                  </option>
-                </select>
+              <TextField
+                className="modal-input"
+                select
+                label="Пол"
+                SelectProps={{
+                  native: true,
+                }}
+                {...register("gender", { required: "Укажите возраст питомца" })}
+                error={Boolean(errors.gender)}
+                helperText={errors.gender ? errors.gender.message : ""}
+              >
+                <option value="мужской">Мужской</option>
+                <option value="женский">Женский</option>
+              </TextField>
 
               <button
                 className="btn-create"

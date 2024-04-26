@@ -4,10 +4,10 @@ import { NavLink } from "react-router-dom";
 import { fetchUsersDelete } from "../../redux/slices/users";
 
 const NavAccount = ({ fullName, id }) => {
+  const dispatch = useDispatch();
   const safeFullName = fullName || "";
   const parts = safeFullName.split(" ");
-  const name = parts[1];
-  const dispatch = useDispatch();
+  const name = parts[0];
 
   const onClickLogout = () => {
     if (window.confirm("Вы действительно хотите выйти?")) {

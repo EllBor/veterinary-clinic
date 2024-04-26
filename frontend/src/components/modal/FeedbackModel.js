@@ -50,7 +50,8 @@ function FeedbackModel({ isOpen, onClose, id}) {
             const params = { ...data, rating: rating }; 
             await dispatch(fetchReviewsCreate({ doctorId: id, userId: userId, params: params }));
             dispatch(fetchReviews(id));
-            onClose();
+            onClose(); 
+            openModal();
         } catch (error) {
             console.error('Ошибка при отправке данных:', error);
         } finally {
@@ -75,12 +76,12 @@ function FeedbackModel({ isOpen, onClose, id}) {
                                 {...register("review_text", { required: 'Напишите отзыв' })}
                             >
                             </textarea>
-                            <button className='modal-btn' onClick={openModal} type='submit'>ОТПРАВИТЬ</button>
+                            <button className='modal-btn' type='submit'>ОТПРАВИТЬ</button>
                         </form>
-                        <ThanksFeedbackModel isOpen={isModalOpen} onClose={closeModal} />
                     </div>
                 </div>
             )}
+            <ThanksFeedbackModel isOpen={isModalOpen} onClose={closeModal} />
         </div>
     );
 }

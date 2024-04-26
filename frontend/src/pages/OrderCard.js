@@ -1,7 +1,8 @@
 import React, { useState} from 'react';
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
-import DatePicker from 'react-datepicker';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 import { fetchServices, fetchDoctorsByService  } from '../redux/slices/services';
 import { fetchDoctorAppointments } from '../redux/slices/doctors';
@@ -17,6 +18,8 @@ const OrderCard = () => {
   const doctors = useSelector((state) => state.doctors);
   const [selectedService, setSelectedService] = useState('');
   const [selectedDoctor, setSelectedDoctor] = useState('');
+  const [selectedDate, setSelectedDate] = useState(null);
+const [selectedTime, setSelectedTime] = useState(null);
   const [appointments, setAppointments] = useState([]);
   const isServicesLoading = services.status === "loading";
   const isDoctorsLoading = doctors.status === "loading";
@@ -80,7 +83,24 @@ const OrderCard = () => {
                     </select>
                   )}
               </div>
-
+              <div className="order-info">
+                <DatePicker
+                  selected={selectedDate}
+                  onChange={date => setSelectedDate(date)}
+                  dateFormat="dd/MM/yyyy"
+                  placeholderText="Выберите дату"
+                />
+                <DatePicker
+                  selected={selectedTime}
+                  onChange={time => setSelectedTime(time)}
+                  showTimeSelect
+                  showTimeSelectOnly
+                  timeIntervals={15}
+                  timeCaption="Время"
+                  dateFormat="HH:mm"
+                  placeholderText="Выберите время"
+                />
+              </div>
           
                 <div className="personal">
                   <input

@@ -53,9 +53,9 @@ const Specialist = () => {
               <p className="account-specialist__time">
                 ближайшая дата приема: {nearestAppointment ? new Date(nearestAppointment.appointment_dates[0].start_date_time).toLocaleDateString() : 'запись недоступна'}
               </p>
-              <a className="account-specialist__btn" href="">
+              <NavLink className="account-specialist__btn" to="/appointment">
                 ЗАПИСАТЬСЯ
-              </a>
+              </NavLink>
               <button
                 className="account-specialist__feedback"
                 onClick={openModal}

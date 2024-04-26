@@ -1,6 +1,5 @@
 import { NavLink } from "react-router-dom";
 import React, { useState } from 'react';
-import CityModal from '../../components/modal/CityModal';
 import { selectIsAuth } from "../../redux/slices/auth";
 import { useSelector} from "react-redux";
 import { HashLink as Link } from 'react-router-hash-link';
@@ -8,15 +7,11 @@ import { HashLink as Link } from 'react-router-hash-link';
 import "./style.css";
 import logo from "../../images/logo.svg";
 import question from "../../images/question.svg";
-import map from "../../images/map.svg";
 
 
 const Header = () => {
   const isAuth = useSelector(selectIsAuth);
   const userId = useSelector((state) => state.auth.id);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
 
   return (
     <header className="header">
@@ -64,13 +59,6 @@ const Header = () => {
                 Задать вопрос
               </span>
             </li>
-            <li className="nav__list-item item-map">
-              <button className="map" onClick={openModal}>
-                <img src={map} alt="city" />
-                НОВОСИБИРСК
-              </button>
-            </li>
-            <CityModal isOpen={isModalOpen} onClose={closeModal} />
           </ul>
         </div>
       </div>

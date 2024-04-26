@@ -8,9 +8,11 @@ import TextField from "@mui/material/TextField";
 import {Navigate} from "react-router-dom";
 import { selectIsAuth, fetchRegister  } from "../redux/slices/auth";
 
+
 const Registration = () => {
   const isAuth = useSelector(selectIsAuth);
-  const [userId, setUserId] = useState(null);
+  const [value, setValue] = useState('');
+  const [userId, setUserId] = useState('');
   const dispatch = useDispatch();
   const {register, handleSubmit,  formState: {errors, isValid}} = useForm({
     defaultValue: {
@@ -25,7 +27,7 @@ const Registration = () => {
     if (data.payload && data.payload._id) {
       setUserId(data.payload._id);
     } else {
-      alert('Не удалось авторизоваться');
+      alert('Не удалось зарегистрироваться. Проверьте правильность введенных данных');
     }
   };
 
@@ -48,6 +50,7 @@ const Registration = () => {
                 error={Boolean(errors.fullName)}
                 helperText={errors.fullName ? errors.fullName.message : ""}
               ></TextField>
+
               <TextField
                 className="registration__form-input form-input"
                 type="tel"
@@ -56,6 +59,7 @@ const Registration = () => {
                 error={Boolean(errors.phone)}
                 helperText={errors.phone ? errors.phone.message : ""}
               ></TextField>
+
               <TextField
                 className="registration__form-input form-input"
                 type="password"
