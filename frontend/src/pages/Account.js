@@ -28,7 +28,7 @@ const Account = () => {
     dispatch(fetchUsers(id));
     dispatch(fetchPets(id));
     dispatch(fetchAppointment(id));
-  }, []); 
+  }, [dispatch, id]); 
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
@@ -102,7 +102,6 @@ const Account = () => {
             <div className="account__info">
               <h2 className="info__title">Мои питомцы</h2>
               <div className="info__box">
-                <p>{console.log(pets)}</p>
                 <button className="info__btn-add" onClick={openModal}>
                   ДОБАВИТЬ НОВОГО ПИТОМЦА
                 </button>
@@ -115,7 +114,7 @@ const Account = () => {
                 {(isPetsLoading ? [...Array(3)] : pets.items || []).map(
                   (obj, index) =>
                     isPetsLoading ? (
-                      <Pets key={index} isLoading={true} />
+                      <Pets key={`loading-pet-${index}`} isLoading={true} />
                     ) : (
                       <Pets
                         key={obj._id}
@@ -136,21 +135,22 @@ const Account = () => {
               <div className="account__note">
                 <h2 className="note__title">Запись на прием</h2>
                 <div className="account-container">
-                {(isAppointmentLoading
-                  ? [...Array(3)]
-                  : appointment.items || []
-                ).map((obj, index) =>
-                  isAppointmentLoading ? (
-                    <MakeAppointment key={index} isLoading={true} />
-                  ) : (
-                    <MakeAppointment
-                      key={obj._id}
-                      appointment_date_time={obj.appointment_date_time}
-                      status={obj.status}
-                      doctor={obj.doctor}
-                    />
-                  )
-                )}
+                  {(isAppointmentLoading
+                    ? [...Array(3)]
+                    : appointment.items || []
+                  ).map((obj, index) =>
+                    isAppointmentLoading ? (
+                      <MakeAppointment  key={`loading-appointment-${index}`} isLoading={true} />
+                    ) : (
+                      <MakeAppointment
+                        key={obj._id}
+                        appointmentDate={new Date(obj.appointmentDateTime).toLocaleDateString()}
+                        appointmentTime={new Date(obj.appointmentDateTime).toLocaleTimeString()}
+                        petName={obj.petName}
+                        doctor={obj.doctor}
+                      />
+                    )
+                  )}
                 </div>
               </div>
             </div>

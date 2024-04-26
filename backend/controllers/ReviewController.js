@@ -30,7 +30,7 @@ export const getAll = async (req, res) => {
         message: "Врач не найден",
       });
     }
-    const reviews = await ReviewsModel.find({ doctor: doctorId });
+    const reviews = await ReviewsModel.find({ doctor: doctorId }).populate("user").exec();
 
     if (reviews.length === 0) {
       return res.status(404).json({

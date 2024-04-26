@@ -11,3 +11,21 @@
     padding-bottom: 50px;
     padding-top: 50px;
 }
+
+.modal-content{
+    text-align: center;
+}
+
+.modal-title{
+    font-size: 30px;
+    margin-bottom: 30px;
+    margin-top: 12px;
+}
+
+.close {
+    position: absolute;
+    top: 20px;
+    right: 28px;
+    cursor: pointer;
+    font-size: 30px;
+}

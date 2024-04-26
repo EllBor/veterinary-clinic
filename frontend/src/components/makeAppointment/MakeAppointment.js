@@ -1,5 +1,5 @@
 import doc_foto from "../../images/doc-foto.png";
-const MakeAppointment = ({appointment_date_time, doctor}) => {
+const MakeAppointment = ({appointmentDate, appointmentTime, petName, doctor}) => {
     return ( 
         <div className="note__card">
         <div className="note__card-foto card-foto">
@@ -20,11 +20,11 @@ const MakeAppointment = ({appointment_date_time, doctor}) => {
 
         <div className="note__card-pet">
           <h4 className="note__pet-title">Питомец</h4>
-          <p>Имя питомца</p>
+          <p>{petName}</p>
           <h4 className="note__pet-title">Дата</h4>
-          <p>{appointment_date_time}</p>
+          <p>{appointmentDate}</p>
           <h4 className="note__pet-title">Время</h4>
-          <p>15:45</p>
+          <p>{appointmentTime}</p>
         </div>
       </div>
      );

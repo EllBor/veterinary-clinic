@@ -2,36 +2,34 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "../../axios";
 
 export const fetchAppointment = createAsyncThunk("auth/fetchAppointment", async (userId) => {
-  const { data } = await axios.post(`/users/${userId}/appointments`);
+  const { data } = await axios.get(`/users/${userId}/appointments`);
   return data;
 });
 
 const initialState = {
-  data: null,
-  status: "loading",
+  appointment: {
+    items: [],
+    status: 'loading',
+  }
 };
 
 const appointmentSlice = createSlice({
   name: "appointment",
   initialState,
-  reducers: {
-    logout: (state) => {
-      state.data = null;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchAppointment.pending, (state) => {
         state.status = "loading";
-        state.data = null;
+        state.error = null;
       })
       .addCase(fetchAppointment.fulfilled, (state, action) => {
         state.status = "loaded";
-        state.data = action.payload;
+        state.items = action.payload;
       })
-      .addCase(fetchAppointment.rejected, (state) => {
-        state.status = "error";
-        state.data = null;
+      .addCase(fetchAppointment.rejected, (state, action) => {
+        state.status = 'error';
+        state.error = action.error.message;
       });
   },
 });

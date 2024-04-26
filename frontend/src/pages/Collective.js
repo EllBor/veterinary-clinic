@@ -16,7 +16,7 @@ const Collective = () => {
   
   React.useEffect(() => {
     dispatch(fetchDoctors());
-  }, []);
+  }, [dispatch]);
 
   return (
     <main>

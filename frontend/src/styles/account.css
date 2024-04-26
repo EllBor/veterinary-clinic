@@ -203,12 +203,16 @@
 
 .note__card{
     display: flex;
+    flex: 0 0 900px;
+    height: auto;
     justify-content: space-around;
+    gap: 40px;
     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
     border-radius: 20px;
     padding: 30px;
     font-size: 20px;
-    height: 300px;
+    margin-top: 12px;
+    margin-bottom: 20px;
 }
 
 .note__title{

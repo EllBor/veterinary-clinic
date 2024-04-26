@@ -12,3 +12,7 @@
 .rating-mini > span.active {
 	color: #7893F5;
 }
+
+.feedback__rating-date{
+	margin-bottom: 20px;
+}

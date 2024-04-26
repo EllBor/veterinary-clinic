@@ -33,7 +33,7 @@ const Specialist = () => {
     dispatch(fetchReviews(id));
     dispatch(fetchOneDoctor(id));
     dispatch(fetchDoctorAppointments(id));
-  }, []);
+  }, [dispatch, id]);
 
   const settings = {
     dots: true,
@@ -130,8 +130,8 @@ const Specialist = () => {
                       key={obj._id}
                       review_text={obj.review_text}
                       rating={obj.rating}
-                      publication_date={obj.publication_date}
-                      user={obj.user}
+                      publication_date={new Date(obj.publication_date).toLocaleDateString()}
+                      user={obj.user.fullName}
                       level_education={obj.level_education}
                     />
                   )

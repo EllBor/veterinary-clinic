@@ -2,7 +2,6 @@ import "./styles/style.css";
 
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useDispatch } from "react-redux";
 
 import Header from "./components/header/Header";
 import Footer from "./components/footer/Footer";

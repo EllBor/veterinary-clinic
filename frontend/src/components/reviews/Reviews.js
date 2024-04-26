@@ -4,6 +4,9 @@ import RatingResult from "../rating/RatingResult";
 import "../rating/style-ratingresult.css"
 
 const Reviews = ({review_text, rating, publication_date, user}) => {
+  const safeFullName = user || "";
+  const parts = safeFullName.split(" ");
+  const name = parts[0];
     return ( 
         <div className="feedback__card-item">
         <div className="feedback__card-foto">
@@ -11,13 +14,14 @@ const Reviews = ({review_text, rating, publication_date, user}) => {
         </div>
         <div className="feedback__card-main">
           <h4 className="feedback__main-title">Пользоваель</h4>
-          <p className="feedback__main-name">Виктория</p>
+          <p className="feedback__main-name">{name}</p>
           <h4 className="feedback__main-title">Отзыв</h4>
           <p className="feedback__main-comments">
             {review_text}
           </p>
         </div>
         <div className="feedback__rating">
+          <p className="feedback__rating-date">{publication_date}</p>
           <RatingResult rating={rating} />
         </div>
       </div>

@@ -115,7 +115,6 @@ export const getOne = async (req, res) => {
   try {
     const usersId = req.params.id;
     const user = await UserModel.findById(usersId);
-
     if (!user) {
       return res.status(404).json({
         message: "Пользоваель не найден",

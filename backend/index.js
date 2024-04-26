@@ -74,7 +74,7 @@ app.get("/services/:id/appointments", ServicesController.getAllAppointments);
 app.get("/services", ServicesController.getAllServices);
 
 //вывести запись на приема в лчином кабинете пользвоателя
-app.get("/users/:userId/appointments", AppointmentController.getAll);
+app.get("/users/:id/appointments", AppointmentController.getAll);
 
 app.listen(4444, (err) => {
   if (err) {
