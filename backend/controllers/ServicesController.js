@@ -1,3 +1,5 @@
+import mongoose from "mongoose";
+
 import DoctorServiceModel from "../models/DoctorService.js";
 import DoctorModel from "../models/Doctor.js";
 import AppointmentModel from "../models/Appointments.js";
@@ -67,6 +69,25 @@ export const getAllServices = async (req, res) => {
     console.log(error);
     res.status(500).json({
       message: "Ошибка при получении информации о врачах",
+    });
+  }
+};
+
+export const getDoctorsByService = async (req, res) => {
+  try {
+    const serviceId = req.params.serviceId;
+
+    const doctorServices = await DoctorServiceModel.find({
+      service_id: new mongoose.Types.ObjectId(serviceId)
+    }).populate('doctor_id');
+
+    const doctors = doctorServices.map(ds => ds.doctor_id);
+
+    res.json(doctors);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Ошибка при извлечении докторов",
     });
   }
 };

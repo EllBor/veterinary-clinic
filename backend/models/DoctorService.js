@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const DoctorServiceSchema = new mongoose.Schema({
     doctor_id: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Doctor'
+        ref: 'Doctors'
     },
     service_id: {
         type: mongoose.Schema.Types.ObjectId,

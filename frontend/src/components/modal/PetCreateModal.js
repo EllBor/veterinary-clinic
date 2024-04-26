@@ -87,14 +87,14 @@ const PetCreateModal = ({ isOpen, onClose, id }) => {
                                 helperText={errors.species ? errors.species.message : ""}
                             />
 
-                            <TextField 
+                            {/* <TextField 
                                 className='modal-input'
                                 type="text"
                                 label='Пол'
                                 {...register("gender", { required: 'Укажите пол питомца' })}
                                 error={Boolean(errors.gender)}
                                 helperText={errors.gender ? errors.gender.message : ""}
-                            />
+                            /> */}
 
                             <TextField 
                                 className='modal-input'
@@ -113,6 +113,16 @@ const PetCreateModal = ({ isOpen, onClose, id }) => {
                                 error={Boolean(errors.age)}
                                 helperText={errors.age ? errors.age.message : ""}
                             />
+
+                            <select className="modal-form__select" >
+                                <option value="">Выберите пол</option>
+                                <option>
+                                    женский
+                                </option>
+                                <option>
+                                    мужской
+                                </option>
+                            </select>
 
                             <button className='btn-create' type='submit' disabled={!isValid || loading}>Добавить</button>
                         </form>

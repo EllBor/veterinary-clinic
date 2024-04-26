@@ -149,6 +149,16 @@ const onClickRemoveImage = () => {
                 helperText={errors.age ? errors.age.message : ""}
               />
 
+              <select className="modal-form__select" >
+                <option defaultValue={gender}>{gender}</option>
+                <option>
+                    женский
+                 </option>
+                 <option>
+                    мужской
+                  </option>
+                </select>
+
               <button
                 className="btn-create"
                 type="submit"

@@ -28,7 +28,7 @@ const Account = () => {
     dispatch(fetchUsers(id));
     dispatch(fetchPets(id));
     dispatch(fetchAppointment(id));
-  }, []);
+  }, []); 
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);

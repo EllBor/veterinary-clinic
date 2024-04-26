@@ -1,4 +1,10 @@
+import React, { useState} from 'react';
 import { NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import DatePicker from 'react-datepicker';
+
+import { fetchServices, fetchDoctorsByService  } from '../redux/slices/services';
+import { fetchDoctorAppointments } from '../redux/slices/doctors';
 
 import card_success from "../images/card-success.svg";
 import card_mir from "../images/card-mir.svg";
@@ -6,6 +12,31 @@ import master_card from "../images/master-card.svg";
 import visa from "../images/visa.svg";
 
 const OrderCard = () => {
+  const dispatch = useDispatch();
+  const services = useSelector((state) => state.services);
+  const doctors = useSelector((state) => state.doctors);
+  const [selectedService, setSelectedService] = useState('');
+  const [selectedDoctor, setSelectedDoctor] = useState('');
+  const [appointments, setAppointments] = useState([]);
+  const isServicesLoading = services.status === "loading";
+  const isDoctorsLoading = doctors.status === "loading";
+
+ React.useEffect(() => {
+    dispatch(fetchServices());
+  }, [dispatch]);
+
+  const handleServiceChange = (event) => {
+    setSelectedService(event.target.value);
+    setSelectedDoctor('');
+    if (event.target.value) {
+      dispatch(fetchDoctorsByService(event.target.value)); 
+    }
+  };
+
+  const handleDoctorChange = (event) => {
+    setSelectedDoctor(event.target.value);
+  };
+
   return (
     <main>
       <section className="appointment">
@@ -17,6 +48,40 @@ const OrderCard = () => {
                 НАЗАД
               </NavLink>
               <form className="payment__form">
+
+              <div className="form__select">
+                <select className="form__select-item" value={selectedService} onChange={handleServiceChange}>
+                    <option value="">Выберите услугу</option>
+                    {(isServicesLoading ? [...Array(3)] : services.items || []).map((obj, index) => 
+                    isServicesLoading ? (
+                      <option key={index}>
+                        Услгу нет
+                      </option>
+                    ) : (
+                      <option key={index} value={obj._id}>
+                      {obj.service_name}
+                    </option>
+                    ))}
+                  </select>
+
+                  {selectedService && (
+                    <select className='form__select-item' value={selectedDoctor} onChange={handleDoctorChange}>
+                        <option value="">Выберите услугу</option>
+                      {(isServicesLoading ? [...Array(3)] : services.items || []).map((obj, index) => 
+                      isServicesLoading ? (
+                        <option key={index}>
+                          Услгу нет
+                        </option>
+                      ) : (
+                        <option key={index} value={obj._id}>
+                        {obj.fullName}
+                      </option>
+                      ))}
+                    </select>
+                  )}
+              </div>
+
+          
                 <div className="personal">
                   <input
                     className="personal__input"
@@ -41,7 +106,7 @@ const OrderCard = () => {
                   className="order-area"
                   placeholder="Кратко опишите проблему"
                 ></textarea>
-              </form>
+
               <div className="order__card">
                 <div className="order__card-top">
                   <div className="order__top-left">
@@ -82,6 +147,7 @@ const OrderCard = () => {
               <button className="top__slider-btn order-btn"  type="submit" >
                 ЗАПИСАТЬСЯ
               </button>
+              </form>
             </div>
           </div>
         </div>
