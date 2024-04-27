@@ -19,11 +19,12 @@ const PetUpdateModal = ({
   gender,
   species,
   age,
-  avatarUrl,
+  avatarUrll,
 }) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = React.useState(false);
-  const [imageUrl, setImageUrl] = useState("");
+  const [avatarUrl, setImageUrl] = useState(avatarUrll);
+
   const {
     register,
     handleSubmit,
@@ -53,8 +54,10 @@ const PetUpdateModal = ({
   const onSubmit = async (data) => {
     try {
       setLoading(true);
+      const newData = {...data, avatarUrl};
+      console.log(newData);
       await dispatch(
-        fetchPetsUpdate({ userId: id, petId: petId, params: data })
+        fetchPetsUpdate({ userId: id, petId: petId, params: newData })
       );
       await dispatch(fetchPets(id));
       onClose();
@@ -89,7 +92,7 @@ const PetUpdateModal = ({
                     onChange={handleChangeFile}
                     hidden
                   ></input>
-                  {imageUrl && (
+                  {avatarUrl && (
                     <>
                       <Button
                         onClick={onClickRemoveImage}
@@ -100,7 +103,7 @@ const PetUpdateModal = ({
                       </Button>
                       <img
                         className="modal-img"
-                        src={`http://localhost:4444${imageUrl}`}
+                        src={`http://localhost:4444${avatarUrl}`}
                         alt="Uploaded"
                       />
                     </>

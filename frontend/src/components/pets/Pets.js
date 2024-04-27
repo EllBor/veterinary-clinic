@@ -1,12 +1,14 @@
-import pet_foto from "../../images/pet-foto.png";
-import pdf from "../../images/pdf.png";
-import trash from "../../images/trash.svg";
-import update from "../../images/update.svg";
-
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { fetchPetsDelete, fetchPets } from "../../redux/slices/pets";
 import PetUpdateModal from "../modal/PetUpdateModal";
+
+import foto from "../../images/account-foto.png";
+import pdf from "../../images/pdf.png";
+import trash from "../../images/trash.svg";
+import update from "../../images/update.svg";
+
+
 
 const Pets = ({
   userId,
@@ -36,9 +38,8 @@ const Pets = ({
   return (
     <div className="info__card-pet">
       <div className="info__card-foto card-foto">
-        <img src={avatarUrl} alt="" />
+        <img className= "info__card-img" src={avatarUrl ? `http://localhost:4444${avatarUrl}` : foto} alt="" />
       </div>
-
       <div className="info__card-info">
         <h3 className="info__card-main">{name}</h3>
         <h4 className="info__card-title">Тип</h4>

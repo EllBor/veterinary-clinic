@@ -1,16 +1,16 @@
-import feedback_foto from "../../images/feedback-foto.svg";
+import foto from "../../images/account-foto.png";
 
 import RatingResult from "../rating/RatingResult";
 import "../rating/style-ratingresult.css"
 
-const Reviews = ({review_text, rating, publication_date, user}) => {
-  const safeFullName = user || "";
+const Reviews = ({review_text, rating, publication_date, userfullName, userAvatar}) => {
+  const safeFullName = userfullName || "";
   const parts = safeFullName.split(" ");
   const name = parts[0];
     return ( 
         <div className="feedback__card-item">
         <div className="feedback__card-foto">
-          <img src={feedback_foto} alt="" />
+          <img className="feedback__foto-img" src={userAvatar ? `http://localhost:4444${userAvatar}` : foto} alt="" />
         </div>
         <div className="feedback__card-main">
           <h4 className="feedback__main-title">Пользоваель</h4>

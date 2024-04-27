@@ -131,7 +131,8 @@ const Specialist = () => {
                       review_text={obj.review_text}
                       rating={obj.rating}
                       publication_date={new Date(obj.publication_date).toLocaleDateString()}
-                      user={obj.user.fullName}
+                      userfullName={obj.user.fullName}
+                      userAvatar={obj.user.avatarUrl}
                       level_education={obj.level_education}
                     />
                   )

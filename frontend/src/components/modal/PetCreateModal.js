@@ -12,7 +12,7 @@ import "./styles/style-petcreate.css";
 const PetCreateModal = ({ isOpen, onClose, id }) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
-  const [imageUrl, setImageUrl] = useState("");
+  const [avatarUrl, setImageUrl] = useState("");
 
   const {
     register,
@@ -43,8 +43,9 @@ const PetCreateModal = ({ isOpen, onClose, id }) => {
   const onSubmit = async (data) => {
     try {
       setLoading(true);
+      const newData={...data, avatarUrl};
       console.log(data);
-      await dispatch(fetchPetsCreate({ userId: id, params: data }));
+      await dispatch(fetchPetsCreate({ userId: id, params: newData }));
       dispatch(fetchPets(id));
       onClose();
     } catch (error) {
@@ -78,7 +79,7 @@ const PetCreateModal = ({ isOpen, onClose, id }) => {
                     onChange={handleChangeFile}
                     hidden
                   ></input>
-                  {imageUrl && (
+                  {avatarUrl && (
                     <>
                       <Button
                         onClick={onClickRemoveImage}
@@ -89,7 +90,7 @@ const PetCreateModal = ({ isOpen, onClose, id }) => {
                       </Button>
                       <img
                         className="modal-img"
-                        src={`http://localhost:4444${imageUrl}`}
+                        src={`http://localhost:4444${avatarUrl}`}
                         alt="Uploaded"
                       />
                     </>

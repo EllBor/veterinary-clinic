@@ -15,12 +15,13 @@ const UserUpdateModal = ({
   name,
   surname,
   patronymic,
-  avatarUrl,
   aboutUser,
+  avatarUrll
 }) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = React.useState(false);
-  const [imageUrl, setImageUrl] = useState("");
+  const [avatarUrl, setImageUrl] = useState(avatarUrll);
+
   const {
     register,
     handleSubmit,
@@ -50,7 +51,18 @@ const UserUpdateModal = ({
   const onSubmit = async (data) => {
     try {
       setLoading(true);
-      await dispatch(fetchUsersUpdate({ userId: id, params: data }));
+      const fullName = data.name + " " + data.surname + " " + data.patronymic;
+      phone =  data.phone;
+      aboutUser = data.aboutUser;
+
+      const fields = {
+        fullName,
+        phone,
+        aboutUser,
+        avatarUrl
+      };
+
+      await dispatch(fetchUsersUpdate({ userId: id, params: fields }));
       await dispatch(fetchUsers(id));
       onClose();
     } catch (error) {
@@ -84,7 +96,7 @@ const UserUpdateModal = ({
                     onChange={handleChangeFile}
                     hidden
                   ></input>
-                  {imageUrl && (
+                  {avatarUrl && (
                     <>
                       <Button
                         onClick={onClickRemoveImage}
@@ -95,7 +107,7 @@ const UserUpdateModal = ({
                       </Button>
                       <img
                         className="modal-img"
-                        src={`http://localhost:4444${imageUrl}`}
+                        src={`http://localhost:4444${avatarUrl}`}
                         alt="Uploaded"
                       />
                     </>

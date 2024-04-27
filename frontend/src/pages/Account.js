@@ -50,16 +50,15 @@ const Account = () => {
             {(isUsersLoading ? [...Array(3)] : users.items || []).map(
               (obj, index) =>
                 isUsersLoading ? (
-                  <UserCard key={index} isLoading={true} />
+                  <UserCard key={`loading-usercard-${index}`} isLoading={true} />
                 ) : (
                   <UserCard
                     key={obj._id}
                     id={id}
                     phone={obj.phone}
-                    email={obj.email}
-                    avatarUrl={obj.avatarUrl}
                     fullName={obj.fullName}
                     aboutUser={obj.aboutUser}
+                    avatarUrl={obj.avatarUrl}
                   />
                 )
             )}

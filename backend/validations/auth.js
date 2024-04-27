@@ -6,6 +6,15 @@ export const registerValidation = [
   ),
   body("fullName", "Имя должно быть больше 3 символов").isLength({ min: 3 }),
   body("phone", "Некорректный номер телефона").isMobilePhone(),
+
+];
+
+export const updateValidation = [
+  body("fullName", "Имя должно быть больше 3 символов").isLength({ min: 3 }),
+  body("phone", "Некорректный номер телефона").isMobilePhone(),
+  body("avatarUrl", "Неверный URL").optional().isURL(),
+  body("aboutUser", "О себе должно быть больше 3 символов").isLength({ min: 3 }),
+  body("email", "Некорректная почта").isEmail(),
 ];
 
 export const createValidation = [

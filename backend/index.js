@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import multer from "multer";
 import cors from "cors";
 
-import { registerValidation } from "./validations/auth.js";
+import { registerValidation, updateValidation, createValidation } from "./validations/auth.js";
 
 import checkAuth from "./utils/checkAuth.js";
 
@@ -32,7 +32,7 @@ const storage = multer.diskStorage({
     cb(null, "uploads");
   },
   filename: (_, file, cb) => {
-    cb(null, file.originalname);
+    cb(null, file.originalname);//нужно заменить имя файла
   },
 });
 
@@ -44,7 +44,7 @@ app.use("/uploads", express.static("uploads"));
 
 app.post("/upload", checkAuth, upload.single("image"), (req, res) => {
   res.json({
-    url: `/uploads/${req.file.originalname}`,
+    url: `/uploads/${req.file.originalname}`, //нужно заменить имя файла
   });
 });
 
@@ -53,7 +53,7 @@ app.post("/auth/register", registerValidation, UserController.register);
 app.get("/auth/me", checkAuth, UserController.getMe);
 
 app.delete("/users/:id", UserController.remove);
-app.patch("/users/:id", UserController.update);
+app.patch("/users/:id", updateValidation, UserController.update);
 app.get("/users/:id", UserController.getOne);
 
 app.get("/doctor", DoctorController.getAll);
@@ -64,9 +64,9 @@ app.get("/doctor/:id/reviews", ReviewController.getAll);
 app.post("/doctor/:doctorId/users/:userId/reviews", ReviewController.create);
 app.get('/doctor/services/:serviceId', ServicesController.getDoctorsByService);
 
-app.post("/users/:userId/pets", checkAuth, PetsController.create);
-app.delete("/users/:userId/pets/:id", PetsController.remove);
-app.patch("/users/:userId/pets/:id", checkAuth, PetsController.update);
+app.post("/users/:userId/pets", checkAuth, createValidation, PetsController.create);
+app.delete("/users/:userId/pets/:id", checkAuth, PetsController.remove);
+app.patch("/users/:userId/pets/:id", checkAuth, createValidation, PetsController.update);
 app.get("/users/:id/pets", checkAuth, PetsController.getAll);
 app.get("/users/:userId/pets/:id", checkAuth, PetsController.getOne);
 

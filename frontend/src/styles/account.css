@@ -133,6 +133,12 @@
     margin-bottom: 20px;
 }
 
+.info__card-img{
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    object-fit: cover;
+}
 
 .info__card-title{
     margin-bottom: 10px;
