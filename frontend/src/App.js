@@ -13,7 +13,7 @@ import Collective from "./pages/Collective";
 import Account from "./pages/Account";
 import Stocks from "./pages/Stocks";
 import Appointment from "./pages/Appointment";
-import ServiceTherapy from "./pages/ServiceTherapy";
+import ServiceTherapy from "./pages/services/ServiceTherapy";
 import Specialist from "./pages/Specialist";
 import Login from "./pages/Login";
 import Registration from "./pages/Registration";

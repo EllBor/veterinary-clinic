@@ -54,3 +54,24 @@ export const getDoctorAndNearestAppointment = async (req, res) => {
       res.status(500).json({ message: 'Ошибка сервера' });
   }
 };
+
+export const getAllDoctorsWithAppointments = async (req, res) => {
+    try {
+      const doctors = await DoctorModel.find().lean(); 
+  
+      const doctorsWithAppointments = await Promise.all(doctors.map(async (doctor) => {
+        const closestAppointmentDate = doctor.appointment_dates
+          .sort((a, b) => a.start_date_time - b.start_date_time)
+          .map((appointment) => appointment.start_date_time)[0];
+        return {
+          ...doctor,
+          closestAppointmentDate,
+        };
+      }));
+  
+      res.status(200).json({doctorsWithAppointments});
+    } catch (error) {
+      console.error("Error fetching doctors with appointments:", error);
+      throw error;
+    }
+  };

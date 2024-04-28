@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import multer from "multer";
+import { v4 as uuidv4 } from 'uuid';
 import cors from "cors";
 
 import { registerValidation, updateValidation, createValidation } from "./validations/auth.js";
@@ -32,7 +33,10 @@ const storage = multer.diskStorage({
     cb(null, "uploads");
   },
   filename: (_, file, cb) => {
-    cb(null, file.originalname);//нужно заменить имя файла
+    const originalname = file.originalname;
+    const extension = originalname.split(".").pop(); 
+    const uniqueFileName = `${uuidv4()}.${extension}`; 
+    cb(null, uniqueFileName);
   },
 });
 
@@ -44,7 +48,7 @@ app.use("/uploads", express.static("uploads"));
 
 app.post("/upload", checkAuth, upload.single("image"), (req, res) => {
   res.json({
-    url: `/uploads/${req.file.originalname}`, //нужно заменить имя файла
+    url: `/uploads/${req.file.filename}`,
   });
 });
 
@@ -59,6 +63,7 @@ app.get("/users/:id", UserController.getOne);
 app.get("/doctor", DoctorController.getAll);
 app.get("/doctor/:id", DoctorController.getOne);
 app.get("/doctor/:id/appointments", DoctorController.getDoctorAndNearestAppointment);
+app.get("/doctors/appointments", DoctorController.getAllDoctorsWithAppointments);
 
 app.get("/doctor/:id/reviews", ReviewController.getAll);
 app.post("/doctor/:doctorId/users/:userId/reviews", ReviewController.create);

@@ -9,6 +9,10 @@
 
 }
 
+.service-therapy__info-inner{
+    width: 900px;
+}
+
 .service-therapy__info-title{
     margin-top: 55px;
     margin-bottom: 40px;
@@ -21,12 +25,12 @@
 }
 
 .service-therapy__item-name{
-    font-size: 24px;
-    max-width: 260px;
+    font-size: 22px;
+    font-weight: 400;
 }
 
 .service-therapy__item-date{
-    font-size: 20px;
+    font-size: 18px;
     margin-top: 10px;
 }
 
@@ -36,22 +40,13 @@
     cursor: pointer;
 }
 
-.service-therapy__item:hover{
-    color: #7893F5;
-}
 
-.service-therapy__slider-item{
-    display: flex;
-    align-items: flex-start;
-    gap: 20px;
-    width: 350px;
-    height: 150px;
-    border: none;
-    border-radius: 20px;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
-    padding-top: 30px;
-    padding-left: 30px;
-    cursor: pointer;
+
+.service-therapy__img{
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
 .service-therapy__allservices-item{
@@ -108,7 +103,7 @@
 }
 
 .service-therapy__services-title{
-    margin-bottom: 40px;
+    margin-bottom: 60px;
     /* margin-left: -124px; */
 }
 
@@ -119,11 +114,13 @@
 }
 
 .service-therapy__item-title{
-    font-size: 30px;
+    font-size: 18px;
     font-weight: 400;
 }
 
 .service-therapy__item-img{
+    width: 100px;
+    height: 100px;
     margin-left: 160px;
 }
 
@@ -137,8 +134,8 @@
 }
 
 .service-therapy__slider-item:hover{
-    background-color: #7893F5;
-    color: #FFF;
+    background-color:  #E5E4E2;
+    border: solid 1px #000;
 }
 
 .service-therapy__price-item{
@@ -149,6 +146,76 @@
     border-radius: 15px;
 }
 
+.service-therapy__item-box{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
 .service-therapy__price-item:nth-child(odd){
     background-color: #EDE9E8;
 }
+
+.service-therapy__slider {
+    height: 220px;
+    width: 1200px;
+    margin-bottom: 30px;
+}
+  
+.service-therapy__slider-item{
+    display: flex;
+    /* align-items: flex-start; */
+    width: 320px;
+    height: 205px;
+    background-color: #FFF;
+    border: solid 1px #C3B9B5;
+    border-radius: 20px;
+    padding-top: 26px;
+    padding-left: 30px;
+    margin-right: 20px;
+    cursor: pointer;
+}
+.service-therapy__doc-slider-item{
+    display: flex;
+    gap: 20px;
+    width: 350px;
+    height: 150px;
+    border: solid 1px #C3B9B5;
+    border-radius: 20px;
+    padding-top: 26px;
+    padding-left: 30px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.service-therapy__doc-slider-item:hover{
+    background-color:  #E5E4E2;
+}
+
+.service-therapy__doc-slider {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+    max-width: 920px;
+    gap: 20px;
+    padding: 0 10px; 
+  }
+  
+/* Стилизация самого скроллбара */
+.service-therapy__doc-slider::-webkit-scrollbar {
+    width: 12px;  
+    height: 15px;
+}
+
+/* Стилизация трека скроллбара */
+.service-therapy__doc-slider::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Стилизация ползунка скроллбара */
+.service-therapy__doc-slider::-webkit-scrollbar-thumb {
+    background-color: #7893f5;
+    border-radius: 6px; 
+    border: 3px solid #f1f1f1; 
+}
+  

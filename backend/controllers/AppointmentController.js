@@ -34,13 +34,6 @@ export const getAll = async (req, res) => {
           });
       }
 
-      // const appointments = await AppointmentsModel.find({ user: userId, doctor: doctorId, pet: petId });
-      // if (!appointments || appointments.length === 0) {
-      //     return res.status(404).json({
-      //         message: "Записи на приём не найдены",
-      //     });
-      // }
-
       const response = appointments.map((_,index)=> ({
           appointmentDateTime: appointments[index].appointment_date_time,
           doctor: doctor[index].fullName,

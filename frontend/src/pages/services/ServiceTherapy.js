@@ -1,13 +1,34 @@
-import foto_doc_service from "../images/foto-doc-service.png";
-import therapy from "../images/therapy.svg";
-import therapy_1 from "../images/therapy-1.png";
+import React from "react";
+import { NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import Flickity from "react-flickity-component";
+import { fetchDoctorsWithAppointments } from "../../redux/slices/doctors";
+import DoctorSlider from "../../components/doctorSlider/DoctorSlider";
+import {services as servicesList} from "../../helpers/servicesList";
+import  ServicesSlider  from "../../components/servicesSlider/ServicesSlider";
+
+import doc_foto from "../../images/doc-foto.png";
+import therapy from "../../images/therapy.svg";
+import therapy_1 from "../../images/therapy-1.png";
+
+import "../../styles/style-therapy.css";
+import "../../styles/flickity.css";
 
 const ServiceTherapy = () => {
+  const dispatch = useDispatch();
+  const doctors = useSelector((state) => state.doctors.doctorsWithAppointments);
+  const isDoctorsLoading = doctors.status === "loading";
+
+  React.useEffect(() => {
+    dispatch(fetchDoctorsWithAppointments());
+  }, [dispatch]);
+
   return (
     <main>
       <section className="service-therapy">
         <div className="container">
           <div className="service-therapy__inner">
+
             <nav className="service-therapy__nav">
               <h1 className="service-therapy__title">Терапия</h1>
               <ul className="service-therapy__nav-list">
@@ -17,56 +38,33 @@ const ServiceTherapy = () => {
             </nav>
 
             <div className="service-therapy__info">
-              <a className="appointment__back back" href="#">
+              <NavLink className="appointment__back back" to="/">
                 НАЗАД
-              </a>
+              </NavLink>
               <div className="service-therapy__info-inner">
                 <h2 className="service-therapy__info-title">
                   Записаться на прием к терапевту
+                  {console.log(doctors)}
                 </h2>
-                <div className="service-therapy__slider">
-                  <div className="service-therapy__slider-item">
-                    <img
-                      className="service-therapy__img"
-                      src={foto_doc_service}
-                      alt=""
-                    />
-                    <div className="service-therapy__item-box">
-                      <p className="service-therapy__item-name">
-                        Ивантелеев Иван Константинович
-                      </p>
-                      <p className="service-therapy__item-date">
-                        ближайшая дата приема: 29.08.19
-                      </p>
-                    </div>
-                  </div>
-                  {/* <!-- <div className="service-therapy__slider-item">
-                                <img  src={foto_doc_service}alt="">
-                                <div className="service-therapy__item-box">
-                                    <p className="service-therapy__item-name">
-                                        Ивантелеев
-                                        Иван Константинович
-                                    </p>
-                                    <p className="service-therapy__item-date">
-                                        ближайшая дата приема:
-                                        29.08.19
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div className="service-therapy__slider-item">
-                                <img src={foto_doc_service} alt=""/>
-                                <div className="service-therapy__item-box">
-                                    <p className="service-therapy__item-name">
-                                        Ивантелеев
-                                        Иван Константинович
-                                    </p>
-                                    <p className="service-therapy__item-date">
-                                        ближайшая дата приема:
-                                        29.08.19
-                                    </p>
-                                </div>
-                            </div> --> */}
+                <div className="service-therapy__doc-slider">
+                    {(isDoctorsLoading
+                    ? Array.from({ length: 3 })
+                    : doctors || []
+                  ).map((obj, index) =>
+                    isDoctorsLoading ? (
+                      <DoctorSlider
+                        key={`loading-doctor-${index}`}
+                        isLoading={true}
+                      />
+                    ) : (
+                      <DoctorSlider
+                        key={obj._id}
+                        avatarUrl={doc_foto}
+                        fullName={obj.fullName}
+                        closestAppointmentDate={obj.closestAppointmentDate}
+                      />
+                    )
+                  )}
                 </div>
                 <div className="service-therapy__info-part">
                   <h2 className="service-therapy__part-title">
@@ -166,7 +164,7 @@ const ServiceTherapy = () => {
 
                 <div className="service-therapy__price">
                   <h2 className="service-therapy__price-title">Цена</h2>
-                  <p className="service-therapy__price-text">
+                  <div className="service-therapy__price-text">
                     Цены указаны без учета расходоных материалов
                     <div className="service-therapy__price-list">
                       <div className="service-therapy__price-item">
@@ -204,7 +202,7 @@ const ServiceTherapy = () => {
                         <span>320 ₽</span>
                       </div>
                     </div>
-                  </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -214,16 +212,25 @@ const ServiceTherapy = () => {
         <div className="service-therapy__allservices">
           <h2 className="service-therapy__services-title">Все услуги</h2>
           <div className="service-therapy__allservices-slider">
-            <div className="service-therapy__allservices-item service-therapy__all">
-              <a className="service-therapy__item-link" href="">
-                <h3 className="service-therapy__item-title">Терапия</h3>
-                <img
-                  className="service-therapy__item-img"
-                  src={therapy}
-                  alt=""
-                />
-                <span>26 услуг</span>
-              </a>
+            <div className="service-therapy__slider">
+                <Flickity
+                   className="Slider"
+                   elementType="div"
+                   disableImagesLoaded="false"
+                   reloadOnUpdate
+                   static
+                   options={{
+                     pageDots: false,
+                     wrapAround: true,
+                     freeScroll: true,
+                   }}
+              >
+                {servicesList.map((project) => {
+                  return (
+                    <ServicesSlider key={project.id} title ={project.title} img={project.img} service_num={project.service_num} />
+                  );
+                })}
+              </Flickity>
             </div>
           </div>
         </div>

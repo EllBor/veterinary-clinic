@@ -13,11 +13,17 @@ export const fetchOneDoctor = createAsyncThunk('doctors/fetchOneDoctor', async (
 
 export const fetchDoctorAppointments = createAsyncThunk('doctors/fetchDoctorAppointments', async (id) => {
     const {data} = await axios.get(`/doctor/${id}/appointments`);
-    console.log(data);
+    return data;
+})
+
+export const fetchDoctorsWithAppointments = createAsyncThunk('doctors/fetchDoctorsWithAppointments', async () => {
+    const {data} = await axios.get(`/doctors/appointments`);
+    console.log("data", data);
     return data;
 })
 
 const initialState = {
+    doctorsWithAppointments: [],
     doctors: {
         items: [],
         status: 'loading',
@@ -39,6 +45,18 @@ const doctorsSlice = createSlice({
                 state.items = action.payload;
             })
             .addCase(fetchDoctors.rejected, (state, action) => {
+                state.status = 'error';
+                state.error = action.error.message;
+            })
+            .addCase(fetchDoctorsWithAppointments.pending, (state) => {
+                state.status = 'loading';
+                state.error = null;
+            })
+            .addCase(fetchDoctorsWithAppointments.fulfilled, (state, action) => {
+                state.status = 'loaded';
+                state.doctorsWithAppointments = action.payload.doctorsWithAppointments;
+            })
+            .addCase(fetchDoctorsWithAppointments.rejected, (state, action) => {
                 state.status = 'error';
                 state.error = action.error.message;
             })

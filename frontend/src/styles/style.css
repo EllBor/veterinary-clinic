@@ -299,7 +299,7 @@ a {
 .services__inner {
   display: grid;
   grid-template-columns: repeat(4, 25%);
-  grid-template-rows: repeat(3, 310px);
+  grid-template-rows: repeat(3, 260px);
 }
 
 .services__inner-item {
