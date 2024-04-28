@@ -63,7 +63,7 @@ app.get("/users/:id", UserController.getOne);
 app.get("/doctor", DoctorController.getAll);
 app.get("/doctor/:id", DoctorController.getOne);
 app.get("/doctor/:id/appointments", DoctorController.getDoctorAndNearestAppointment);
-app.get("/doctors/appointments", DoctorController.getAllDoctorsWithAppointments);
+app.get("/service/:id/doctors", DoctorController.getAllDoctorsWithAppointments);
 
 app.get("/doctor/:id/reviews", ReviewController.getAll);
 app.post("/doctor/:doctorId/users/:userId/reviews", ReviewController.create);
@@ -77,6 +77,7 @@ app.get("/users/:userId/pets/:id", checkAuth, PetsController.getOne);
 
 app.get("/services/:id/appointments", ServicesController.getAllAppointments);
 app.get("/services", ServicesController.getAllServices);
+app.get("/services/:id", ServicesController.getOneServices);
 
 //вывести запись на приема в лчином кабинете пользвоателя
 app.get("/users/:id/appointments", AppointmentController.getAll);

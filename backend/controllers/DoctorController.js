@@ -1,4 +1,5 @@
 import DoctorModel from "../models/Doctor.js";
+import DoctorServiceModel from "../models/DoctorService.js";
 
 export const getAll = async (req, res) => {
     try {
@@ -50,28 +51,35 @@ export const getDoctorAndNearestAppointment = async (req, res) => {
 
       res.status(200).json({ nearestAppointment });
   } catch (error) {
-      console.error("Ошибка при получении данных о враче и ближайшей дате приема:", error);
-      res.status(500).json({ message: 'Ошибка сервера' });
+    console.log(error);
+      res.status(500).json({
+        message: "Не удалось получить ближайшую дату приема",
+      });
   }
 };
 
 export const getAllDoctorsWithAppointments = async (req, res) => {
-    try {
-      const doctors = await DoctorModel.find().lean(); 
-  
-      const doctorsWithAppointments = await Promise.all(doctors.map(async (doctor) => {
-        const closestAppointmentDate = doctor.appointment_dates
-          .sort((a, b) => a.start_date_time - b.start_date_time)
-          .map((appointment) => appointment.start_date_time)[0];
-        return {
-          ...doctor,
-          closestAppointmentDate,
-        };
-      }));
-  
-      res.status(200).json({doctorsWithAppointments});
-    } catch (error) {
-      console.error("Error fetching doctors with appointments:", error);
-      throw error;
-    }
+  try {
+    const id = req.params.id;
+    const doctorServices = await DoctorServiceModel.find({ service_id: id }).lean();
+    const doctorIds = doctorServices.map((docServ) => docServ.doctor_id);
+    const doctors = await DoctorModel.find({ _id: { $in: doctorIds } }).lean();
+
+    const doctorsWithAppointments = await Promise.all(doctors.map(async (doctor) => {
+      const closestAppointmentDate = doctor.appointment_dates
+        .sort((a, b) => a.start_date_time - b.start_date_time)
+        .map((appointment) => appointment.start_date_time)[0];
+      return {
+        ...doctor,
+        closestAppointmentDate,
+      };
+    }));
+
+    res.status(200).json({ doctorsWithAppointments });
+  } catch (error) {
+    console.log(error);
+      res.status(500).json({
+        message: "Не удалось получить врачей по этой услуге",
+      });
+  }
   };

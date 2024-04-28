@@ -21,7 +21,8 @@ const ServicesSchema = new mongoose.Schema({
     number: {
         type: Number,
         required: true
-    }
+    },
+    avatarUrl: String,
 }, 
     {
         timestamps: true,

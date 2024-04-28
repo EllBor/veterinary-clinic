@@ -1,26 +1,31 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
+import { HashLink as Link } from 'react-router-hash-link';
 import { useDispatch, useSelector } from "react-redux";
+
 import Flickity from "react-flickity-component";
 import { fetchDoctorsWithAppointments } from "../../redux/slices/doctors";
+import { fetchOneService } from "../../redux/slices/services";
 import DoctorSlider from "../../components/doctorSlider/DoctorSlider";
-import {services as servicesList} from "../../helpers/servicesList";
-import  ServicesSlider  from "../../components/servicesSlider/ServicesSlider";
-
+import { services as servicesList } from "../../helpers/servicesList";
+import ServicesSlider from "../../components/servicesSlider/ServicesSlider";
 import doc_foto from "../../images/doc-foto.png";
-import therapy from "../../images/therapy.svg";
-import therapy_1 from "../../images/therapy-1.png";
+import therapy from "../../images/therapy-1.png";
 
 import "../../styles/style-therapy.css";
 import "../../styles/flickity.css";
 
 const ServiceTherapy = () => {
+  const { id } = useParams();
   const dispatch = useDispatch();
   const doctors = useSelector((state) => state.doctors.doctorsWithAppointments);
+  const services = useSelector((state) => state.services.diagnostics);
+  const isServicesLoading = services.status === "loading";
   const isDoctorsLoading = doctors.status === "loading";
 
   React.useEffect(() => {
-    dispatch(fetchDoctorsWithAppointments());
+    dispatch(fetchDoctorsWithAppointments(id));
+    dispatch(fetchOneService(id));
   }, [dispatch]);
 
   return (
@@ -28,12 +33,11 @@ const ServiceTherapy = () => {
       <section className="service-therapy">
         <div className="container">
           <div className="service-therapy__inner">
-
             <nav className="service-therapy__nav">
               <h1 className="service-therapy__title">Терапия</h1>
               <ul className="service-therapy__nav-list">
-                <li className="service-therapy__item">ЗАПИСАТЬСЯ НА ПРИЕМ</li>
-                <li className="service-therapy__item">ЦЕНЫ</li>
+                <li><NavLink className="service-therapy__item" to="/appointment">ЗАПИСАТЬСЯ НА ПРИЕМ</NavLink></li>
+                <li><Link className="service-therapy__item" to="#price">ЦЕНЫ</Link></li>
               </ul>
             </nav>
 
@@ -44,10 +48,9 @@ const ServiceTherapy = () => {
               <div className="service-therapy__info-inner">
                 <h2 className="service-therapy__info-title">
                   Записаться на прием к терапевту
-                  {console.log(doctors)}
                 </h2>
                 <div className="service-therapy__doc-slider">
-                    {(isDoctorsLoading
+                  {(isDoctorsLoading
                     ? Array.from({ length: 3 })
                     : doctors || []
                   ).map((obj, index) =>
@@ -78,22 +81,24 @@ const ServiceTherapy = () => {
                     диагностикой и лечением следующих болезней:
                   </p>
                   <ul>
-                    <li>органов пищеварения;</li>
-                    <li>органов дыхательной системы;</li>
-                    <li>нервной системы;</li>
-                    <li>органов мочевыделительной системы;</li>
-                    <li>эндокринной системы;</li>
-                    <li>нарушения обмена веществ;</li>
-                    <li>кожи и ее производных;</li>
-                    <li>органов чувств;</li>
-                    <li>репродуктивной области;</li>
-                    <li>инфекционной и инвазионной природы;</li>
-                    <li>токсикологической природы.</li>
+                    <li>Органов пищеварения;</li>
+                    <li>Органов дыхательной системы;</li>
+                    <li>Нервной системы;</li>
+                    <li>Органов мочевыделительной системы;</li>
+                    <li>Эндокринной системы;</li>
+                    <li>Нарушения обмена веществ;</li>
+                    <li>Кожи и ее производных;</li>
+                    <li>Органов чувств;</li>
+                    <li>Репродуктивной области;</li>
+                    <li>Инфекционной и инвазионной природы;</li>
+                    <li>Токсикологической природы.</li>
                   </ul>
                 </div>
 
                 <div className="service-therapy__info-part">
-                  <h2 className="service-therapy__part-title">Подзаголовок 1</h2>
+                  <h2 className="service-therapy__part-title">
+                    Подзаголовок 1
+                  </h2>
                   <p className="service-therapy__part-text">
                     В нашей клинике имеются как врачи-терапевты общей практики,
                     так и узкие специалисты по ряду перечисленных областей, что
@@ -102,8 +107,8 @@ const ServiceTherapy = () => {
                   </p>
                   <img
                     className="service-therapy__part-img"
-                    src={therapy_1}
-                    alt=""
+                    src={therapy}
+                    alt={therapy}
                   />
                   <p className="service-therapy__part-text">
                     Врач-терапевт подходит к лечению животного комплексно,
@@ -126,19 +131,21 @@ const ServiceTherapy = () => {
                     экстренных случаев и значительно экономят время владельцам:
                   </p>
                   <ul>
-                    <li>гематологический и биохимический анализы крови;</li>
-                    <li>исследование Т4 и кортизол;</li>
-                    <li>анализ газов крови;</li>
-                    <li>рентген;</li>
+                    <li>Гематологический и биохимический анализы крови;</li>
+                    <li>Исследование Т4 и кортизол;</li>
+                    <li>Анализ газов крови;</li>
+                    <li>Рентген;</li>
                     <li>
-                      ультразвуковое исследование брюшной полости и сердца;
+                      Ультразвуковое исследование брюшной полости и сердца;
                     </li>
-                    <li>экспресс-анализы на основные вирусные заболевания.</li>
+                    <li>Экспресс-анализы на основные вирусные заболевания.</li>
                   </ul>
                 </div>
 
                 <div className="service-therapy__info-part">
-                  <h2 className="service-therapy__part-title">Подзаголовок 2</h2>
+                  <h2 className="service-therapy__part-title">
+                    Подзаголовок 2
+                  </h2>
                   <p className="service-therapy__part-text">
                     Большинство исследований, требующих седации (эндоскопия,
                     МРТ, лапароскопия), так же доступны в течение суток. Более
@@ -162,45 +169,26 @@ const ServiceTherapy = () => {
                   </p>
                 </div>
 
-                <div className="service-therapy__price">
+                <div className="service-therapy__price" id="price">
                   <h2 className="service-therapy__price-title">Цена</h2>
                   <div className="service-therapy__price-text">
-                    Цены указаны без учета расходоных материалов
+                    <h3 className="service-therapy__title-material">
+                      Цены указаны без учета расходоных материалов{" "}
+                    </h3>
                     <div className="service-therapy__price-list">
-                      <div className="service-therapy__price-item">
-                        <p>Прием</p>
-                        <span>320 ₽</span>
-                      </div>
-
-                      <div className="service-therapy__price-item">
-                        <p>Прием повторный</p>
-                        <span>220 ₽</span>
-                      </div>
-
-                      <div className="service-therapy__price-item">
-                        <p>Консультация без осмотра животного</p>
-                        <span>350 ₽</span>
-                      </div>
-
-                      <div className="service-therapy__price-item">
-                        <p>Вызов врача на дом</p>
-                        <span>1000 ₽</span>
-                      </div>
-
-                      <div className="service-therapy__price-item">
-                        <p>Консультация по медицинским документам</p>
-                        <span>500 ₽</span>
-                      </div>
-
-                      <div className="service-therapy__price-item">
-                        <p>Полная выписка из истории болезни</p>
-                        <span>500 ₽</span>
-                      </div>
-
-                      <div className="service-therapy__price-item">
-                        <p>Прием</p>
-                        <span>320 ₽</span>
-                      </div>
+                      {isServicesLoading ? (
+                        <p>Loading...</p>
+                      ) : (
+                        services.map((diagnostic, index) => (
+                          <div
+                            key={index}
+                            className="service-therapy__price-item"
+                          >
+                            <p>{diagnostic.diagnostics_name}</p>
+                            <span>{diagnostic.diagnostics_price} ₽</span>
+                          </div>
+                        ))
+                      )}
                     </div>
                   </div>
                 </div>
@@ -213,21 +201,26 @@ const ServiceTherapy = () => {
           <h2 className="service-therapy__services-title">Все услуги</h2>
           <div className="service-therapy__allservices-slider">
             <div className="service-therapy__slider">
-                <Flickity
-                   className="Slider"
-                   elementType="div"
-                   disableImagesLoaded="false"
-                   reloadOnUpdate
-                   static
-                   options={{
-                     pageDots: false,
-                     wrapAround: true,
-                     freeScroll: true,
-                   }}
+              <Flickity
+                className="Slider"
+                elementType="div"
+                disableImagesLoaded="false"
+                reloadOnUpdate
+                static
+                options={{
+                  pageDots: false,
+                  wrapAround: true,
+                  freeScroll: true,
+                }}
               >
                 {servicesList.map((project) => {
                   return (
-                    <ServicesSlider key={project.id} title ={project.title} img={project.img} service_num={project.service_num} />
+                    <ServicesSlider
+                      key={project.id}
+                      title={project.title}
+                      img={project.img}
+                      service_num={project.service_num}
+                    />
                   );
                 })}
               </Flickity>

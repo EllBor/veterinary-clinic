@@ -32,7 +32,7 @@ const Collective = () => {
               <img
                 className="collective__img"
                 src={collective_page}
-                alt=""
+                alt={collective_page}
               />
               <div className="collective__part-about">
                 <h3 className="collective__part-title">О нас</h3>

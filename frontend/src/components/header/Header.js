@@ -52,7 +52,7 @@ const Header = () => {
               </Link>
             </li>
             <li className="nav__list-item hover-text">
-              <NavLink className="nav__list-item question" href="#">
+              <NavLink className="nav__list-item question" to="#">
                 <img className="question__img" src={question} alt="question" />
               </NavLink>
               <span className="tooltip-text" id="top">

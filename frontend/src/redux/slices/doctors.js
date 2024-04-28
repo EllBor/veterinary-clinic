@@ -16,9 +16,8 @@ export const fetchDoctorAppointments = createAsyncThunk('doctors/fetchDoctorAppo
     return data;
 })
 
-export const fetchDoctorsWithAppointments = createAsyncThunk('doctors/fetchDoctorsWithAppointments', async () => {
-    const {data} = await axios.get(`/doctors/appointments`);
-    console.log("data", data);
+export const fetchDoctorsWithAppointments = createAsyncThunk('doctors/fetchDoctorsWithAppointments', async (id) => {
+    const {data} = await axios.get(`/service/${id}/doctors`);
     return data;
 })
 

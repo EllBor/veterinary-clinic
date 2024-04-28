@@ -97,7 +97,7 @@ a {
 .services__item-box {
   margin-top: 20px;
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;
   align-items: flex-end;
 }
 

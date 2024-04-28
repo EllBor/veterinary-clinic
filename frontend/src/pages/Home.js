@@ -1,8 +1,9 @@
-import "../styles/style.css";  
+import "../styles/style.css";
 import "../styles/flickity.css";
 
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import Flickity from "react-flickity-component";
 
 import Services from "../components/services/Services";
@@ -10,14 +11,21 @@ import Reasons from "../components/reasons/Reasons";
 import SpecialistsSlider from "../components/specialistsSlider/SpecialistsSlider";
 import TopSlider from "../components/topSlider/TopSlider";
 import Contacts from "../components/contacts/Contacts";
+import {fetchServices} from "../redux/slices/services";
 
-import { services } from "./../helpers/servicesList";
 import { reasons } from "./../helpers/reasonsList";
 import { specialistsList } from "./../helpers/specialistsList";
 import { topSliderList } from "../helpers/topSliderList";
 
-
 const Home = () => {
+  const dispatch = useDispatch();
+  const services = useSelector((state) => state.services);
+  const isServicesLoading = services.status === "loading";
+
+  React.useEffect(() => {
+    dispatch(fetchServices());
+  }, [dispatch]); 
+
   return (
     <main className="main">
       <section className="top">
@@ -34,7 +42,13 @@ const Home = () => {
             }}
           >
             {topSliderList.map((project) => {
-              return <TopSlider key={project.id} img={project.img} title={project.title} />;
+              return (
+                <TopSlider
+                  key={project.id}
+                  img={project.img}
+                  title={project.title}
+                />
+              );
             })}
           </Flickity>
         </div>
@@ -42,16 +56,25 @@ const Home = () => {
       <section className="services">
         <div className="container">
           <div className="services__inner">
-            {services.map((project) => {
-              return (
+            {(isServicesLoading
+              ? [...Array(3)]
+              : services.items || []
+            ).map((obj, index) =>
+            isServicesLoading ? (
                 <Services
-                  key={project.id}
-                  title={project.title}
-                  img={project.img}
-                  service_num={project.service_num}
+                  key={`loading-services-${index}`}
+                  isLoading={true}
                 />
-              );
-            })}
+              ) : (
+                <Services
+                  key={obj._id}
+                  id={obj._id}
+                  title={obj.service_name}
+                  img={obj.avatarUrl}
+                  service_num={obj.number}
+                />
+              )
+            )}
           </div>
         </div>
       </section>
@@ -65,7 +88,9 @@ const Home = () => {
                 образовано ООО «Чижи». Идея пришла, т.к. у основателя компании
                 Прозор Жанны Георгиевны была собака боксёр по кличке Бард…
               </p>
-              <NavLink className="history__link" to="/history">ЧИТАТЬ ДАЛЕЕ</NavLink>
+              <NavLink className="history__link" to="/history">
+                ЧИТАТЬ ДАЛЕЕ
+              </NavLink>
             </div>
             <div className="specialists">
               <h2 className="specialists__title">Наши специалисты</h2>
@@ -89,7 +114,9 @@ const Home = () => {
                   })}
                 </Flickity>
               </div>
-              <NavLink className="specialists__slider-link" to="/collective">ПОСМОТРЕТЬ ВСЕХ</NavLink>
+              <NavLink className="specialists__slider-link" to="/collective">
+                ПОСМОТРЕТЬ ВСЕХ
+              </NavLink>
             </div>
           </div>
         </div>
@@ -125,7 +152,7 @@ const Home = () => {
       </section>
       <section className="contacts" id="contacts-section">
         <div className="container">
-          <Contacts/>
+          <Contacts />
         </div>
       </section>
     </main>

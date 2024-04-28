@@ -9,7 +9,6 @@ import trash from "../../images/trash.svg";
 import update from "../../images/update.svg";
 
 
-
 const Pets = ({
   userId,
   petId,

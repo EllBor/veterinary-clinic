@@ -36,7 +36,7 @@ function App() {
             <Route path="/order-card" element={ <OrderCard />} />
             <Route path="/collective" element={ <Collective />} />
             <Route path="/appointment" element={<Appointment />} />
-            <Route path="/service-therapy" element={<ServiceTherapy />} />
+            <Route path="/service-therapy/:id" element={<ServiceTherapy />} />
             <Route path="/order" element={<Order />} />
             <Route path="/login" element={<Login />} />
             <Route path="/registration" element={<Registration />} />

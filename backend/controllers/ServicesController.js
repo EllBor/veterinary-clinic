@@ -73,6 +73,25 @@ export const getAllServices = async (req, res) => {
   }
 };
 
+
+export const getOneServices = async (req, res) => {
+  try {
+    const serviceId = req.params.id
+    const services = await ServiceModel.findById(serviceId);
+    if (!services) {
+      return res.status(404).json({
+        message: "Услуга не найдена",
+      });
+    }
+    res.json(services);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Ошибка при получении информации о врачах",
+    });
+  }
+};
+
 export const getDoctorsByService = async (req, res) => {
   try {
     const serviceId = req.params.serviceId;
