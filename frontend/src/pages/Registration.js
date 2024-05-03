@@ -6,13 +6,12 @@ import {useDispatch, useSelector} from "react-redux";
 import {useForm} from "react-hook-form";
 import TextField from "@mui/material/TextField";
 import {Navigate} from "react-router-dom";
-import { selectIsAuth, fetchRegister  } from "../redux/slices/auth";
+import { selectIsAuth, fetchRegister, selectIsAuthId } from "../redux/slices/auth";
 
 
 const Registration = () => {
   const isAuth = useSelector(selectIsAuth);
-  const [value, setValue] = useState('');
-  const [userId, setUserId] = useState('');
+  const isAuthId = useSelector(selectIsAuthId);
   const dispatch = useDispatch();
   const {register, handleSubmit,  formState: {errors, isValid}} = useForm({
     defaultValue: {
@@ -23,16 +22,11 @@ const Registration = () => {
     mode: 'onChange'
   });
   const onSubmit = async (values) => {
-    const data = await dispatch(fetchRegister(values));
-    if (data.payload && data.payload._id) {
-      setUserId(data.payload._id);
-    } else {
-      alert('Не удалось зарегистрироваться. Проверьте правильность введенных данных');
-    }
+    await dispatch(fetchRegister(values));
   };
 
-  if (isAuth && userId) {
-    return <Navigate to={`/account/${userId}`} replace />;
+  if (isAuth) {
+    return <Navigate to={`/account/${isAuthId}`} replace />;
   }
 
   return (

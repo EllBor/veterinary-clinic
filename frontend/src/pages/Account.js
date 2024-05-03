@@ -9,13 +9,15 @@ import Pets from "../components/pets/Pets";
 import { fetchPets } from "../redux/slices/pets";
 import { fetchUsers } from "../redux/slices/users";
 import { fetchAppointment } from "../redux/slices/appointment";
+import {selectIsAuthId} from "../redux/slices/auth";
+
 import UserCard from "../components/userCard/UserCard";
 import NavAccount from "../components/navAccount/navAccount";
 import PetCreateModal from "../components/modal/PetCreateModal";
 import MakeAppointment from "../components/makeAppointment/MakeAppointment";
 
 const Account = () => {
-  const { id } = useParams();
+  const id = useSelector(selectIsAuthId);
   const dispatch = useDispatch();
   const pets = useSelector((state) => state.pets);
   const users = useSelector((state) => state.users);

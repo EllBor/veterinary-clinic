@@ -1,16 +1,15 @@
 import "../styles/login-register.css";
 
-import React, { useState } from "react";
+import React from "react";
 import { NavLink, Navigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import TextField from "@mui/material/TextField";
-import { fetchAuth, selectIsAuth } from "../redux/slices/auth";
+import { fetchAuth, selectIsAuth, selectIsAuthId, fetchAuthMe } from "../redux/slices/auth";
 
 const Login = () => {
   const isAuth = useSelector(selectIsAuth);
-  const [isLoggedIn, setLoggedIn] = useState(false);
-  const [userId, setUserId] = useState(null);
+  const isAuthId = useSelector(selectIsAuthId);
   const dispatch = useDispatch();
   const location = useLocation();
   const {
@@ -25,21 +24,22 @@ const Login = () => {
     mode: "onChange",
   });
 
+  React.useEffect(() => {
+    dispatch(fetchAuthMe());
+  },[dispatch]);
+  
   const onSubmit = async (values) => {
     const data = await dispatch(fetchAuth(values));
 
     if (data.payload && "token" in data.payload) {
       window.localStorage.setItem("token", data.payload.token);
+      dispatch(fetchAuthMe());
     } else {
       alert("Не удалось авторизоваться");
     }
-
-    if (data.payload && data.payload._id) {
-      setUserId(data.payload._id);
-    }
   };
 
-  if (isAuth && userId) {
+  if (isAuth) {
     const params = new URLSearchParams(location.search);
     const from = params.get("from");
     const source = params.get("source");
@@ -50,7 +50,7 @@ const Login = () => {
         return <Navigate to={`/order-card`} replace />;
       }
     } else {
-      return <Navigate to={`/account/${userId}`} replace />;
+      return <Navigate to={`/account/${isAuthId}`} replace />;
     }
   }
 

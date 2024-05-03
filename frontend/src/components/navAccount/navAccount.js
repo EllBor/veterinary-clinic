@@ -1,10 +1,11 @@
 import { useDispatch } from "react-redux";
 import { logout } from "../../redux/slices/auth";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { fetchUsersDelete } from "../../redux/slices/users";
 
 const NavAccount = ({ fullName, id }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const safeFullName = fullName || "";
   const parts = safeFullName.split(" ");
   const name = parts[0];
@@ -13,6 +14,7 @@ const NavAccount = ({ fullName, id }) => {
     if (window.confirm("Вы действительно хотите выйти?")) {
       dispatch(logout());
       window.localStorage.removeItem("token");
+      navigate("/");
     }
   };
 
@@ -21,6 +23,7 @@ const NavAccount = ({ fullName, id }) => {
       await dispatch(fetchUsersDelete(id));
       await dispatch(logout());
       window.localStorage.removeItem("token");
+      navigate("/");
     }
   };
 

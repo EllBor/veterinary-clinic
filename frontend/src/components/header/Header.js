@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
-import React, { useState } from 'react';
-import { selectIsAuth } from "../../redux/slices/auth";
-import { useSelector} from "react-redux";
+import React from 'react';
+import { useSelector } from "react-redux";
+import { selectIsAuth, selectIsAuthId, fetchAuthMe } from "../../redux/slices/auth";
 import { HashLink as Link } from 'react-router-hash-link';
 
 import "./style.css";
@@ -11,7 +11,7 @@ import question from "../../images/question.svg";
 
 const Header = () => {
   const isAuth = useSelector(selectIsAuth);
-  const userId = useSelector((state) => state.auth.id);
+  const userId = useSelector(selectIsAuthId);
 
   return (
     <header className="header">
