@@ -6,6 +6,13 @@ export const fetchAppointment = createAsyncThunk("auth/fetchAppointment", async 
   return data;
 });
 
+export const fetchAppointmentDelete = createAsyncThunk(
+  "auth/fetchAppointmentDelete",
+  async ({ userId, appointmentId }) => {
+    await axios.delete(`/users/${userId}/appointments/${appointmentId}`);
+  }
+);
+
 const initialState = {
   appointment: {
     items: [],
@@ -30,6 +37,11 @@ const appointmentSlice = createSlice({
       .addCase(fetchAppointment.rejected, (state, action) => {
         state.status = 'error';
         state.error = action.error.message;
+      })
+      .addCase(fetchAppointmentDelete.pending, (state, action) => {
+        state.appointment.items = state.appointment.items.filter(
+          (obj) => obj._id !== action.payload
+        );
       });
   },
 });

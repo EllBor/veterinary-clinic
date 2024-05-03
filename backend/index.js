@@ -81,6 +81,8 @@ app.get("/services/:id", ServicesController.getOneServices);
 
 //вывести запись на приема в лчином кабинете пользвоателя
 app.get("/users/:id/appointments", AppointmentController.getAll);
+app.post("appointments/users/:userId/doctors/:doctorId/pets/:petId", AppointmentController.create);
+app.delete("/users/:userId/appointments/:id", AppointmentController.remove);
 
 app.listen(4444, (err) => {
   if (err) {

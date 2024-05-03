@@ -13,38 +13,72 @@ export const getAll = async (req, res) => {
       });
     }
 
-      const appointments = await AppointmentsModel.find({ user: usersId });
-      if (!appointments || appointments.length === 0) {
-        return res.status(404).json({
-            message: "Записи на приём не найдены",
-        });
+    const appointments = await AppointmentsModel.find({ user: usersId });
+    if (!appointments || appointments.length === 0) {
+      return res.json([])
     }
 
-      const doctor = await DoctorModel.find(appointments.doctor);
-      if (!doctor) {
-          return res.status(404).json({
-              message: "Врач не найден",
-          });
-      }
-
-      const pet = await PetModel.find(appointments.pet);
-      if (!pet) {
-          return res.status(404).json({
-              message: "Питомец не найден",
-          });
-      }
-
-      const response = appointments.map((_,index)=> ({
-          appointmentDateTime: appointments[index].appointment_date_time,
-          doctor: doctor[index].fullName,
-          petName: pet[index].name
-      }));
-
-      res.json(response);
-  } catch (error) {
-      console.log(error);
-      res.status(500).json({
-          message: "Не удалось получить записи на приём",
+    const doctor = await DoctorModel.find(appointments.doctor);
+    if (!doctor) {
+      return res.status(404).json({
+        message: "Врач не найден",
       });
+    }
+
+    const pet = await PetModel.find(appointments.pet);
+    if (!pet) {
+      return res.status(404).json({
+        message: "Питомец не найден",
+      });
+    }
+
+    const response = appointments.map((_, index) => ({
+      appointmentId: appointments[index]._id,
+      appointmentDateTime: appointments[index].appointment_date_time,
+      doctor: doctor[index].fullName,
+      petName: pet[index].name,
+    }));
+
+    res.json(response);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Не удалось получить записи на приём",
+    });
+  }
+};
+
+export const create = async (req, res) => {
+  try {
+    const doc = new AppointmentsModel({
+      user: req.userId,
+      doctor: req.doctorId,
+      pet: req.petId,
+      appointment_date_time: req.body.appointment_date_time,
+      status: "запланирован",
+    });
+    const app = await doc.save();
+    res.json([app]);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Не удалось создать запись на приём",
+    });
+  }
+};
+
+export const remove = async (req, res) => {
+  try {
+    const appointmentId = req.params.id;
+    const userId = req.params.userId;
+    await AppointmentsModel.deleteOne({ _id: appointmentId, user: userId });
+    res.json({
+      success: true,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Не удалось удалить запись на приём",
+    });
   }
 };

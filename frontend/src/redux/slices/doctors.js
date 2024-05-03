@@ -23,6 +23,7 @@ export const fetchDoctorsWithAppointments = createAsyncThunk('doctors/fetchDocto
 
 const initialState = {
     doctorsWithAppointments: [],
+    nearestAppointment: [],
     doctors: {
         items: [],
         status: 'loading',

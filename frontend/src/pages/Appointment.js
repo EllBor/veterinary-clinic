@@ -9,7 +9,7 @@ const Appointment = () => {
   const navigate = useNavigate();
   const handleConsultationClick = () => {
     if (!isAuth) {
-      navigate('/login');
+      navigate(`/login?from=appointment&source=order`);
     } else {
       navigate('/order');
     }
@@ -17,7 +17,7 @@ const Appointment = () => {
 
   const handleOnlineConsultationClick = () => {
     if (!isAuth) {
-      navigate('/login');
+      navigate(`/login?from=appointment&source=order-card`);
     } else {
       navigate('/order-card');
     }

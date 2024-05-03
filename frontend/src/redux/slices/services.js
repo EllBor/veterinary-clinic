@@ -13,12 +13,12 @@ export const fetchOneService = createAsyncThunk('services/fetchOneService', asyn
 
 export const fetchDoctorsByService = createAsyncThunk('services/fetchDoctorsByService', async (id) => {
     const {data} = await axios.get(`/doctor/services/${id}`);
-    console.log("ByService",data);
     return data;
 })
 
 const initialState = {
     diagnostics: [],
+    doctor: [],
     services: {
         items: [],
         status: 'loading',
@@ -61,7 +61,7 @@ const servicesSlice = createSlice({
             })
             .addCase(fetchDoctorsByService.fulfilled, (state, action) => {
                 state.status = 'loaded';
-                state.items = action.payload;
+                state.doctor = action.payload;
             })
             .addCase(fetchDoctorsByService.rejected, (state, action) => {
                 state.status = 'error';

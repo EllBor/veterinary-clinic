@@ -42,7 +42,7 @@ const Account = () => {
             {(isUsersLoading ? [...Array(3)] : users.items || []).map(
               (obj, index) =>
                 isUsersLoading ? (
-                  <NavAccount key={index} isLoading={true} />
+                  <NavAccount key={`loading-NavAccount-${index}`} isLoading={true} />
                 ) : (
                   <NavAccount key={obj._id} fullName={obj.fullName} id={obj._id} />
                 )
@@ -143,6 +143,8 @@ const Account = () => {
                     ) : (
                       <MakeAppointment
                         key={obj._id}
+                        id={id}
+                        appointmentId={obj.appointmentId}
                         appointmentDate={new Date(obj.appointmentDateTime).toLocaleDateString()}
                         appointmentTime={new Date(obj.appointmentDateTime).toLocaleTimeString()}
                         petName={obj.petName}

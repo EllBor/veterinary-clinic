@@ -26,7 +26,7 @@ const ServiceTherapy = () => {
   React.useEffect(() => {
     dispatch(fetchDoctorsWithAppointments(id));
     dispatch(fetchOneService(id));
-  }, [dispatch]);
+  }, [dispatch, id]);
 
   return (
     <main>

@@ -1,17 +1,36 @@
+import React from "react";
+import { useDispatch} from "react-redux";
+import { fetchAppointmentDelete, fetchAppointment } from "../../redux/slices/appointment";
+
 import doc_foto from "../../images/doc-foto.png";
+import trash from "../../images/trash.svg";
+
 const MakeAppointment = ({
+  id,
+  appointmentId,
   appointmentDate,
   appointmentTime,
   petName,
   doctor,
 }) => {
+  
+  const dispatch = useDispatch();
+
+  const onClickRemoveAppoimtment = async () => {
+    if (
+      window.confirm("Вы действительно хотетите отменить запись на приём?")
+    ) {
+      await dispatch(fetchAppointmentDelete({ userId: id, appointmentId: appointmentId }));
+      await dispatch(fetchAppointment(id));
+    }
+  };
   return (
     <div className="note__card">
       <div className="note__card-foto card-foto">
         <img src={doc_foto} alt="" />
-        <a href="#" className="info__card-text">
-          отменить прием
-        </a>
+        <button className="info__card-text" onClick={onClickRemoveAppoimtment}>
+          <img src={trash} alt=""></img>
+        </button>
       </div>
 
       <div className="note__card-info">
