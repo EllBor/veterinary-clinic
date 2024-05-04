@@ -1,6 +1,3 @@
-import "../styles/style.css";
-import "../styles/flickity.css";
-
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,6 +13,9 @@ import {fetchServices} from "../redux/slices/services";
 import { reasons } from "./../helpers/reasonsList";
 import { specialistsList } from "./../helpers/specialistsList";
 import { topSliderList } from "../helpers/topSliderList";
+
+import "../styles/style.css";
+import "../styles/flickity.css";
 
 const Home = () => {
   const dispatch = useDispatch();

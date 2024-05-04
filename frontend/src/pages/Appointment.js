@@ -1,8 +1,8 @@
-import "../styles/style-appointment.css";
-
 import { useSelector} from "react-redux";
 import { NavLink, useNavigate } from "react-router-dom";
 import { selectIsAuth } from "../redux/slices/auth";
+
+import "../styles/style-appointment.css";
 
 const Appointment = () => {
   const isAuth = useSelector(selectIsAuth);

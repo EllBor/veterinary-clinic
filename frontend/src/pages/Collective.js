@@ -1,10 +1,9 @@
-import "../styles/style-collective.css";
-
 import React from "react";
 import { NavLink } from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 
 import collective_page from "../images/collective-page.png";
+import "../styles/style-collective.css";
 
 import Doctors from "../components/doctors/Doctors";
 import { fetchDoctors } from "../redux/slices/doctors";

@@ -12,6 +12,7 @@ import {
   fetchAppointmentCreate
 } from "../redux/slices/appointment";
 import { fetchPets } from "../redux/slices/pets";
+import AppointmentModal from "../components/modal/AppointmentModal";
 
 const Order = () => {
   const id = useSelector(selectIsAuthId);
@@ -39,6 +40,10 @@ const Order = () => {
   } = useForm({
     mode: "onChange",
   });
+  
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   React.useEffect(() => {
     dispatch(fetchUsers(id));
@@ -100,6 +105,7 @@ const Order = () => {
           params: newData,
         })
       );
+      openModal();
     } catch (error) {
       console.error("Ошибка при отправке данных:", error);
     } finally {
@@ -274,6 +280,7 @@ const Order = () => {
                   ЗАПИСАТЬСЯ
                 </button>
                 </form>
+                <AppointmentModal isOpen={isModalOpen} onClose={closeModal} id = {id} />
               </div>
             </div>
           </div>

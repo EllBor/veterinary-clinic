@@ -3,11 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavLink, useParams } from "react-router-dom";
 import Slider from 'react-slick';
 
+import account_doc from "../images/account-doc.png";
 import "../styles/style-specialist.css";
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-
-import account_doc from "../images/account-doc.png";
 
 import Courses from "../components/courses/Courses";
 import FeedbackModel from "../components/modal/FeedbackModel";
@@ -50,8 +49,9 @@ const Specialist = () => {
           <div className="account-specialist__inner">
             <div className="account-specialist__foto">
               <img src={account_doc} alt="" />
+              {console.log("nearestAppointment",nearestAppointment)}
               <p className="account-specialist__time">
-                ближайшая дата приема: {nearestAppointment ? new Date(nearestAppointment.appointment_dates[0].start_date_time).toLocaleDateString() : 'запись недоступна'}
+                ближайшая дата приема: {nearestAppointment ? new Date(nearestAppointment.start_date_time).toLocaleDateString() : 'запись недоступна'}
               </p>
               <NavLink className="account-specialist__btn" to="/appointment">
                 ЗАПИСАТЬСЯ

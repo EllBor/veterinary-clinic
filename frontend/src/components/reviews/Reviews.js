@@ -7,6 +7,7 @@ const Reviews = ({review_text, rating, publication_date, userfullName, userAvata
   const safeFullName = userfullName || "";
   const parts = safeFullName.split(" ");
   const name = parts[0];
+  
     return ( 
         <div className="feedback__card-item">
         <div className="feedback__card-foto">

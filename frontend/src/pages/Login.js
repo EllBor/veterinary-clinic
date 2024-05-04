@@ -1,11 +1,11 @@
-import "../styles/login-register.css";
-
 import React from "react";
 import { NavLink, Navigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import TextField from "@mui/material/TextField";
 import { fetchAuth, selectIsAuth, selectIsAuthId, fetchAuthMe } from "../redux/slices/auth";
+
+import "../styles/login-register.css";
 
 const Login = () => {
   const isAuth = useSelector(selectIsAuth);

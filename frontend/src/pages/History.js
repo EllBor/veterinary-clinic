@@ -1,6 +1,6 @@
-import "../styles/style-history.css"
-
 import { NavLink } from "react-router-dom";
+
+import "../styles/style-history.css"
 
 import history_1 from "../images/history-1.png";
 import history_2 from "../images/history-2.png";

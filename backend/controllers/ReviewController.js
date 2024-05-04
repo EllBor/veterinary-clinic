@@ -33,9 +33,7 @@ export const getAll = async (req, res) => {
     const reviews = await ReviewsModel.find({ doctor: doctorId }).populate("user").exec();
 
     if (reviews.length === 0) {
-      return res.status(404).json({
-        message: "Отзывы не найдены",
-      });
+      return res.json([]);
     }
 
     res.json(reviews);

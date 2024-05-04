@@ -203,12 +203,7 @@
     padding-top: 26px;
     padding-left: 30px;
     padding-bottom: 15px;
-    cursor: pointer;
     margin-bottom: 20px;
-}
-
-.service-therapy__doc-slider-item:hover{
-    background-color:  #E5E4E2;
 }
 
 .service-therapy__doc-slider {

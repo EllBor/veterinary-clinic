@@ -1,5 +1,3 @@
-import "../styles/login-register.css";
-
 import React from "react";
 import { NavLink,  useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,6 +10,8 @@ import {
   selectIsAuthId,
   fetchAuthMe,
 } from "../redux/slices/auth";
+
+import "../styles/login-register.css";
 
 const Registration = () => {
   const isAuth = useSelector(selectIsAuth);

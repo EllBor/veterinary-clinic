@@ -1,7 +1,7 @@
-import "../styles/style-stocks.css";
-
 import {stocksList} from "../helpers/stocksList"
 import StocksAll from "../components/stocks/StocksAll"
+
+import "../styles/style-stocks.css";
 
 const Stocks = () => {
   return (

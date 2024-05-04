@@ -38,7 +38,6 @@ const reviewsSlice = createSlice({
             .addCase(fetchReviews.fulfilled, (state, action) => {
                 state.status = 'loaded';
                 state.items = action.payload;
-                console.log("action.payload Reviews",action.payload);
             })
             .addCase(fetchReviews.rejected, (state, action) => {
                 state.status = 'error';
