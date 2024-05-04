@@ -4,12 +4,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import TextField from "@mui/material/TextField";
 
-import {selectIsAuthId} from "../redux/slices/auth";
-import {fetchUsers} from "../redux/slices/users";
+import { selectIsAuthId } from "../redux/slices/auth";
+import { fetchUsers } from "../redux/slices/users";
 import { fetchServices, fetchDoctorsByService } from "../redux/slices/services";
 import { fetchDoctorAppointments } from "../redux/slices/doctors";
-import { fetchAppointmentCreate, fetchAppointment }  from "../redux/slices/appointment";
-import {fetchPets} from "../redux/slices/pets";
+import {
+  fetchAppointmentCreate
+} from "../redux/slices/appointment";
+import { fetchPets } from "../redux/slices/pets";
 
 const Order = () => {
   const id = useSelector(selectIsAuthId);
@@ -19,12 +21,14 @@ const Order = () => {
   const services = useSelector((state) => state.services);
   const doctors = useSelector((state) => state.services.doctor);
   const appointments = useSelector((state) => state.doctors.nearestAppointment);
+  const [isLoading, setIsLoading] = useState(true);
   const [selectedService, setSelectedService] = useState([]);
   const [selectedDoctor, setSelectedDoctor] = useState([]);
-  const [selectedDate, setAppointments] = useState([]);
+  const [appointment_date_time, setAppointments] = useState([]);
   const [selectedPet, setPet] = useState([]);
   const [loading, setLoading] = useState(false);
   const isServicesLoading = services.status === "loading";
+  const isUsersLoading = users.status === "loading";
   const isPetsLoading = pets.status === "loading";
   const isDoctorsLoading = doctors.status === "loading";
   const isAppointmentsLoading = appointments.status === "loading";
@@ -41,6 +45,24 @@ const Order = () => {
     dispatch(fetchPets(id));
     dispatch(fetchServices());
   }, [dispatch, id]);
+
+  React.useEffect(() => {
+    if (
+      !isServicesLoading &&
+      !isUsersLoading &&
+      !isPetsLoading &&
+      !isDoctorsLoading &&
+      !isAppointmentsLoading
+    ) {
+      setIsLoading(false);
+    }
+  }, [
+    isServicesLoading,
+    isUsersLoading,
+    isPetsLoading,
+    isDoctorsLoading,
+    isAppointmentsLoading,
+  ]);
 
   const handleServiceChange = (event) => {
     setSelectedService(event.target.value);
@@ -69,9 +91,15 @@ const Order = () => {
   const onSubmit = async (data) => {
     try {
       setLoading(true);
-      console.log(data);
-      await dispatch(fetchAppointmentCreate({ userId: id, doctorId: selectedDoctor, petId: selectedPet, params: data }));
-      dispatch(fetchAppointment(id));
+      const newData = {appointment_date_time, ...data};
+      await dispatch(
+        fetchAppointmentCreate({
+          userId: id,
+          doctorId: selectedDoctor,
+          petId: selectedPet,
+          params: newData,
+        })
+      );
     } catch (error) {
       console.error("Ошибка при отправке данных:", error);
     } finally {
@@ -81,146 +109,176 @@ const Order = () => {
 
   return (
     <main>
-      <section className="appointment">
-        <div className="container">
-          <div className="appointment__inner order__inner">
-            <h1 className="appointment__title">Оформление заказа</h1>
-            <div className="order__box">
-              <NavLink className="appointment__back back" to="/appointment">
-                НАЗАД
-              </NavLink>
-              <form className="payment__form" onSubmit={handleSubmit(onSubmit)}>
-                <div className="form__select">
-                  <select
-                    className="form__select-item"
-                    // value={selectedService}
-                    onChange={handleServiceChange}
-                  >
-                    <option value="">Выберите услугу</option>
-                    {(isServicesLoading
-                      ? [...Array(3)]
-                      : services.items || []
-                    ).map((obj, index) =>
-                      isServicesLoading ? (
-                        <option key={`loading-services-${index}`}>Услгу нет</option>
-                      ) : (
-                        <option key={index} value={obj._id}>
-                          {obj.service_name}
-                        </option>
-                      )
-                    )}
-                  </select>
-                    
-                  {selectedService && (
-                    <select 
-                      className='form__select-item' 
-                      // value={selectedDoctor} 
-                      onChange={handleDoctorChange}
-                    >
-                      <option value="">Выберите врача</option>
-                      {(isDoctorsLoading  ? [...Array(3)] : doctors || []).map((obj, index) => 
-                      isDoctorsLoading  ? (
-                        <option key={`loading-doctors-${index}`}>
-                          Врачей нет
-                        </option>
-                      ) : (
-                        <option key={index} value={obj._id}>
-                        {obj.fullName}
-                      </option>
-                      ))}
-                    </select>
-                  )}
-
-                  {selectedDoctor && (
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : (
+        <section className="appointment">
+          <div className="container">
+            <div className="appointment__inner order__inner">
+              <h1 className="appointment__title">Оформление заказа</h1>
+              <div className="order__box">
+                <NavLink className="appointment__back back" to="/appointment">
+                  НАЗАД
+                </NavLink>
+                <form
+                  className="payment__form"
+                  onSubmit={handleSubmit(onSubmit)}
+                >
+                  <div className="form__select">
                     <select
                       className="form__select-item"
-                      value={selectedDate}
-                      onChange={handleDateChange}
+                      value={selectedService}
+                      onChange={handleServiceChange}
                     >
-                      <option value="">Выберите дату</option>
-                      {(isAppointmentsLoading
+                      <option value="">Выберите услугу</option>
+                      {(isServicesLoading
                         ? [...Array(3)]
-                        : appointments.appointment_dates || []
-                      ).map((obj, index) => (
-                        isAppointmentsLoading ? (
-                          <option key={`loading-appointments-${index}`}>Дат на запись нет</option>
+                        : services.items || []
+                      ).map((obj, index) =>
+                        isServicesLoading ? (
+                          <option key={`loading-services-${index}`}>
+                            Услгу нет
+                          </option>
                         ) : (
                           <option key={index} value={obj._id}>
-                          {new Date(obj.start_date_time).toLocaleDateString()} {("0" + new Date(obj.start_date_time).getHours()).slice(-2)}:{("0" + new Date(obj.start_date_time).getMinutes()).slice(-2)}
-                        </option>
+                            {obj.service_name}
+                          </option>
                         )
-                      ))}
+                      )}
                     </select>
-                  )}
-                </div>
 
-                <div className="personal">
+                    {
+                      <select
+                        className="form__select-item"
+                        value={selectedDoctor}
+                        onChange={handleDoctorChange}
+                      >
+                        <option value="">Выберите врача</option>
+                        {(isDoctorsLoading ? [...Array(3)] : doctors || []).map(
+                          (obj, index) =>
+                            isDoctorsLoading ? (
+                              <option key={`loading-doctors-${index}`}>
+                                Врачей нет
+                              </option>
+                            ) : (
+                              <option key={index} value={obj._id}>
+                                {obj.fullName}
+                              </option>
+                            )
+                        )}
+                      </select>
+                    }
+
+                    {
+                      <select
+                        className="form__select-item"
+                        value={appointment_date_time}
+                        onChange={handleDateChange}
+                      >
+                        <option value="">Выберите дату</option>
+                        {(isAppointmentsLoading
+                          ? [...Array(3)]
+                          : appointments.appointment_dates || []
+                        ).map((obj, index) =>
+                          isAppointmentsLoading ? (
+                            <option key={`loading-appointments-${index}`}>
+                              Дат на запись нет
+                            </option>
+                          ) : (
+                            <option key={index} value={new Date(obj.start_date_time).toString()}>
+                              {new Date(
+                                obj.start_date_time
+                              ).toLocaleDateString()}{" "}
+                              {(
+                                "0" + new Date(obj.start_date_time).getHours()
+                              ).slice(-2)}
+                              :
+                              {(
+                                "0" + new Date(obj.start_date_time).getMinutes()
+                              ).slice(-2)}
+                            </option>
+                          )
+                        )}
+                      </select>
+                    }
+                  </div>
+
+                  <div className="personal">
+                    <TextField
+                      className="personal__input"
+                      type="text"
+                      label="ФИО"
+                      value={
+                        isUsersLoading
+                          ? ""
+                          : users.items && users.items.length > 0
+                          ? users.items[0].fullName
+                          : ""
+                      }
+                    />
+
+                    {
+                      <select
+                        className="form__select-item"
+                        value={selectedPet}
+                        onChange={handlePateChange}
+                      >
+                        <option value="">Выберите питомца</option>
+                        {(isPetsLoading ? [...Array(3)] : pets.items || []).map(
+                          (obj, index) =>
+                            isPetsLoading ? (
+                              <option key={`loading-pets-${index}`}>
+                                Питомцев нет
+                              </option>
+                            ) : (
+                              <option key={index} value={obj._id}>
+                                {obj.name}
+                              </option>
+                            )
+                        )}
+                      </select>
+                    }
+
+                    <TextField
+                      className="personal__input"
+                      type="text"
+                      label="+79999999999"
+                      value={
+                        isUsersLoading
+                          ? ""
+                          : users.items && users.items.length > 0
+                          ? users.items[0].phone
+                          : ""
+                      }
+                    />
+                  </div>
+
                   <TextField
-                    className="personal__input"
+                    className="order-area"
                     type="text"
-                    label="ФИО"
-                    defaultValue={users.fullName}
-                    // {...register("users.fullName", { required: "Укажите ФИО" })}
-                    // error={Boolean(errors.users.fullName)}
-                    // helperText={errors.users.fullName ? errors.users.fullName.message : ""}
+                    label="Кратко опишите проблему"
+                    {...register("problems", {
+                      required: "Кратко опишите проблему",
+                    })}
+                    error={Boolean(errors.problems)}
+                    helperText={errors.problems ? errors.problems.message : ""}
+                    multiline
+                    rows={4}
                   />
-
-                  {users.fullName && (
-                    <select
-                      className="form__select-item"
-                      value={selectedPet}
-                      onChange={handlePateChange}
-                    >
-                    <option value="">Выберите питомца</option>
-                      {(isPetsLoading
-                        ? [...Array(3)]
-                        : pets.items || []
-                      ).map((obj, index) => (
-                        isPetsLoading ? (
-                          <option key={`loading-pets-${index}`}>Питомцев нет</option>
-                        ) : (
-                          <option key={index} value={obj._id}>
-                          {obj.name}
-                        </option>
-                        )
-                      ))}
-                    </select>
-                  )}
-
-                  <TextField
-                    className="personal__input"
-                    type="text"
-                    label="+79999999999"
-                    defaultValue={users.phone}
-                    // {...register("users.phone", { required: "Укажите номер телефона" })}
-                    // error={Boolean(errors.users.phone)}
-                    // helperText={errors.users.phone ? errors.users.phone.message : ""}
-                  />
-                </div>
-
-                <TextField
-                  className="order-area"
-                  type="text"
-                  label="Кратко опишите проблему"
-                  {...register("problems", {
-                    required: "Кратко опишите проблему",
-                  })}
-                  error={Boolean(errors.problems)}
-                  helperText={errors.problems? errors.problems.message : ""}
-                />
-    
-              </form>
-              <button 
-              className="top__slider-btn order-btn"
-              type="submit" 
-              disabled={!isValid || loading}
-              >
-                ЗАПИСАТЬСЯ
-              </button>
+   
+                <button
+                  className="top__slider-btn order-btn"
+                  type="submit"
+                  disabled={!isValid || loading}
+                >
+                  ЗАПИСАТЬСЯ
+                </button>
+                </form>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
     </main>
   );
 };

@@ -17,7 +17,7 @@ export const fetchAppointmentCreate = createAsyncThunk(
   "auth/fetchAppointmentCreate ",
   async ({ userId, doctorId, petId, params }, thunkAPI) => {
     try {
-      const { data } = await axios.post(`appointments/users/${userId}/doctors/${doctorId}/pets/${petId}`, params);
+      const { data } = await axios.post(`/appointments/users/${userId}/doctors/${doctorId}/pets/${petId}`, params);
       return data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response.data);

@@ -15,30 +15,33 @@ export const getAll = async (req, res) => {
 
     const appointments = await AppointmentsModel.find({ user: usersId });
     if (!appointments || appointments.length === 0) {
-      return res.json([])
+      return res.json([]);
     }
-
-    const doctor = await DoctorModel.find(appointments.doctor);
-    if (!doctor) {
-      return res.status(404).json({
-        message: "Врач не найден",
+    
+    const response = [];
+    for (const appointment of appointments) {
+      const doctor = await DoctorModel.findById(appointment.doctor);
+      if (!doctor) {
+        return res.status(404).json({
+          message: "Врач не найден",
+        });
+      }
+    
+      const pet = await PetModel.findById(appointment.pet);
+      if (!pet) {
+        return res.status(404).json({
+          message: "Питомец не найден",
+        });
+      }
+    
+      response.push({
+        appointmentId: appointment._id,
+        appointmentDateTime: appointment.appointment_date_time,
+        doctor: doctor.fullName,
+        petName: pet.name,
       });
     }
-
-    const pet = await PetModel.find(appointments.pet);
-    if (!pet) {
-      return res.status(404).json({
-        message: "Питомец не найден",
-      });
-    }
-
-    const response = appointments.map((_, index) => ({
-      appointmentId: appointments[index]._id,
-      appointmentDateTime: appointments[index].appointment_date_time,
-      doctor: doctor[index].fullName,
-      petName: pet[index].name,
-    }));
-
+    
     res.json(response);
   } catch (error) {
     console.log(error);
@@ -51,11 +54,12 @@ export const getAll = async (req, res) => {
 export const create = async (req, res) => {
   try {
     const doc = new AppointmentsModel({
-      user: req.userId,
-      doctor: req.doctorId,
-      pet: req.petId,
+      user: req.params.userId,
+      doctor: req.params.doctorId,
+      pet: req.params.petId,
       appointment_date_time: req.body.appointment_date_time,
       status: "запланирован",
+      problems: req.body.problems,
     });
     const app = await doc.save();
     res.json([app]);
