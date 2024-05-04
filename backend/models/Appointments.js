@@ -24,7 +24,8 @@ const AppointmentSchema = new mongoose.Schema({
         type: String,
         enum: ['запланирован', 'завершен', 'отменен', 'активен'],
         default: 'запланирован'
-    }
+    },
+    problems: String,
 }, 
     {
         timestamps: true,

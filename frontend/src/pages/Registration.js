@@ -1,32 +1,63 @@
 import "../styles/login-register.css";
 
-import { useState } from 'react';
-import { NavLink } from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
-import {useForm} from "react-hook-form";
+import React from "react";
+import { NavLink,  useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useForm } from "react-hook-form";
 import TextField from "@mui/material/TextField";
-import {Navigate} from "react-router-dom";
-import { selectIsAuth, fetchRegister, selectIsAuthId } from "../redux/slices/auth";
-
+import { Navigate } from "react-router-dom";
+import {
+  selectIsAuth,
+  fetchRegister,
+  selectIsAuthId,
+  fetchAuthMe,
+} from "../redux/slices/auth";
 
 const Registration = () => {
   const isAuth = useSelector(selectIsAuth);
   const isAuthId = useSelector(selectIsAuthId);
+  const location = useLocation();
   const dispatch = useDispatch();
-  const {register, handleSubmit,  formState: {errors, isValid}} = useForm({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm({
     defaultValue: {
-      phone: '',
-      password: '',
-      fullName: '',
+      phone: "",
+      password: "",
+      fullName: "",
     },
-    mode: 'onChange'
+    mode: "onChange",
   });
+
+  React.useEffect(() => {
+    dispatch(fetchAuthMe());
+  }, [dispatch]);
+
   const onSubmit = async (values) => {
-    await dispatch(fetchRegister(values));
+    const data = await dispatch(fetchRegister(values));
+    if (data.payload && "token" in data.payload) {
+      window.localStorage.setItem("token", data.payload.token);
+      dispatch(fetchAuthMe());
+    } else {
+      alert("Не удалось зарегистрироваться");
+    }
   };
 
   if (isAuth) {
-    return <Navigate to={`/account/${isAuthId}`} replace />;
+    const params = new URLSearchParams(location.search);
+    const from = params.get("from");
+    const source = params.get("source");
+    if (from === "appointment") {
+      if (source === "order") {
+        return <Navigate to={`/order`} replace />;
+      } else if (source === "order-card") {
+        return <Navigate to={`/order-card`} replace />;
+      }
+    } else {
+      return <Navigate to={`/account/${isAuthId}`} replace />;
+    }
   }
 
   return (
@@ -35,12 +66,15 @@ const Registration = () => {
         <div className="container">
           <div className="registration__inner inner">
             <h1 className="registration__title title-form">Регистрация</h1>
-            <form className="registration__form form" onSubmit={handleSubmit(onSubmit)}>
+            <form
+              className="registration__form form"
+              onSubmit={handleSubmit(onSubmit)}
+            >
               <TextField
                 className="registration__form-input form-input"
                 type="text"
                 label="ФИО"
-                {...register("fullName", { required: 'Введите ФИО' })}
+                {...register("fullName", { required: "Введите ФИО" })}
                 error={Boolean(errors.fullName)}
                 helperText={errors.fullName ? errors.fullName.message : ""}
               ></TextField>
@@ -49,7 +83,7 @@ const Registration = () => {
                 className="registration__form-input form-input"
                 type="tel"
                 label="Номер телефона"
-                {...register("phone", { required: 'Укажите номер телефона' })}
+                {...register("phone", { required: "Укажите номер телефона" })}
                 error={Boolean(errors.phone)}
                 helperText={errors.phone ? errors.phone.message : ""}
               ></TextField>
@@ -58,11 +92,15 @@ const Registration = () => {
                 className="registration__form-input form-input"
                 type="password"
                 label="Пароль"
-                {...register("password", { required: 'Введите пароль' })}
+                {...register("password", { required: "Введите пароль" })}
                 error={Boolean(errors.password)}
                 helperText={errors.password ? errors.password.message : ""}
               ></TextField>
-              <button className="registration__form-btn form-btn" type="submit" disabled={!isValid}>
+              <button
+                className="registration__form-btn form-btn"
+                type="submit"
+                disabled={!isValid}
+              >
                 Зарегистрироваться
               </button>
             </form>

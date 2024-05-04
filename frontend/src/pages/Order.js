@@ -1,25 +1,46 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useForm } from "react-hook-form";
+import TextField from "@mui/material/TextField";
 
+import {selectIsAuthId} from "../redux/slices/auth";
+import {fetchUsers} from "../redux/slices/users";
 import { fetchServices, fetchDoctorsByService } from "../redux/slices/services";
 import { fetchDoctorAppointments } from "../redux/slices/doctors";
+import { fetchAppointmentCreate, fetchAppointment }  from "../redux/slices/appointment";
+import {fetchPets} from "../redux/slices/pets";
 
 const Order = () => {
+  const id = useSelector(selectIsAuthId);
   const dispatch = useDispatch();
+  const pets = useSelector((state) => state.pets);
+  const users = useSelector((state) => state.users);
   const services = useSelector((state) => state.services);
   const doctors = useSelector((state) => state.services.doctor);
   const appointments = useSelector((state) => state.doctors.nearestAppointment);
-  const [selectedService, setSelectedService] = useState("");
-  const [selectedDoctor, setSelectedDoctor] = useState("");
+  const [selectedService, setSelectedService] = useState([]);
+  const [selectedDoctor, setSelectedDoctor] = useState([]);
   const [selectedDate, setAppointments] = useState([]);
+  const [selectedPet, setPet] = useState([]);
+  const [loading, setLoading] = useState(false);
   const isServicesLoading = services.status === "loading";
+  const isPetsLoading = pets.status === "loading";
   const isDoctorsLoading = doctors.status === "loading";
   const isAppointmentsLoading = appointments.status === "loading";
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm({
+    mode: "onChange",
+  });
 
   React.useEffect(() => {
+    dispatch(fetchUsers(id));
+    dispatch(fetchPets(id));
     dispatch(fetchServices());
-  }, [dispatch]);
+  }, [dispatch, id]);
 
   const handleServiceChange = (event) => {
     setSelectedService(event.target.value);
@@ -41,6 +62,23 @@ const Order = () => {
     setAppointments(event.target.value);
   };
 
+  const handlePateChange = (event) => {
+    setPet(event.target.value);
+  };
+
+  const onSubmit = async (data) => {
+    try {
+      setLoading(true);
+      console.log(data);
+      await dispatch(fetchAppointmentCreate({ userId: id, doctorId: selectedDoctor, petId: selectedPet, params: data }));
+      dispatch(fetchAppointment(id));
+    } catch (error) {
+      console.error("Ошибка при отправке данных:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <main>
       <section className="appointment">
@@ -51,11 +89,11 @@ const Order = () => {
               <NavLink className="appointment__back back" to="/appointment">
                 НАЗАД
               </NavLink>
-              <form className="payment__form">
+              <form className="payment__form" onSubmit={handleSubmit(onSubmit)}>
                 <div className="form__select">
                   <select
                     className="form__select-item"
-                    value={selectedService}
+                    // value={selectedService}
                     onChange={handleServiceChange}
                   >
                     <option value="">Выберите услугу</option>
@@ -76,7 +114,7 @@ const Order = () => {
                   {selectedService && (
                     <select 
                       className='form__select-item' 
-                      value={selectedDoctor} 
+                      // value={selectedDoctor} 
                       onChange={handleDoctorChange}
                     >
                       <option value="">Выберите врача</option>
@@ -92,6 +130,7 @@ const Order = () => {
                       ))}
                     </select>
                   )}
+
                   {selectedDoctor && (
                     <select
                       className="form__select-item"
@@ -116,22 +155,66 @@ const Order = () => {
                 </div>
 
                 <div className="personal">
-                  <input
+                  <TextField
                     className="personal__input"
                     type="text"
-                    placeholder="ФИО"
+                    label="ФИО"
+                    defaultValue={users.fullName}
+                    // {...register("users.fullName", { required: "Укажите ФИО" })}
+                    // error={Boolean(errors.users.fullName)}
+                    // helperText={errors.users.fullName ? errors.users.fullName.message : ""}
                   />
-                  <input
+
+                  {users.fullName && (
+                    <select
+                      className="form__select-item"
+                      value={selectedPet}
+                      onChange={handlePateChange}
+                    >
+                    <option value="">Выберите питомца</option>
+                      {(isPetsLoading
+                        ? [...Array(3)]
+                        : pets.items || []
+                      ).map((obj, index) => (
+                        isPetsLoading ? (
+                          <option key={`loading-pets-${index}`}>Питомцев нет</option>
+                        ) : (
+                          <option key={index} value={obj._id}>
+                          {obj.name}
+                        </option>
+                        )
+                      ))}
+                    </select>
+                  )}
+
+                  <TextField
                     className="personal__input"
-                    placeholder="+7 (999) 999 99 99"
+                    type="text"
+                    label="+79999999999"
+                    defaultValue={users.phone}
+                    // {...register("users.phone", { required: "Укажите номер телефона" })}
+                    // error={Boolean(errors.users.phone)}
+                    // helperText={errors.users.phone ? errors.users.phone.message : ""}
                   />
                 </div>
-                <textarea
+
+                <TextField
                   className="order-area"
-                  placeholder="Кратко опишите проблему"
-                ></textarea>
+                  type="text"
+                  label="Кратко опишите проблему"
+                  {...register("problems", {
+                    required: "Кратко опишите проблему",
+                  })}
+                  error={Boolean(errors.problems)}
+                  helperText={errors.problems? errors.problems.message : ""}
+                />
+    
               </form>
-              <button type="submit" className="top__slider-btn order-btn">
+              <button 
+              className="top__slider-btn order-btn"
+              type="submit" 
+              disabled={!isValid || loading}
+              >
                 ЗАПИСАТЬСЯ
               </button>
             </div>

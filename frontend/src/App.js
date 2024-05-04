@@ -1,9 +1,9 @@
 import "./styles/style.css";
 
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-router-dom";
-import { useDispatch} from "react-redux";
-import { fetchAuthMe} from "./redux/slices/auth";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { fetchAuthMe } from "./redux/slices/auth";
 
 import Header from "./components/header/Header";
 import Footer from "./components/footer/Footer";
@@ -19,7 +19,6 @@ import ServiceTherapy from "./pages/services/ServiceTherapy";
 import Specialist from "./pages/Specialist";
 import Login from "./pages/Login";
 import Registration from "./pages/Registration";
-import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   const dispatch = useDispatch();
@@ -50,7 +49,6 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/registration" element={<Registration />} />
           </Routes>
-  
           <Footer />
         </Router>
       </div>

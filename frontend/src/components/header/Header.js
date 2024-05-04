@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import React from 'react';
 import { useSelector } from "react-redux";
-import { selectIsAuth, selectIsAuthId, fetchAuthMe } from "../../redux/slices/auth";
+import { selectIsAuth, selectIsAuthId } from "../../redux/slices/auth";
 import { HashLink as Link } from 'react-router-hash-link';
 
 import "./style.css";
