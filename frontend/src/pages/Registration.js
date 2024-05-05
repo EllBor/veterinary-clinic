@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink,  useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import TextField from "@mui/material/TextField";
@@ -18,6 +18,10 @@ const Registration = () => {
   const isAuthId = useSelector(selectIsAuthId);
   const location = useLocation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const params = new URLSearchParams(location.search);
+  const from = params.get("from");
+  const source = params.get("source");
   const {
     register,
     handleSubmit,
@@ -60,6 +64,20 @@ const Registration = () => {
     }
   }
 
+  const handleBackClick = () => {
+    if (from === "appointment") {
+      if (source === "order") {
+        navigate(`/login?from=appointment&source=order`, { replace: true });
+      } else if (source === "order-card") {
+        navigate(`/login?from=appointment&source=order-card`, {
+          replace: true,
+        });
+      }
+    } else {
+      navigate(`/login`, { replace: true });
+    }
+  };
+
   return (
     <main>
       <section className="registration">
@@ -80,13 +98,22 @@ const Registration = () => {
               ></TextField>
 
               <TextField
-                className="registration__form-input form-input"
+                className="login__form-input form-input"
                 type="tel"
                 label="Номер телефона"
-                {...register("phone", { required: "Укажите номер телефона" })}
+                {...register("phone", {
+                  required: "Укажите номер телефона",
+                  pattern: {
+                    value: /^\d{10}$/,
+                    message: "Некорректный номер телефона",
+                  },
+                })}
+                InputProps={{
+                  startAdornment: "+7",
+                }}
                 error={Boolean(errors.phone)}
                 helperText={errors.phone ? errors.phone.message : ""}
-              ></TextField>
+              />
 
               <TextField
                 className="registration__form-input form-input"
@@ -104,9 +131,12 @@ const Registration = () => {
                 Зарегистрироваться
               </button>
             </form>
-            <NavLink className="registration__link form-link" to="/login">
+            <button
+              className="registration__link form-link"
+              onClick={handleBackClick}
+            >
               Назад
-            </NavLink>
+            </button>
           </div>
         </div>
       </section>

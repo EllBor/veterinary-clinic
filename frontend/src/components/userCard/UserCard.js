@@ -39,7 +39,7 @@ const UserCard = ({ id, phone, fullName, aboutUser, avatarUrl }) => {
           <p>{name}</p>
           <h4 className="personal__card-title">Фамилия</h4>
           <p>{surname}</p>
-          <h4 className="personal__card-title">Отчетсво</h4>
+          <h4 className="personal__card-title">Отчество</h4>
           <p>{patronymic}</p>
           <h4 className="personal__card-title">Телефон</h4>
           <p>{phone}</p>

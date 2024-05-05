@@ -25,3 +25,7 @@ export const createValidation = [
   body("age", "Возраст должен быть больше 3 символов").isLength({ min:3 }),
   body("avatarUrl", "Неверный URL").optional().isURL(),
 ];
+
+export const ReviewsValidation = [
+  body("review_text", "Отзыв должен быть больше 3 символов").isLength({ min: 3 }),
+];

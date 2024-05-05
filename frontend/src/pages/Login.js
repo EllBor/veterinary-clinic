@@ -1,9 +1,14 @@
 import React from "react";
-import { NavLink, Navigate, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import TextField from "@mui/material/TextField";
-import { fetchAuth, selectIsAuth, selectIsAuthId, fetchAuthMe } from "../redux/slices/auth";
+import {
+  fetchAuth,
+  selectIsAuth,
+  selectIsAuthId,
+  fetchAuthMe,
+} from "../redux/slices/auth";
 
 import "../styles/login-register.css";
 
@@ -12,6 +17,10 @@ const Login = () => {
   const isAuthId = useSelector(selectIsAuthId);
   const dispatch = useDispatch();
   const location = useLocation();
+  const navigate = useNavigate();
+  const params = new URLSearchParams(location.search);
+  const from = params.get("from");
+  const source = params.get("source");
   const {
     register,
     handleSubmit,
@@ -26,8 +35,8 @@ const Login = () => {
 
   React.useEffect(() => {
     dispatch(fetchAuthMe());
-  },[dispatch]);
-  
+  }, [dispatch]);
+
   const onSubmit = async (values) => {
     const data = await dispatch(fetchAuth(values));
 
@@ -40,19 +49,32 @@ const Login = () => {
   };
 
   if (isAuth) {
-    const params = new URLSearchParams(location.search);
-    const from = params.get("from");
-    const source = params.get("source");
     if (from === "appointment") {
       if (source === "order") {
-        return <Navigate to={`/order`} replace />;
+        navigate(`/order`, { replace: true });
       } else if (source === "order-card") {
-        return <Navigate to={`/order-card`} replace />;
+        navigate(`/order-card`, { replace: true });
       }
     } else {
-      return <Navigate to={`/account/${isAuthId}`} replace />;
+      navigate(`/account/${isAuthId}`, { replace: true });
     }
   }
+
+  const handleRegistrationClick = () => {
+    if (from === "appointment") {
+      if (source === "order") {
+        navigate(`/registration?from=appointment&source=order`, {
+          replace: true,
+        });
+      } else if (source === "order-card") {
+        navigate(`/registration?from=appointment&source=order-card`, {
+          replace: true,
+        });
+      }
+    } else {
+      navigate(`/registration`, { replace: true });
+    }
+  };
 
   return (
     <main>
@@ -68,10 +90,20 @@ const Login = () => {
                 className="login__form-input form-input"
                 type="tel"
                 label="Номер телефона"
-                {...register("phone", { required: "Укажите номер телефона" })}
+                {...register("phone", {
+                  required: "Укажите номер телефона",
+                  pattern: {
+                    value: /^\d{10}$/,
+                    message: "Некорректный номер телефона",
+                  },
+                })}
+                InputProps={{
+                  startAdornment: "+7",
+                }}
                 error={Boolean(errors.phone)}
                 helperText={errors.phone ? errors.phone.message : ""}
               />
+
               <TextField
                 className="login__form-input form-input"
                 type="password"
@@ -88,9 +120,12 @@ const Login = () => {
                 Войти
               </button>
             </form>
-            <NavLink className="login__link form-link" to="/registration">
+            <button
+              className="login__link form-link"
+              onClick={handleRegistrationClick}
+            >
               Зарегистрироваться
-            </NavLink>
+            </button>
           </div>
         </div>
       </section>

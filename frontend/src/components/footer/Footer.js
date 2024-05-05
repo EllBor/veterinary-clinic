@@ -1,3 +1,6 @@
+import { NavLink } from "react-router-dom";
+import { HashLink as Link } from 'react-router-hash-link';
+
 import "./style.css";
 import logo_footer from "../../images/logo-footer.svg";
 import vk from "../../images/vk.svg";
@@ -5,14 +8,22 @@ import facebook from "../../images/facebook.svg";
 import instagram from "../../images/instagram.svg";
 
 const Footer = () => {
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  };
+
   return (
     <footer className="footer">
       <div className="container">
         <div className="footer__top">
           <div className="top__logo">
-            <a href="#">
+            <NavLink  to="/">
               <img src={logo_footer} alt="" />
-            </a>
+            </NavLink>
           </div>
           <div className="top__name">
             <h2 className="name__title">Зоодоктор</h2>
@@ -27,29 +38,24 @@ const Footer = () => {
           <div className="nav__bottom">
             <ul className="nav__bottom-list">
               <li className="nav__bottom-item">
-                <a className="nav__bottom-link" href="#">
-                  Личный кабинет
-                </a>
-              </li>
-              <li className="nav__bottom-item">
-                <a className="nav__bottom-link" href="#">
+                <NavLink className="nav__bottom-link" to="/history" onClick={scrollToTop}>
                   О нас
-                </a>
+                </NavLink>
               </li>
               <li className="nav___bottom-item">
-                <a className="nav__bottom-link" href="#">
+                <NavLink className="nav__bottom-link" to="/stocks" onClick={scrollToTop}>
                   Новости и акции
-                </a>
+                </NavLink>
               </li>
               <li className="nav___bottom-item">
-                <a className="nav__bottom-link" href="#">
+                <Link className="nav__bottom-link" to="/#contacts-section">
                   Контакты
-                </a>
+                </Link>
               </li>
               <li className="nav__bottom-item">
-                <a className="nav__bottom-link" href="#">
+                <NavLink className="nav__bottom-link" to="/">
                   Задать вопрос
-                </a>
+                </NavLink>
               </li>
             </ul>
           </div>

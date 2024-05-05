@@ -4,7 +4,7 @@ import multer from "multer";
 import { v4 as uuidv4 } from 'uuid';
 import cors from "cors";
 
-import { registerValidation, updateValidation, createValidation } from "./validations/auth.js";
+import { registerValidation, updateValidation, createValidation, ReviewsValidation } from "./validations/auth.js";
 
 import checkAuth from "./utils/checkAuth.js";
 
@@ -66,7 +66,7 @@ app.get("/doctor/:id/appointments", DoctorController.getDoctorAndNearestAppointm
 app.get("/service/:id/doctors", DoctorController.getAllDoctorsWithAppointments);
 
 app.get("/doctor/:id/reviews", ReviewController.getAll);
-app.post("/doctor/:doctorId/users/:userId/reviews", ReviewController.create);
+app.post("/doctor/:doctorId/users/:userId/reviews", ReviewsValidation, ReviewController.create);
 app.get('/doctor/services/:serviceId', ServicesController.getDoctorsByService);
 
 app.post("/users/:userId/pets", checkAuth, createValidation, PetsController.create);

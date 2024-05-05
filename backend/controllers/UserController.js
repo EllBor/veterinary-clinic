@@ -92,7 +92,6 @@ export const register = async (req, res) => {
 
 export const getMe = async (req, res) => {
   try {
-    console.log(req.userId);
     const user = await UserModel.findById(req.userId);
     if (!user) {
       return res.status(404).json({

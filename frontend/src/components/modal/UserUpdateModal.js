@@ -150,7 +150,16 @@ const UserUpdateModal = ({
                   type="text"
                   label="Телефон"
                   defaultValue={phone}
-                  {...register("phone", { required: "Укажите номер телефона" })}
+                  {...register("phone", {
+                    required: "Укажите номер телефона",
+                    pattern: {
+                      value: /^\d{10}$/,
+                      message: "Некорректный номер телефона",
+                    },
+                  })}
+                  InputProps={{
+                    startAdornment: "+7",
+                  }}
                   error={Boolean(errors.phone)}
                   helperText={errors.phone ? errors.phone.message : ""}
                 />

@@ -37,7 +37,7 @@ const MakeAppointment = ({
         <h4 className="note__card-title">Врач</h4>
         <p>{doctor}</p>
         <h4 className="note__card-title">Ссылка на онлайн-консультацию</h4>
-        <a href="">https://zoom.us/</a>
+        <a href="https://zoom.us/">https://zoom.us/</a>
       </div>
 
       <div className="note__card-pet">
