@@ -19,6 +19,7 @@ import ServiceTherapy from "./pages/services/ServiceTherapy";
 import Specialist from "./pages/Specialist";
 import Login from "./pages/Login";
 import Registration from "./pages/Registration";
+import FAQPage from "./pages/FAQPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -48,6 +49,7 @@ function App() {
             <Route path="/order" element={<Order />} />
             <Route path="/login" element={<Login />} />
             <Route path="/registration" element={<Registration />} />
+            <Route path="/question-answer" element={<FAQPage />} />
           </Routes>
           <Footer />
         </Router>

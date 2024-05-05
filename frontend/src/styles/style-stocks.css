@@ -47,3 +47,23 @@
     flex-direction: column;
     gap: 20px;
 }
+
+.stocks__list{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.pagination-btn{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    color: #88817E;
+    margin-right: 5px;
+}
+
+.pagination-btn.active {
+    font-size: 25px;
+    color: #000000;
+}
