@@ -23,6 +23,14 @@ const Appointment = () => {
     }
   };
 
+  const handleServicesClick = () => { 
+    if (!isAuth) {
+      navigate(`/login?from=appointment&source=order-card`);
+    } else {
+      navigate('/order-card');
+    }
+  };
+
   return (
     <main>
       <section className="appointment">
@@ -46,6 +54,13 @@ const Appointment = () => {
                   <div className="payment__item">
                     <p className="payment__item-title">Прием в клинике</p>
                     <span className="payment__item-price">Бесплатно</span>
+                  </div>
+                </button>
+
+                <button className="payment__btn" onClick={handleServicesClick}>
+                  <div className="payment__item">
+                    <p className="payment__item-title">Услуги</p>
+                    <span className="payment__item-price">Платно</span>
                   </div>
                 </button>
 

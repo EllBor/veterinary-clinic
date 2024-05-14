@@ -23,6 +23,7 @@ const Order = () => {
   const doctors = useSelector((state) => state.services.doctor);
   const appointments = useSelector((state) => state.doctors.nearestAppointment);
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedDistrict, setSelectedDistrict] = useState("");
   const [selectedService, setSelectedService] = useState([]);
   const [selectedDoctor, setSelectedDoctor] = useState([]);
   const [appointment_date_time, setAppointments] = useState([]);
@@ -85,6 +86,10 @@ const Order = () => {
     }
   };
 
+  const handleDistrictChange = (event) => {
+    setSelectedDistrict(event.target.value)
+  };  
+
   const handleDateChange = (event) => {
     setAppointments(event.target.value);
   };
@@ -96,7 +101,9 @@ const Order = () => {
   const onSubmit = async (data) => {
     try {
       setLoading(true);
-      const newData = {appointment_date_time, ...data};
+      const online_consultation_link = "";
+      const type = "оффлайн";
+      const newData = {appointment_date_time, selectedDistrict, online_consultation_link, type, ...data};
       await dispatch(
         fetchAppointmentCreate({
           userId: id,
@@ -131,6 +138,21 @@ const Order = () => {
                   onSubmit={handleSubmit(onSubmit)}
                 >
                   <div className="form__select">
+
+                  <select
+                      className="form__select-item"
+                      value={selectedDistrict}
+                      onChange={handleDistrictChange}
+                    >
+                      <option value="">Выберите услугу</option>
+                          <option key={index} value="Дзержинский район, ул. Краснополянская, 30">
+                            Дзержинский район, ул. Краснополянская, 30
+                          </option>
+                          <option key={index} value="Советский район, ул. Карла Маркса, 70">
+                            Советский район, ул. Карла Маркса, 70
+                          </option>
+                    </select>
+
                     <select
                       className="form__select-item"
                       value={selectedService}

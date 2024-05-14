@@ -1,5 +1,6 @@
 import PetsModel from "../models/Pets.js";
 import UserModel from "../models/User.js";
+import MedicalHistoryModel from  "../models/MedicalHistory.js";
 
 export const create = async (req, res) => {
   try {
@@ -114,6 +115,20 @@ export const getOne = async (req, res) => {
     console.log(error);
     res.status(500).json({
       message: "Не удалось получить питомца",
+    });
+  }
+};
+
+
+export const getMedicalHistory = async (req, res) => {
+  try {
+    const petId = req.params.petId; 
+    const medicalHistory = await MedicalHistoryModel.find({ pet: petId }); 
+    res.json(medicalHistory); 
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Не удалось получить медицинскую историю",
     });
   }
 };

@@ -6,6 +6,8 @@ import { authReducer } from './slices/auth';
 import { usersReducer } from './slices/users';
 import { appointmentReducer } from './slices/appointment';
 import { servicesReducer } from './slices/services';
+import { receiptReducer } from './slices/receipt';
+import { historiesReducer } from './slices/histories';
 
 const store = configureStore({
     reducer: {
@@ -16,6 +18,8 @@ const store = configureStore({
         users: usersReducer,
         appointment: appointmentReducer,
         services: servicesReducer,
+        receipt: receiptReducer,
+        histories: historiesReducer,
     },
 })
 

@@ -12,6 +12,8 @@ const MakeAppointment = ({
   appointmentTime,
   petName,
   doctor,
+  clinicAddress,
+  consultationLink
 }) => {
   
   const dispatch = useDispatch();
@@ -24,6 +26,13 @@ const MakeAppointment = ({
       await dispatch(fetchAppointment(id));
     }
   };
+
+  const appointmentLink = consultationLink ? (
+    <a href={consultationLink}>{consultationLink}</a>
+  ) : clinicAddress ? (
+    clinicAddress
+  ) : null;
+
   return (
     <div className="note__card">
       <div className="note__card-foto card-foto">
@@ -37,7 +46,7 @@ const MakeAppointment = ({
         <h4 className="note__card-title">Врач</h4>
         <p>{doctor}</p>
         <h4 className="note__card-title">Ссылка на онлайн-консультацию</h4>
-        <a href="https://zoom.us/">https://zoom.us/</a>
+        <p>{appointmentLink}</p>
       </div>
 
       <div className="note__card-pet">

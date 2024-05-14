@@ -20,6 +20,9 @@ import Specialist from "./pages/Specialist";
 import Login from "./pages/Login";
 import Registration from "./pages/Registration";
 import FAQPage from "./pages/FAQPage";
+import OrderServices from "./pages/OrderServices";
+import PasswordReset from "./pages/PasswordReset";
+import MedicalCard from "./pages/MedicalCard";
 
 function App() {
   const dispatch = useDispatch();
@@ -50,6 +53,9 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/registration" element={<Registration />} />
             <Route path="/question-answer" element={<FAQPage />} />
+            <Route path="/order-services" element={<OrderServices />} />
+            <Route path="/password-reset" element={<PasswordReset/>} /> 
+            <Route path="/medical-card/:id" element={<MedicalCard/>} />
           </Routes>
           <Footer />
         </Router>

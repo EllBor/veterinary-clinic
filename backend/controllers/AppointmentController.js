@@ -60,6 +60,9 @@ export const create = async (req, res) => {
       appointment_date_time: req.body.appointment_date_time,
       status: "запланирован",
       problems: req.body.problems,
+      type: req.body.type,
+      clinic_address: req.body.clinic_address,
+      online_consultation_link: req.body.online_consultation_link,
     });
     const app = await doc.save();
     res.json([app]);

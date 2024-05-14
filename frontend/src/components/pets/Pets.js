@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { NavLink } from "react-router-dom";
 import { fetchPetsDelete, fetchPets } from "../../redux/slices/pets";
 import PetUpdateModal from "../modal/PetUpdateModal";
 
@@ -7,6 +8,10 @@ import foto from "../../images/account-foto.png";
 import pdf from "../../images/pdf.png";
 import trash from "../../images/trash.svg";
 import update from "../../images/update.svg";
+
+const generateMedicalCardNumber = () => {
+  return Math.floor(Math.random() * 1000000) + 100000;
+};
 
 const Pets = ({
   userId,
@@ -19,10 +24,16 @@ const Pets = ({
   avatarUrl,
 }) => {
   const dispatch = useDispatch();
-
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const history = useSelector(state => state.histories);
+  const isHistoryLoading = history.status === "loading";
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
+  const medicalCardNumber = generateMedicalCardNumber();
+
+  React.useEffect(() => {
+    dispatch(fetchMedicalHistory(petId));
+  }, [dispatch, petId]);
 
   const onClickRemovePets = async () => {
     if (
@@ -53,11 +64,11 @@ const Pets = ({
       <div className="info__card-health">
         <h4 className="info__medical-title">Медицинская карта</h4>
         <div className="medical-card">
-          <a className="medical-card__file" href="">
-            <img src={pdf} alt="" />
-            1025
-          </a>
-          <span className="medical-card__date">обновлена 25.06.23</span>
+          <NavLink  className="medical-card__file" to={`/medical-card/${petId}`}>
+            <img src={pdf} alt="medical card" />
+            {medicalCardNumber}
+          </NavLink >
+          <span className="medical-card__date">обновлена {isHistoryLoading ? 'загрузка...' : history.lastUpdated}</span>
         </div>
         <h4 className="info__analyzes-title">Результаты анализов</h4>
         <div className="analyzes__box">

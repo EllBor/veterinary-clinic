@@ -14,6 +14,7 @@ import * as ReviewController from "./controllers/ReviewController.js";
 import * as PetsController from "./controllers/PetsController.js";
 import * as AppointmentController from "./controllers/AppointmentController.js";
 import * as ServicesController from "./controllers/ServicesController.js";
+import * as ReceiptController from "./controllers/ReceiptController.js";
 
 mongoose
   .connect(
@@ -74,6 +75,7 @@ app.delete("/users/:userId/pets/:id", checkAuth, PetsController.remove);
 app.patch("/users/:userId/pets/:id", checkAuth, createValidation, PetsController.update);
 app.get("/users/:id/pets", checkAuth, PetsController.getAll);
 app.get("/users/:userId/pets/:id", checkAuth, PetsController.getOne);
+app.get("/medical-history/:petId", PetsController.getMedicalHistory);
 
 app.get("/services/:id/appointments", ServicesController.getAllAppointments);
 app.get("/services", ServicesController.getAllServices);
@@ -82,6 +84,10 @@ app.get("/services/:id", ServicesController.getOneServices);
 app.get("/users/:id/appointments", AppointmentController.getAll);
 app.post("/appointments/users/:userId/doctors/:doctorId/pets/:petId", AppointmentController.create);
 app.delete("/users/:userId/appointments/:id", AppointmentController.remove);
+
+app.post("/users/:id/receipt", ReceiptController.create);
+app.get("/users/:id/receipt", ReceiptController.getAll);
+
 
 app.listen(4444, (err) => {
   if (err) {

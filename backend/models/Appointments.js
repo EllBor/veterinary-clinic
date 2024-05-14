@@ -26,6 +26,13 @@ const AppointmentSchema = new mongoose.Schema({
         default: 'запланирован'
     },
     problems: String,
+    type: {
+        type: String,
+        enum: ['онлайн', 'оффлайн'],
+        required: true
+    },
+    online_consultation_link: String,
+    clinic_address: String,
 }, 
     {
         timestamps: true,

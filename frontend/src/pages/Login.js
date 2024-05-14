@@ -76,6 +76,10 @@ const Login = () => {
     }
   };
 
+  const handleResetClick = () => {
+
+  };
+
   return (
     <main>
       <section className="login">
@@ -120,6 +124,12 @@ const Login = () => {
                 Войти
               </button>
             </form>
+            <button
+              className="login__link form-link"
+              onClick={handleResetClick}
+            >
+              Не могу вспомнить пароль
+            </button>
             <button
               className="login__link form-link"
               onClick={handleRegistrationClick}

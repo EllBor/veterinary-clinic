@@ -6,6 +6,11 @@ export const fetchPets = createAsyncThunk("pets/fetchPets", async (userId) => {
   return data;
 });
 
+export const fetchOnePet = createAsyncThunk('pets/fetchOnePet', async (userId, petId) => {
+  const {data} = await axios.get(`/users/${userId}/pets/${petId}`);
+  return data;
+});
+
 export const fetchPetsDelete = createAsyncThunk(
   "pets/fetchPetsDelete",
   async ({ userId, petId }) => {
@@ -93,7 +98,19 @@ const petsSlice = createSlice({
       .addCase(fetchPetsUpdate.rejected, (state, action) => {
         state.status = "error";
         state.error = action.error.message;
-      });
+      })
+      .addCase(fetchOnePet.pending, (state) => {
+        state.status = 'loading';
+        state.error = null;
+    })
+    .addCase(fetchOnePet.fulfilled, (state, action) => {
+        state.status = 'loaded';
+        state.items = action.payload;
+    })
+    .addCase(fetchOnePet.rejected, (state, action) => {
+        state.status = 'error';
+        state.error = action.error.message;
+    });
   },
 });
 

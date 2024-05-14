@@ -32,6 +32,11 @@ const DoctorSchema = new mongoose.Schema(
     ],
     appointment_dates: [
       {
+        service_id: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Service",
+          required: true,
+        },
         start_date_time: {
           type: Date,
           required: true,
@@ -40,6 +45,11 @@ const DoctorSchema = new mongoose.Schema(
           type: Date,
           required: true,
         },
+        status: {
+          type: String,
+          enum: ['запланирован', 'активен'],
+          default: 'активен'
+      },
       },
     ],
     avatarUrl: String,

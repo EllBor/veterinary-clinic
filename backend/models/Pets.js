@@ -44,19 +44,7 @@ const PetsSchema = new mongoose.Schema({
             }
         }],
         default: null 
-    },
-    medicalCard: [
-        {
-            number:{
-                type: Number,
-                required: true
-            },
-            dateUpdate:{
-                type: Date,
-                required: true
-            }
-        }
-    ]
+    }
 }, 
     {
         timestamps: true,

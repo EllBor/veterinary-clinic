@@ -12,14 +12,22 @@ import Courses from "../components/courses/Courses";
 import FeedbackModel from "../components/modal/FeedbackModel";
 import DoctorAccount from "../components/doctorAccount/DoctorAccount";
 import Reviews from "../components/reviews/Reviews";
+import { selectIsAuth, fetchAuthMe } from "../redux/slices/auth";
 
 import { fetchReviews } from "../redux/slices/reviews";
 import { fetchDoctorAppointments, fetchOneDoctor } from "../redux/slices/doctors";
 
 const Specialist = () => {
   const { id } = useParams();
+  const isAuth = useSelector(selectIsAuth);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const openModal = () => setIsModalOpen(true);
+  const openModal = () => {
+    if (isAuth) { 
+      setIsModalOpen(true);
+    } else {
+      alert("Для начала нужно авторизоваться");
+    }
+  };
   const closeModal = () => setIsModalOpen(false);
   const dispatch = useDispatch();
   const doctors = useSelector((state) => state.doctors);
@@ -32,6 +40,7 @@ const Specialist = () => {
     dispatch(fetchReviews(id));
     dispatch(fetchOneDoctor(id));
     dispatch(fetchDoctorAppointments(id));
+    dispatch(fetchAuthMe());
   }, [dispatch, id]);
 
   const settings = {
@@ -56,13 +65,15 @@ const Specialist = () => {
               <NavLink className="account-specialist__btn" to="/appointment">
                 ЗАПИСАТЬСЯ
               </NavLink>
-              <button
-                className="account-specialist__feedback"
-                onClick={openModal}
-              >
-                ОСТАВИТЬ ОТЗЫВ
-                {console.log("reviews.items",reviews.items)}
-              </button>
+              {isAuth && (
+                <button
+                  className="account-specialist__feedback"
+                  onClick={openModal}
+                >
+                  ОСТАВИТЬ ОТЗЫВ
+                  {console.log("reviews.items",reviews.items)}
+                </button>
+              )}
               <FeedbackModel isOpen={isModalOpen} onClose={closeModal} id={id}/>
             </div>
 
