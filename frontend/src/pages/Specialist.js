@@ -58,7 +58,6 @@ const Specialist = () => {
           <div className="account-specialist__inner">
             <div className="account-specialist__foto">
               <img src={account_doc} alt="" />
-              {console.log("nearestAppointment",nearestAppointment)}
               <p className="account-specialist__time">
                 ближайшая дата приема: {nearestAppointment ? new Date(nearestAppointment.start_date_time).toLocaleDateString() : 'запись недоступна'}
               </p>

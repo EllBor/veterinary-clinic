@@ -6,7 +6,8 @@ export const fetchPets = createAsyncThunk("pets/fetchPets", async (userId) => {
   return data;
 });
 
-export const fetchOnePet = createAsyncThunk('pets/fetchOnePet', async (userId, petId) => {
+export const fetchOnePet = createAsyncThunk('pets/fetchOnePet', async ({userId, petId}) => {
+
   const {data} = await axios.get(`/users/${userId}/pets/${petId}`);
   return data;
 });
@@ -105,7 +106,7 @@ const petsSlice = createSlice({
     })
     .addCase(fetchOnePet.fulfilled, (state, action) => {
         state.status = 'loaded';
-        state.items = action.payload;
+        state.pets.items = action.payload;
     })
     .addCase(fetchOnePet.rejected, (state, action) => {
         state.status = 'error';

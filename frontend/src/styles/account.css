@@ -280,3 +280,100 @@
     width: 46px;
     height: 46px;
 }
+
+.history-card{
+    display: flex;
+    gap: 150px;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-top: 20px;
+}
+
+.base-info__title{
+    font-size: 80px;
+    width: 500px;
+}
+
+.base-info__name{
+    color: #7893F5;
+}
+
+.base-info{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.madical-box{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 900px;
+}
+
+.base-info__box{
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.box__title, .medical-history__title, .medical-prescriptions__title{
+    font-size: 40px;
+    font-weight: 400;
+    margin-bottom: 20px;
+}
+
+.box__text, .list-item__text{
+    font-size: 30px;
+    font-weight: 400;
+}
+
+.medical-prescriptions__list-item{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.list-item__line{
+    color: #7893F5;
+}
+
+.btn_download{
+    border: none;
+    background-color: #7893F5;
+    color: #fff;
+    cursor: pointer;
+    border-radius: 34px;
+    padding: 24px 77px;
+    width: 262px;
+    font-size: 16px;
+    box-shadow: 0px 4px 20px rgba(120, 147, 245, 0.5);
+    transition: 1s;
+}
+
+.btn_download:hover {
+    transform: scale(1.2);
+}
+
+.account__link{
+    font-size: 20px;
+    position: relative;
+}  
+
+.account__link::before{
+    content: '';
+    position: absolute;
+    background-image: url(../images/app-back.svg);
+    top: 4px;
+    left: -18px;
+    right: 0;
+    bottom: 0;
+    background-repeat: no-repeat;
+}
+
+
+.account__link:hover{
+    color: #7893F5;
+}

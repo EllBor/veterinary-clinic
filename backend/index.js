@@ -74,7 +74,7 @@ app.post("/users/:userId/pets", checkAuth, createValidation, PetsController.crea
 app.delete("/users/:userId/pets/:id", checkAuth, PetsController.remove);
 app.patch("/users/:userId/pets/:id", checkAuth, createValidation, PetsController.update);
 app.get("/users/:id/pets", checkAuth, PetsController.getAll);
-app.get("/users/:userId/pets/:id", checkAuth, PetsController.getOne);
+app.get("/users/:userId/pets/:id", PetsController.getOne);
 app.get("/medical-history/:petId", PetsController.getMedicalHistory);
 
 app.get("/services/:id/appointments", ServicesController.getAllAppointments);

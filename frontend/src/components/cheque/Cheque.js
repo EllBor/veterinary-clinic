@@ -1,5 +1,5 @@
 
-import pdf from "../images/pdf.png";
+import pdf from "../../images/pdf.png";
 
 const Cheque = ({paymentDate, receiptNumber, filePath}) => {
   return (

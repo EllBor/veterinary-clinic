@@ -1,24 +1,27 @@
 import React from 'react';
-import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
+import { Page, Text, View, Document, StyleSheet, Font } from '@react-pdf/renderer';
+import FontInterRegular from '../../fonts/Inter-Regular.otf';
+Font.register({ family: 'Inter', src: FontInterRegular });
 
 const PDFDocumentHistory = ({ pet, history }) => {
     return ( 
         <Document>
         <Page size="A4">
           <View style={styles.section}>
-            <Text>Медицинская карта питомца: {pet.name}</Text>
-            <Text>Вид: {pet.species}</Text>
-            <Text>Порода: {pet.breed}</Text>
-            <Text>Пол: {pet.gender}</Text>
-            <Text>Возраст: {pet.age}</Text>
-            <Text>Медицинская история:</Text>
-            {history.prescriptions.map((prescription, index) => (
+            <Text style={styles.text}>Медицинская карта питомца: {pet.name}</Text>
+            <Text style={styles.text}>Вид: {pet.species}</Text>
+            <Text style={styles.text}>Порода: {pet.breed}</Text>
+            <Text style={styles.text}>Пол: {pet.gender}</Text>
+            <Text style={styles.text}>Возраст: {pet.age}</Text>
+            <Text style={styles.text}>Медицинская история:</Text>
+            {history.map((prescription, index) => (
               <View key={index}>
-                <Text>Лекарство: {prescription.medication}</Text>
-                <Text>Дозировка: {prescription.dosage}</Text>
-                <Text>Частота: {prescription.frequency}</Text>
-                <Text>Начальная дата: {prescription.startDate}</Text>
-                <Text>Конечная дата: {prescription.endDate}</Text>
+                <Text style={styles.text}>---------------------------------------------------------------</Text>
+                <Text style={styles.text}>Лекарство: {prescription.medication}</Text>
+                <Text style={styles.text}>Дозировка: {prescription.dosage}</Text>
+                <Text style={styles.text}>Частота: {prescription.frequency}</Text>
+                <Text style={styles.text}>Начальная дата: {new Date(prescription.startDate).toLocaleDateString()}</Text>
+                <Text style={styles.text}>Конечная дата: {new Date(prescription.endDate).toLocaleDateString()}</Text>
               </View>
             ))}
           </View>
@@ -32,6 +35,9 @@ const styles = StyleSheet.create({
       margin: 10,
       padding: 10,
       flexGrow: 1
+    },
+    text: {
+      fontFamily: 'Inter',
     }
 });
 

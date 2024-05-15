@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { fetchPetsDelete, fetchPets } from "../../redux/slices/pets";
 import PetUpdateModal from "../modal/PetUpdateModal";
-
+import {fetchMedicalHistory} from "../../redux/slices/histories";
 import foto from "../../images/account-foto.png";
 import pdf from "../../images/pdf.png";
 import trash from "../../images/trash.svg";

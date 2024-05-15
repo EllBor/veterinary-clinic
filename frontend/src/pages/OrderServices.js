@@ -12,6 +12,7 @@ import { fetchDoctorAppointments } from "../redux/slices/doctors";
 import {
   fetchAppointmentCreate
 } from "../redux/slices/appointment";
+import {fetchReceiptCreate} from "../redux/slices/receipt";
 import { fetchPets } from "../redux/slices/pets";
 import AppointmentModal  from "../components/modal/AppointmentModal";
 
@@ -167,10 +168,10 @@ const OrderServices = () => {
                       onChange={handleDistrictChange}
                     >
                       <option value="">Выберите услугу</option>
-                          <option key={index} value="Дзержинский район, ул. Краснополянская, 30">
+                          <option value="Дзержинский район, ул. Краснополянская, 30">
                             Дзержинский район, ул. Краснополянская, 30
                           </option>
-                          <option key={index} value="Советский район, ул. Карла Маркса, 70">
+                          <option value="Советский район, ул. Карла Маркса, 70">
                             Советский район, ул. Карла Маркса, 70
                           </option>
                     </select>

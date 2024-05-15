@@ -1,5 +1,5 @@
-import PaymentReceiptModel from "../models/PaymentReceiptModel.js";
-import UserModel from "../models/UserModel.js";
+import PaymentReceiptModel from "../models/PaymentReceipt.js";
+import UserModel from "../models/User.js";
 
 export const create = async (req, res) => {
   try {

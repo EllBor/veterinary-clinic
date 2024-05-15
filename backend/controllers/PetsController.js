@@ -104,7 +104,7 @@ export const getOne = async (req, res) => {
         message: "Пользователь не найден",
       });
     }
-    const pet = await PetsModel.find({ user: userId, _id: petId });
+    const pet = await PetsModel.findOne({ user: userId, _id: petId });
     if (!pet) {
       return res.status(404).json({
         message: "Питомец не найдены",
@@ -123,7 +123,7 @@ export const getOne = async (req, res) => {
 export const getMedicalHistory = async (req, res) => {
   try {
     const petId = req.params.petId; 
-    const medicalHistory = await MedicalHistoryModel.find({ pet: petId }); 
+    const medicalHistory = await MedicalHistoryModel.findOne({ pet: petId }); 
     res.json(medicalHistory); 
   } catch (error) {
     console.log(error);
