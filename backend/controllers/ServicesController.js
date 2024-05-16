@@ -92,7 +92,6 @@ export const getOneServices = async (req, res) => {
   }
 };
 
-
 export const getDoctorsByService = async (req, res) => {
   try {
     const serviceId = req.params.serviceId;

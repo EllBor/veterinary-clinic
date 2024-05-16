@@ -101,12 +101,9 @@
 }
 
 .service-therapy__part-text{
+    font-size: 24px;
     margin-bottom: 20px;
     line-height: 32px;
-}
-
-.service-therapy__price{
-    margin-bottom: 40px;
 }
 
 .service-therapy__price-title{
@@ -134,6 +131,7 @@
 .service-therapy__item-title{
     font-size: 18px;
     font-weight: 400;
+    margin-bottom: 20px;
 }
 
 .service-therapy__item-img{
@@ -159,9 +157,11 @@
 .service-therapy__price-item{
     display: flex;
     justify-content: space-between;
+    align-items: center;
     font-size: 20px;
     padding: 14px;
     border-radius: 15px;
+    margin-bottom: 10px;
 }
 
 .service-therapy__item-box{
@@ -193,6 +193,7 @@
     margin-right: 20px;
     cursor: pointer;
 }
+
 .service-therapy__doc-slider-item{
     display: flex;
     gap: 20px;
@@ -232,4 +233,20 @@
     border-radius: 6px; 
     border: 3px solid #f1f1f1; 
 }
-  
+
+.service-therapy__list{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    list-style-type: circle !important;
+    list-style-position: inside !important;
+}
+
+.service-therapy__list-item{
+    font-size: 24px;
+    line-height: 25px;
+}
+
+.service-therapy__name, .service-therapy__price{
+    font-size: 24px;
+}

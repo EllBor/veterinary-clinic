@@ -8,7 +8,7 @@ const NavAccount = ({ fullName, id }) => {
   const navigate = useNavigate();
   const safeFullName = fullName || "";
   const parts = safeFullName.split(" ");
-  const name = parts[0];
+  const name = parts[2];
 
   const onClickLogout = () => {
     if (window.confirm("Вы действительно хотите выйти?")) {

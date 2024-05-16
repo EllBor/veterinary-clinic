@@ -70,7 +70,6 @@ const Specialist = () => {
                   onClick={openModal}
                 >
                   ОСТАВИТЬ ОТЗЫВ
-                  {console.log("reviews.items",reviews.items)}
                 </button>
               )}
               <FeedbackModel isOpen={isModalOpen} onClose={closeModal} id={id}/>

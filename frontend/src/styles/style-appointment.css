@@ -218,7 +218,7 @@
     content: '/';
     position: absolute;
     top: 0;
-    right: -20px; /* Помещаем символ справа от input */
+    right: -20px; 
     font-size: 20px;
     height: 100%;
     display: flex;
@@ -227,6 +227,7 @@
 
 .form__select{
     display: flex;
+    flex-wrap: wrap;
     gap: 20px;
 }
 

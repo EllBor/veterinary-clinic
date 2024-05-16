@@ -16,6 +16,7 @@ export const fetchDoctorsByService = createAsyncThunk('services/fetchDoctorsBySe
     return data;
 })
 
+
 const initialState = {
     diagnostics: [],
     doctor: [],

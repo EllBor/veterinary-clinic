@@ -7,8 +7,8 @@ import TextField from "@mui/material/TextField";
 
 import { selectIsAuthId } from "../redux/slices/auth";
 import { fetchUsers } from "../redux/slices/users";
-import { fetchServices, fetchDoctorsByService } from "../redux/slices/services";
-import { fetchDoctorAppointments } from "../redux/slices/doctors";
+import { fetchServices, fetchDoctorsByService, fetchOneService } from "../redux/slices/services";
+import { fetchDoctorServiceAppointments } from "../redux/slices/doctors";
 import {
   fetchAppointmentCreate
 } from "../redux/slices/appointment";
@@ -28,7 +28,8 @@ const OrderServices = () => {
   const users = useSelector((state) => state.users);
   const services = useSelector((state) => state.services);
   const doctors = useSelector((state) => state.services.doctor);
-  const appointments = useSelector((state) => state.doctors.nearestAppointment);
+  const appointments = useSelector((state) => state.doctors.sortedAppointments);
+  const diagnostics = useSelector((state) => state.services.diagnostics);
   const [isLoading, setIsLoading] = useState(true);
   const [loading, setLoading] = useState(false);
   const [selectedDistrict, setSelectedDistrict] = useState("");
@@ -85,7 +86,10 @@ const OrderServices = () => {
   const handleServiceChange = (event) => {
     setSelectedService(event.target.value);
     setSelectedDoctor("");
+    setSelectedDiagnostics("");
+    setAppointments("");
     if (event.target.value) {
+      dispatch(fetchOneService(event.target.value));
       dispatch(fetchDoctorsByService(event.target.value));
     }
   };
@@ -94,7 +98,7 @@ const OrderServices = () => {
     setSelectedDoctor(event.target.value);
     setAppointments("");
     if (event.target.value) {
-      dispatch(fetchDoctorAppointments(event.target.value));
+      dispatch(fetchDoctorServiceAppointments({serviceId: selectedService, id: event.target.value}));
     }
   };
 
@@ -125,16 +129,17 @@ const OrderServices = () => {
           params: newData,
         })
       );
-      const service = services.items.diagnostics.find((item) => item._id === selectedDiagnostics);
-      const doctorName = doctors.items.find((item) => item._id === selectedDoctor);
-      const petName = pets.items.find((item) => item._id === selectedPet);
+
+      const doctorName = doctors.find((item) => item._id === selectedDoctor).fullName;
+      const petName = pets.items.find((item) => item._id === selectedPet).name;
       const paymentMethod = "card";
       const userFullName = users.items[0].fullName;
-      const newReceipt = { service, userFullName, clinic_address, doctorName, petName, paymentMethod }
-    
+      const [service, amount] = selectedDiagnostics.split(' ');
+      console.log("service",service);
+      const newReceipt = { service, amount, userFullName, clinic_address, doctorName, petName, paymentMethod }
         await dispatch(
           fetchReceiptCreate({
-            user: id,
+            userId: id,
             params: newReceipt
           })
       );
@@ -170,7 +175,7 @@ const OrderServices = () => {
                       value={selectedDistrict}
                       onChange={handleDistrictChange}
                     >
-                      <option value="">Выберите услугу</option>
+                      <option value="">Выберите адресс клиники</option>
                           <option value="Дзержинский район, ул. Краснополянская, 30">
                             Дзержинский район, ул. Краснополянская, 30
                           </option>
@@ -210,14 +215,14 @@ const OrderServices = () => {
                       <option value="">Выберите услугу</option>
                       {(isServicesLoading
                         ? [...Array(3)]
-                        : services.items.diagnostics || []
+                        : diagnostics || []
                       ).map((obj, index) =>
                         isServicesLoading ? (
                           <option key={`loading-diagnostic-${index}`}>
                             Услгу нет
                           </option>
                         ) : (
-                          <option key={index} value={obj.diagnostics_name}>
+                          <option key={index} value={`${obj.diagnostics_name} ${obj.diagnostics_price}`}>
                             {obj.diagnostics_name} {" "} {obj.diagnostics_price}
                           </option>
                         )

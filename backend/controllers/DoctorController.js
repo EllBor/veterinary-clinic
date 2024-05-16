@@ -97,10 +97,9 @@ export const getAllDoctorsWithAppointments = async (req, res) => {
   try {
     const serviceId = req.params.id; 
 
-    const doctorServices = await DoctorServiceModel.find({ service_id: serviceId }).lean();
-    const doctorIds = doctorServices.map((docServ) => docServ.doctor_id);
-
-    const doctors = await DoctorModel.find({ _id: { $in: doctorIds } }).lean();
+    const doctors = await DoctorModel.find({
+      "appointment_dates.service_id": serviceId
+    }).lean();
 
     const doctorsWithAppointments = await Promise.all(doctors.map(async (doctor) => {
       const appointmentsForService = doctor.appointment_dates.filter(appointment =>

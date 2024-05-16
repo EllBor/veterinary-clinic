@@ -64,7 +64,7 @@ const ServiceTherapy = () => {
                         key={obj._id}
                         avatarUrl={doc_foto}
                         fullName={obj.fullName}
-                        closestAppointmentDate={obj.closestAppointmentDate}
+                        closestAppointmentDate={obj.nearestAppointment.start_date_time}
                       />
                     )
                   )}
@@ -80,18 +80,18 @@ const ServiceTherapy = () => {
                     Терапевтическое отделение клиники Айболит занимается
                     диагностикой и лечением следующих болезней:
                   </p>
-                  <ul>
-                    <li>Органов пищеварения;</li>
-                    <li>Органов дыхательной системы;</li>
-                    <li>Нервной системы;</li>
-                    <li>Органов мочевыделительной системы;</li>
-                    <li>Эндокринной системы;</li>
-                    <li>Нарушения обмена веществ;</li>
-                    <li>Кожи и ее производных;</li>
-                    <li>Органов чувств;</li>
-                    <li>Репродуктивной области;</li>
-                    <li>Инфекционной и инвазионной природы;</li>
-                    <li>Токсикологической природы.</li>
+                  <ul className="service-therapy__list">
+                    <li className="service-therapy__list-item">Органов пищеварения;</li>
+                    <li className="service-therapy__list-item">Органов дыхательной системы;</li>
+                    <li className="service-therapy__list-item">Нервной системы;</li>
+                    <li className="service-therapy__list-item">Органов мочевыделительной системы;</li>
+                    <li className="service-therapy__list-item">Эндокринной системы;</li>
+                    <li className="service-therapy__list-item">Нарушения обмена веществ;</li>
+                    <li className="service-therapy__list-item">Кожи и ее производных;</li>
+                    <li className="service-therapy__list-item">Органов чувств;</li>
+                    <li className="service-therapy__list-item">Репродуктивной области;</li>
+                    <li className="service-therapy__list-item">Инфекционной и инвазионной природы;</li>
+                    <li className="service-therapy__list-item"> Токсикологической природы.</li>
                   </ul>
                 </div>
 
@@ -130,15 +130,15 @@ const ServiceTherapy = () => {
                     течение буквально нескольких минут, что немаловажно для
                     экстренных случаев и значительно экономят время владельцам:
                   </p>
-                  <ul>
-                    <li>Гематологический и биохимический анализы крови;</li>
-                    <li>Исследование Т4 и кортизол;</li>
-                    <li>Анализ газов крови;</li>
-                    <li>Рентген;</li>
-                    <li>
+                  <ul className="service-therapy__list">
+                    <li className="service-therapy__list-item">Гематологический и биохимический анализы крови;</li>
+                    <li className="service-therapy__list-item">Исследование Т4 и кортизол;</li>
+                    <li className="service-therapy__list-item">Анализ газов крови;</li>
+                    <li className="service-therapy__list-item">Рентген;</li>
+                    <li className="service-therapy__list-item">
                       Ультразвуковое исследование брюшной полости и сердца;
                     </li>
-                    <li>Экспресс-анализы на основные вирусные заболевания.</li>
+                    <li className="service-therapy__list-item">Экспресс-анализы на основные вирусные заболевания.</li>
                   </ul>
                 </div>
 
@@ -184,8 +184,8 @@ const ServiceTherapy = () => {
                             key={index}
                             className="service-therapy__price-item"
                           >
-                            <p>{diagnostic.diagnostics_name}</p>
-                            <span>{diagnostic.diagnostics_price} ₽</span>
+                            <p className="service-therapy__name">{diagnostic.diagnostics_name}</p>
+                            <span className="service-therapy__price">{diagnostic.diagnostics_price} ₽</span>
                           </div>
                         ))
                       )}
@@ -219,7 +219,6 @@ const ServiceTherapy = () => {
                       key={project.id}
                       title={project.title}
                       img={project.img}
-                      service_num={project.service_num}
                     />
                   );
                 })}
