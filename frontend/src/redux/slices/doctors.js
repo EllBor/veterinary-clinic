@@ -27,6 +27,12 @@ export const fetchDoctorsWithAppointments = createAsyncThunk('doctors/fetchDocto
     return data;
 })
 
+export const fetchUpdateAppointmentStatus = createAsyncThunk('doctors/fetchUpdateAppointmentStatus', async ({serviceId, doctorId, params}) => {
+    const {data} = await axios.post(`/service/${serviceId}/doctors/${doctorId}/appointments`, params);
+    return data;
+})
+
+
 const initialState = {
     doctorsWithAppointments: [],
     nearestAppointment: [],
@@ -101,6 +107,18 @@ const doctorsSlice = createSlice({
                 state.sortedAppointments = action.payload.sortedAppointments;
             })
             .addCase(fetchDoctorServiceAppointments.rejected, (state, action) => {
+                state.status = 'error';
+                state.error = action.error.message;
+            })
+            .addCase(fetchUpdateAppointmentStatus.pending, (state) => {
+                state.status = 'loading';
+                state.error = null;
+            })
+            .addCase(fetchUpdateAppointmentStatus.fulfilled, (state, action) => {
+                state.status = 'loaded';
+                state.items = action.payload;
+            })
+            .addCase(fetchUpdateAppointmentStatus.rejected, (state, action) => {
                 state.status = 'error';
                 state.error = action.error.message;
             });

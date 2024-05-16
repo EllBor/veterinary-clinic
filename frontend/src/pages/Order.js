@@ -7,7 +7,7 @@ import TextField from "@mui/material/TextField";
 import { selectIsAuthId } from "../redux/slices/auth";
 import { fetchUsers } from "../redux/slices/users";
 import { fetchServices, fetchDoctorsByService } from "../redux/slices/services";
-import { fetchDoctorServiceAppointments} from "../redux/slices/doctors";
+import { fetchDoctorServiceAppointments, fetchUpdateAppointmentStatus} from "../redux/slices/doctors";
 import {
   fetchAppointmentCreate
 } from "../redux/slices/appointment";
@@ -113,6 +113,14 @@ const Order = () => {
           params: newData,
         })
       );
+      const newStatus = 'запланирован';
+      const paramsDate = {appointment_date_time, newStatus};
+      await dispatch(fetchUpdateAppointmentStatus({
+        serviceId: selectedService, 
+        doctorId: selectedDoctor,
+        params: paramsDate,
+      })
+    );
       openModal();
     } catch (error) {
       console.error("Ошибка при отправке данных:", error);

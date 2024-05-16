@@ -66,6 +66,7 @@ app.get("/doctor/:id", DoctorController.getOne);
 app.get("/doctor/:id/appointments", DoctorController.getDoctorAndNearestAppointment);
 app.get("/service/:serviceId/doctor/:id/appointments", DoctorController.getDoctorServiceAndNearestAppointment);
 app.get("/service/:id/doctors", DoctorController.getAllDoctorsWithAppointments);
+app.post("/service/:serviceId/doctors/:doctorId/appointments", DoctorController.updateAppointmentStatus)
 
 app.get("/doctor/:id/reviews", ReviewController.getAll);
 app.post("/doctor/:doctorId/users/:userId/reviews", ReviewsValidation, ReviewController.create);

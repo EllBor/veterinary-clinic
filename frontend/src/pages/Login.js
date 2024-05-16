@@ -83,7 +83,7 @@ const Login = () => {
   };
 
   const handleResetClick = () => {
-
+    navigate(`/password-reset`, { replace: true });
   };
 
   return (

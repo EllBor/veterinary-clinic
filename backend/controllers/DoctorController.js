@@ -73,7 +73,8 @@ export const getDoctorServiceAndNearestAppointment = async (req, res) => {
     }
 
     const appointmentsForService = doctor.appointment_dates.filter(appointment => 
-      appointment.service_id.toString() === serviceId
+      appointment.service_id.toString() === serviceId &&
+      appointment.status === 'активен'
     );
 
     const sortedAppointments = appointmentsForService.sort((a, b) => {
@@ -124,5 +125,35 @@ export const getAllDoctorsWithAppointments = async (req, res) => {
     res.status(500).json({
       message: "Не удалось получить врачей и их записи на прием по этой услуге",
     });
+  }
+};
+
+
+export const updateAppointmentStatus = async (req, res) => {
+  try {
+    const doctorId = req.params.doctorId;
+    const serviceId = req.params.serviceId;
+    const startDateTime = new Date(req.body.appointment_date_time).getDate();
+    const newStatus = req.body.newStatus;
+    const doctor = await DoctorModel.findById(doctorId);
+    if (!doctor) {
+      throw new Error('Врач не найден');
+    }
+
+    const appointment = doctor.appointment_dates.find(appointment => 
+      appointment.start_date_time.getDate() === startDateTime &&
+      appointment.service_id.toString() === serviceId
+    );
+
+    if (!appointment) {
+      throw new Error('Запись о приеме не найдена');
+    }
+
+    appointment.status = newStatus;
+    await doctor.save();
+    res.status(200).json(appointment);
+  } catch (error) {
+    console.error('Ошибка при обновлении статуса записи о приеме:', error);
+    throw error; 
   }
 };

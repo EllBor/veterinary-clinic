@@ -61,7 +61,7 @@ const PasswordReset = () => {
   }
 
   const handleBackClick = () => {
-
+    navigate(`/login`, { replace: true });
   };
 
   return (
@@ -93,7 +93,7 @@ const PasswordReset = () => {
               />
 
               <button
-                className="login__form-btn form-btn"
+                className="reset__form-btn form-btn"
                 type="submit"
                 disabled={!isValid}
               >
