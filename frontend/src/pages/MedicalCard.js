@@ -14,8 +14,9 @@ const MedicalCard = () => {
   const [isLoading, setIsLoading] = useState(false);
   const userId = useSelector(selectIsAuthId);
   const pet = useSelector((state) => state.pets.pets);
-  const history = useSelector((state) => state.histories.prescriptions);
-  const isHistoryLoading = history.status === "loading";
+  const historyPrescriptions = useSelector((state) => state.histories.prescriptions);
+  const historyDiagnosis = useSelector((state) => state.histories.diagnosis);
+  const isPrescriptionsLoading = historyPrescriptions.status === "loading";
 
   React.useEffect(() => {
     dispatch(fetchOnePet({ userId: userId, petId: id }));
@@ -46,15 +47,15 @@ const MedicalCard = () => {
             <div className="madical-box">
               <div className="medical-history">
                 <h2 className="medical-history__title">Медицинская история:</h2>
-                {/* <p className='medical-history__text'>{history}</p> */}
+                <p className='medical-history__text'>{historyDiagnosis}</p>
               </div>
               <div className="medical-prescriptions">
                 <h2 className="medical-prescriptions__title">Назначения:</h2>
                 <ul className="medical-prescriptions__list">
-                  {isHistoryLoading ? (
+                  {isPrescriptionsLoading ? (
                     <p>Loading...</p>
                   ) : (
-                    history.map((prescription, index) => (
+                    historyPrescriptions.map((prescription, index) => (
                       <li
                         className="medical-prescriptions__list-item"
                         key={index}
@@ -92,7 +93,7 @@ const MedicalCard = () => {
           </button>
           {isLoading && (
             <PDFDownloadLink
-              document={<PDFDocumentHistory pet={pet.items} history={history} />}
+              document={<PDFDocumentHistory pet={pet.items} historyPrescriptions={historyPrescriptions} historyDiagnosis={historyDiagnosis} />}
               fileName="medical_card.pdf"
             >
               {({ loading }) => (loading ? "Загрузка PDF..." : "Скачать PDF")}

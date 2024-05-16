@@ -16,6 +16,12 @@ export const fetchDoctorAppointments = createAsyncThunk('doctors/fetchDoctorAppo
     return data;
 })
 
+export const fetchDoctorServiceAppointments = createAsyncThunk('doctors/fetchDoctorServiceAppointments', async ({serviceId, id}) => {
+    const {data} = await axios.get(`/service/${serviceId}/doctor/${id}/appointments`);
+    console.log("data",data);
+    return data;
+})
+
 export const fetchDoctorsWithAppointments = createAsyncThunk('doctors/fetchDoctorsWithAppointments', async (id) => {
     const {data} = await axios.get(`/service/${id}/doctors`);
     return data;
@@ -24,6 +30,7 @@ export const fetchDoctorsWithAppointments = createAsyncThunk('doctors/fetchDocto
 const initialState = {
     doctorsWithAppointments: [],
     nearestAppointment: [],
+    sortedAppointments: [],
     doctors: {
         items: [],
         status: 'loading',
@@ -48,18 +55,6 @@ const doctorsSlice = createSlice({
                 state.status = 'error';
                 state.error = action.error.message;
             })
-            .addCase(fetchDoctorsWithAppointments.pending, (state) => {
-                state.status = 'loading';
-                state.error = null;
-            })
-            .addCase(fetchDoctorsWithAppointments.fulfilled, (state, action) => {
-                state.status = 'loaded';
-                state.doctorsWithAppointments = action.payload.doctorsWithAppointments;
-            })
-            .addCase(fetchDoctorsWithAppointments.rejected, (state, action) => {
-                state.status = 'error';
-                state.error = action.error.message;
-            })
             .addCase(fetchOneDoctor.pending, (state) => {
                 state.status = 'loading';
                 state.error = null;
@@ -81,6 +76,30 @@ const doctorsSlice = createSlice({
                 state.nearestAppointment = action.payload.nearestAppointment;
             })
             .addCase(fetchDoctorAppointments.rejected, (state, action) => {
+                state.status = 'error';
+                state.error = action.error.message;
+            })
+            .addCase(fetchDoctorsWithAppointments.pending, (state) => {
+                state.status = 'loading';
+                state.error = null;
+            })
+            .addCase(fetchDoctorsWithAppointments.fulfilled, (state, action) => {
+                state.status = 'loaded';
+                state.doctorsWithAppointments = action.payload.doctorsWithAppointments;
+            })
+            .addCase(fetchDoctorsWithAppointments.rejected, (state, action) => {
+                state.status = 'error';
+                state.error = action.error.message;
+            })
+            .addCase(fetchDoctorServiceAppointments.pending, (state) => {
+                state.status = 'loading';
+                state.error = null;
+            })
+            .addCase(fetchDoctorServiceAppointments.fulfilled, (state, action) => {
+                state.status = 'loaded';
+                state.sortedAppointments = action.payload.sortedAppointments;
+            })
+            .addCase(fetchDoctorServiceAppointments.rejected, (state, action) => {
                 state.status = 'error';
                 state.error = action.error.message;
             });

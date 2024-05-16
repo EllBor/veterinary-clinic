@@ -1,25 +1,41 @@
 import PaymentReceiptModel from "../models/PaymentReceipt.js";
 import UserModel from "../models/User.js";
+import PDFDocument from 'pdfkit';
+import path from 'path';
+import fs from 'fs';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+
+export const downloadPdf = async (req, res) => {
+  const fileName = req.params.fileName;
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = dirname(__filename);
+  const filePath = path.join(__dirname, '../uploads/cheque/', fileName);
+  res.download(filePath);
+};
 
 export const create = async (req, res) => {
   try {
+    const number = generateReceiptNumber();
     const newReceipt = new PaymentReceiptModel({
-      user: req.id,
-      receiptNumber: generateReceiptNumber(),
+      user: req.params.id,
+      receiptNumber: number,
+      amount: req.body.amount,
       service: req.body.service,
-      userFullName: fullName,
-      clinicAddress: req.body.clinicAddress,
+      userFullName: req.body.userFullName,
+      clinicAddress: req.body.clinic_address,
       doctorName: req.body.doctorName,
-      petName: petName,
+      petName: req.body.petName,
       paymentMethod: req.body.paymentMethod
     });
-    const savedReceipt = await newReceipt.save();
-    const filePath = generateReceipt(savedReceipt);
-    savedReceipt.filePath = filePath;
-    await savedReceipt.save();
+    const filePath = generateReceipt(newReceipt);
+    newReceipt.filePath = filePath;
 
-    res.json({ success: true });
+    const savedReceipt = await newReceipt.save();
+
+    res.json([savedReceipt]);
   } catch (error) {
+    console.log(error);
     res.status(400).send(error);
   }
 };
@@ -39,10 +55,13 @@ function generateReceiptNumber() {
 
 function generateReceipt(receipt) {
   const doc = new PDFDocument();
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = dirname(__filename);
   const fileName = `receipt_${receipt.receiptNumber}.pdf`;
-  const filePath = path.join(__dirname, '..', 'receipts', fileName);
-  const stream = fs.createWriteStream(filePath);
+  const filePath = path.join(__dirname, '../uploads/cheque/', fileName);
+  doc.font(path.join(__dirname, '../fonts/Inter-Regular.otf'));
 
+  const stream = fs.createWriteStream(filePath);
   doc.pipe(stream);
   doc.text(`Номер чека: ${receipt.receiptNumber}`);
   doc.text(`Дата оплаты: ${receipt.paymentDate}`);
@@ -54,9 +73,9 @@ function generateReceipt(receipt) {
   doc.text(`Имя питомца: ${receipt.petName}`);
   doc.text(`Способ оплаты: ${receipt.paymentMethod}`);
   doc.end();
-
   return filePath; 
 }
+
  export const getAll = async (req, res) => {
   try {
     const userId = req.params.id;

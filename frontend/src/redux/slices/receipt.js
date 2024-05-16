@@ -10,6 +10,7 @@ export const fetchReceiptCreate = createAsyncThunk(
   "receipt/fetchReceiptCreate",
   async ({ userId, params }, thunkAPI) => {
     try {
+      console.log("userId",userId, params);
       const { data } = await axios.post(`/users/${userId}/receipt`, params);
       return data;
     } catch (error) {

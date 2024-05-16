@@ -25,9 +25,9 @@ const Appointment = () => {
 
   const handleServicesClick = () => { 
     if (!isAuth) {
-      navigate(`/login?from=appointment&source=order-card`);
+      navigate(`/login?from=appointment&source=order-services`);
     } else {
-      navigate('/order-card');
+      navigate('/order-services');
     }
   };
 

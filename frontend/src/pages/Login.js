@@ -54,6 +54,8 @@ const Login = () => {
         navigate(`/order`, { replace: true });
       } else if (source === "order-card") {
         navigate(`/order-card`, { replace: true });
+      } else if (source === "order-services") {
+        navigate(`/order-services`, { replace: true });
       }
     } else {
       navigate(`/account/${isAuthId}`, { replace: true });
@@ -68,6 +70,10 @@ const Login = () => {
         });
       } else if (source === "order-card") {
         navigate(`/registration?from=appointment&source=order-card`, {
+          replace: true,
+        });
+      } else if (source === "order-services") {
+        navigate(`/registration?from=appointment&source=order-services`, {
           replace: true,
         });
       }

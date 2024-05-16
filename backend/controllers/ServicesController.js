@@ -92,15 +92,14 @@ export const getOneServices = async (req, res) => {
   }
 };
 
+
 export const getDoctorsByService = async (req, res) => {
   try {
     const serviceId = req.params.serviceId;
 
-    const doctorServices = await DoctorServiceModel.find({
-      service_id: new mongoose.Types.ObjectId(serviceId)
-    }).populate('doctor_id');
-
-    const doctors = doctorServices.map(ds => ds.doctor_id);
+    const doctors = await DoctorModel.find({
+      "appointment_dates.service_id": serviceId
+    });
 
     res.json(doctors);
   } catch (error) {

@@ -34,7 +34,7 @@ const DoctorSchema = new mongoose.Schema(
       {
         service_id: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "Service",
+          ref: "Services",
           required: true,
         },
         start_date_time: {

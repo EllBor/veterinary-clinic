@@ -8,7 +8,7 @@ import TextField from "@mui/material/TextField";
 import { selectIsAuthId } from "../redux/slices/auth";
 import { fetchUsers } from "../redux/slices/users";
 import { fetchServices, fetchDoctorsByService } from "../redux/slices/services";
-import { fetchDoctorAppointments } from "../redux/slices/doctors";
+import { fetchDoctorServiceAppointments } from "../redux/slices/doctors";
 import { fetchReceiptCreate } from "../redux/slices/receipt";
 import {
   fetchAppointmentCreate
@@ -28,7 +28,7 @@ const OrderCard = () => {
   const users = useSelector((state) => state.users);
   const services = useSelector((state) => state.services);
   const doctors = useSelector((state) => state.services.doctor);
-  const appointments = useSelector((state) => state.doctors.nearestAppointment);
+  const appointments = useSelector((state) => state.doctors.sortedAppointments);
   const [isLoading, setIsLoading] = useState(true);
   const [loading, setLoading] = useState(false);
   const [selectedService, setSelectedService] = useState("");
@@ -88,7 +88,7 @@ const OrderCard = () => {
     setSelectedDoctor(event.target.value);
     setAppointments("");
     if (event.target.value) {
-      dispatch(fetchDoctorAppointments(event.target.value));
+      dispatch(fetchDoctorServiceAppointments({serviceId: selectedService, id: event.target.value}));
     }
   };
 
@@ -102,18 +102,18 @@ const OrderCard = () => {
 
   const generateOnlineConsultationLink = () => {
     const timestamp = Date.now();
-    const random = Math.floor(Math.random() * 10000);
-    const consultationId = `${timestamp}-${random}`;
+    const random = Math.floor(Math.random() * 100);
+    const consultationId = `${timestamp}${random}`;
     return `https://example.com/consultation/${consultationId}`;
   };
 
   const onSubmit = async (data) => {
     try {
       setLoading(true);
-      const onlineConsultationLink = generateOnlineConsultationLink();
+      const online_consultation_link = generateOnlineConsultationLink();
       const type = "онлайн";
-      const clinic_address = "";
-      const newData = {appointment_date_time, onlineConsultationLink, type, clinic_address, ...data};
+      let clinic_address = "";
+      const newData = {appointment_date_time, online_consultation_link, type, clinic_address, ...data};
       await dispatch(
         fetchAppointmentCreate({
           userId: id,
@@ -122,16 +122,18 @@ const OrderCard = () => {
           params: newData,
         })
       );
-      const service = services.items.find((item) => item._id === selectedService);
-      const doctorName = doctors.items.find((item) => item._id === selectedDoctor);
-      const petName = pets.items.find((item) => item._id === selectedPet);
+      const service = services.items.find((item) => item._id === selectedService).service_name;
+      const doctorName = doctors.find((item) => item._id === selectedDoctor).fullName;
+      const petName = pets.items.find((item) => item._id === selectedPet).name;
       const paymentMethod = "card";
-      const clinicAddress = "Дзержинский район, ул. Краснополянская, 30";
+      clinic_address = "Дзержинский район, ул. Краснополянская, 30";
       const userFullName = users.items[0].fullName;
-      const newReceipt = { service, userFullName, clinicAddress, doctorName, petName, paymentMethod }
+      const amount = 2000;
+      const newReceipt = { service, amount, userFullName, clinic_address, doctorName, petName, paymentMethod };
+      console.log("newReceipt",newReceipt);
         await dispatch(
           fetchReceiptCreate({
-            user: id,
+            userId: id,
             params: newReceipt
           })
       );
@@ -214,7 +216,7 @@ const OrderCard = () => {
                         <option value="">Выберите дату</option>
                         {(isAppointmentsLoading
                           ? [...Array(3)]
-                          : appointments.appointment_dates || []
+                          : appointments || []
                         ).map((obj, index) =>
                           isAppointmentsLoading ? (
                             <option key={`loading-appointments-${index}`}>

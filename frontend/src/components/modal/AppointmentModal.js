@@ -1,16 +1,14 @@
 import { NavLink } from "react-router-dom";
+import "./styles/style-appointment.css"
 const AppointmentModal = ({ isOpen, onClose, id }) => {
     return ( 
         <div>
         {isOpen && (
           <div className="overlay">
-            <div className="modal-thanksfeedback">
-              <div className="modal-content">
-                <span className="close" onClick={onClose}>
-                  &times;
-                </span>
-                <p className="modal-title">Вы записаны на приём!</p>
-                <NavLink className="modal-btn" onClick={onClose} to={`/account/${id}`}>
+            <div className="modal-appointment">
+              <div className="appointment-content">
+                <p className="appointment-title">Вы записаны на приём!</p>
+                <NavLink className="appointment-btn" onClick={onClose} to={`/account/${id}`}>
                   OK
                 </NavLink>
               </div>

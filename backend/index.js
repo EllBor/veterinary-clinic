@@ -64,6 +64,7 @@ app.get("/users/:id", UserController.getOne);
 app.get("/doctor", DoctorController.getAll);
 app.get("/doctor/:id", DoctorController.getOne);
 app.get("/doctor/:id/appointments", DoctorController.getDoctorAndNearestAppointment);
+app.get("/service/:serviceId/doctor/:id/appointments", DoctorController.getDoctorServiceAndNearestAppointment);
 app.get("/service/:id/doctors", DoctorController.getAllDoctorsWithAppointments);
 
 app.get("/doctor/:id/reviews", ReviewController.getAll);
@@ -87,6 +88,7 @@ app.delete("/users/:userId/appointments/:id", AppointmentController.remove);
 
 app.post("/users/:id/receipt", ReceiptController.create);
 app.get("/users/:id/receipt", ReceiptController.getAll);
+app.get('/api/download-pdf/:fileName', ReceiptController.downloadPdf);
 
 
 app.listen(4444, (err) => {

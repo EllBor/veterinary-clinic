@@ -39,8 +39,5 @@ const MedicalHistorySchema = new mongoose.Schema({
     timestamps: true,
 });
 
-MedicalHistorySchema.virtual('lastUpdated').get(function() {
-    return this.updatedAt || this.createdAt;
-});
 
 export default mongoose.model('MedicalHistory', MedicalHistorySchema);

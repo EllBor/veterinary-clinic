@@ -115,7 +115,8 @@ const OrderServices = () => {
       setLoading(true);
       const online_consultation_link = "";
       const type = "оффлайн";
-      const newData = {appointment_date_time, selectedDistrict, online_consultation_link, type, ...data};
+      const clinic_address = selectedDistrict;
+      const newData = {appointment_date_time, clinic_address, online_consultation_link, type, ...data};
       await dispatch(
         fetchAppointmentCreate({
           userId: id,
@@ -124,11 +125,13 @@ const OrderServices = () => {
           params: newData,
         })
       );
+      const service = services.items.diagnostics.find((item) => item._id === selectedDiagnostics);
       const doctorName = doctors.items.find((item) => item._id === selectedDoctor);
       const petName = pets.items.find((item) => item._id === selectedPet);
       const paymentMethod = "card";
       const userFullName = users.items[0].fullName;
-      const newReceipt = { selectedDiagnostics, userFullName, selectedDistrict, doctorName, petName, paymentMethod }
+      const newReceipt = { service, userFullName, clinic_address, doctorName, petName, paymentMethod }
+    
         await dispatch(
           fetchReceiptCreate({
             user: id,
@@ -253,7 +256,7 @@ const OrderServices = () => {
                         <option value="">Выберите дату</option>
                         {(isAppointmentsLoading
                           ? [...Array(3)]
-                          : appointments.appointment_dates || []
+                          : appointments || []
                         ).map((obj, index) =>
                           isAppointmentsLoading ? (
                             <option key={`loading-appointments-${index}`}>

@@ -3,7 +3,7 @@ import { Page, Text, View, Document, StyleSheet, Font } from '@react-pdf/rendere
 import FontInterRegular from '../../fonts/Inter-Regular.otf';
 Font.register({ family: 'Inter', src: FontInterRegular });
 
-const PDFDocumentHistory = ({ pet, history }) => {
+const PDFDocumentHistory = ({ pet, historyPrescriptions, historyDiagnosis }) => {
     return ( 
         <Document>
         <Page size="A4">
@@ -13,8 +13,8 @@ const PDFDocumentHistory = ({ pet, history }) => {
             <Text style={styles.text}>Порода: {pet.breed}</Text>
             <Text style={styles.text}>Пол: {pet.gender}</Text>
             <Text style={styles.text}>Возраст: {pet.age}</Text>
-            <Text style={styles.text}>Медицинская история:</Text>
-            {history.map((prescription, index) => (
+            <Text style={styles.text}>Медицинская история: {historyDiagnosis}</Text>
+            {historyPrescriptions.map((prescription, index) => (
               <View key={index}>
                 <Text style={styles.text}>---------------------------------------------------------------</Text>
                 <Text style={styles.text}>Лекарство: {prescription.medication}</Text>

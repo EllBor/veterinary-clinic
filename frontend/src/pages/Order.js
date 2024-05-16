@@ -7,7 +7,7 @@ import TextField from "@mui/material/TextField";
 import { selectIsAuthId } from "../redux/slices/auth";
 import { fetchUsers } from "../redux/slices/users";
 import { fetchServices, fetchDoctorsByService } from "../redux/slices/services";
-import { fetchDoctorAppointments } from "../redux/slices/doctors";
+import { fetchDoctorServiceAppointments} from "../redux/slices/doctors";
 import {
   fetchAppointmentCreate
 } from "../redux/slices/appointment";
@@ -21,7 +21,7 @@ const Order = () => {
   const users = useSelector((state) => state.users);
   const services = useSelector((state) => state.services);
   const doctors = useSelector((state) => state.services.doctor);
-  const appointments = useSelector((state) => state.doctors.nearestAppointment);
+  const appointments = useSelector((state) => state.doctors.sortedAppointments);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedDistrict, setSelectedDistrict] = useState("");
   const [selectedService, setSelectedService] = useState([]);
@@ -82,7 +82,7 @@ const Order = () => {
     setSelectedDoctor(event.target.value);
     setAppointments("");
     if (event.target.value) {
-      dispatch(fetchDoctorAppointments(event.target.value));
+      dispatch(fetchDoctorServiceAppointments({serviceId: selectedService, id: event.target.value}));
     }
   };
 
@@ -103,7 +103,8 @@ const Order = () => {
       setLoading(true);
       const online_consultation_link = "";
       const type = "оффлайн";
-      const newData = {appointment_date_time, selectedDistrict, online_consultation_link, type, ...data};
+      const clinic_address = selectedDistrict;
+      const newData = {appointment_date_time, clinic_address, online_consultation_link, type, ...data};
       await dispatch(
         fetchAppointmentCreate({
           userId: id,
@@ -206,7 +207,7 @@ const Order = () => {
                         <option value="">Выберите дату</option>
                         {(isAppointmentsLoading
                           ? [...Array(3)]
-                          : appointments.appointment_dates || []
+                          : appointments || []
                         ).map((obj, index) =>
                           isAppointmentsLoading ? (
                             <option key={`loading-appointments-${index}`}>
@@ -229,6 +230,7 @@ const Order = () => {
                         )}
                       </select>
                     }
+                    {console.log("appointments",appointments)}
                   </div>
 
                   <div className="personal">

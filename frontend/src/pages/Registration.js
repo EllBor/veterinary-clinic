@@ -58,6 +58,8 @@ const Registration = () => {
         return <Navigate to={`/order`} replace />;
       } else if (source === "order-card") {
         return <Navigate to={`/order-card`} replace />;
+      } else if (source === "order-services") {
+        return <Navigate to={`/order-services`} replace />;
       }
     } else {
       return <Navigate to={`/account/${isAuthId}`} replace />;
@@ -70,6 +72,10 @@ const Registration = () => {
         navigate(`/login?from=appointment&source=order`, { replace: true });
       } else if (source === "order-card") {
         navigate(`/login?from=appointment&source=order-card`, {
+          replace: true,
+        });
+      } else if(source === "order-services") {
+        navigate(`/login?from=appointment&source=order-services`, {
           replace: true,
         });
       }

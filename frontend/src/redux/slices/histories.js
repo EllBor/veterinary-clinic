@@ -8,6 +8,8 @@ export const fetchMedicalHistory = createAsyncThunk('histories/fetchMedicalHisto
 
 const initialState = {
   prescriptions: [],
+  diagnosis: "",
+  medicalCardNumber: "",
     histories: {
       items: [],
       status: "loading",
@@ -27,6 +29,8 @@ const historiesSlice = createSlice({
     .addCase(fetchMedicalHistory.fulfilled, (state, action) => {
       state.status = "loaded";
       state.prescriptions= action.payload.prescriptions;
+      state.diagnosis = action.payload.diagnosis;
+      state.medicalCardNumber = action.payload.medicalCardNumber;
     })
     .addCase(fetchMedicalHistory.rejected, (state, action) => {
       state.status = "error";

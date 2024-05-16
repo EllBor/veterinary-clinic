@@ -47,7 +47,9 @@ export const getDoctorAndNearestAppointment = async (req, res) => {
     const appointmentDates = doctor.appointment_dates.sort((a, b) => {
       return new Date(a.start_date_time) - new Date(b.start_date_time);
     });
+
     const nearestAppointment = appointmentDates[0];
+
     if (!nearestAppointment) {
       return res.status(404).json({ message: 'Не найдено записей на прием для данного врача' });
     }
@@ -60,28 +62,68 @@ export const getDoctorAndNearestAppointment = async (req, res) => {
   }
 };
 
+export const getDoctorServiceAndNearestAppointment = async (req, res) => {
+  try {
+    const doctorId = req.params.id;
+    const serviceId = req.params.serviceId; 
+    
+    const doctor = await DoctorModel.findById(doctorId);
+    if (!doctor) {
+      return res.status(404).json({ message: 'Врач не найден' });
+    }
+
+    const appointmentsForService = doctor.appointment_dates.filter(appointment => 
+      appointment.service_id.toString() === serviceId
+    );
+
+    const sortedAppointments = appointmentsForService.sort((a, b) => {
+      return new Date(a.start_date_time) - new Date(b.start_date_time);
+    });
+    
+    if (sortedAppointments.length === 0) {
+      return res.status(404).json({ message: 'Не найдено записей на прием для данного врача на указанную услугу' });
+    }
+    res.status(200).json({ sortedAppointments });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      message: "Не удалось получить даты приемов",
+    });
+  }
+};
+
+
 export const getAllDoctorsWithAppointments = async (req, res) => {
   try {
-    const id = req.params.id;
-    const doctorServices = await DoctorServiceModel.find({ service_id: id }).lean();
+    const serviceId = req.params.id; 
+
+    const doctorServices = await DoctorServiceModel.find({ service_id: serviceId }).lean();
     const doctorIds = doctorServices.map((docServ) => docServ.doctor_id);
+
     const doctors = await DoctorModel.find({ _id: { $in: doctorIds } }).lean();
 
     const doctorsWithAppointments = await Promise.all(doctors.map(async (doctor) => {
-      const closestAppointmentDate = doctor.appointment_dates
-        .sort((a, b) => a.start_date_time - b.start_date_time)
-        .map((appointment) => appointment.start_date_time)[0];
+      const appointmentsForService = doctor.appointment_dates.filter(appointment =>
+        appointment.service_id.toString() === serviceId
+      );
+
+      const sortedAppointments = appointmentsForService.sort((a, b) => {
+        return new Date(a.start_date_time) - new Date(b.start_date_time);
+      });
+
+      const nearestAppointment = sortedAppointments[0];
+
       return {
         ...doctor,
-        closestAppointmentDate,
+        nearestAppointment,
       };
     }));
 
     res.status(200).json({ doctorsWithAppointments });
   } catch (error) {
     console.log(error);
-      res.status(500).json({
-        message: "Не удалось получить врачей по этой услуге",
-      });
+    res.status(500).json({
+      message: "Не удалось получить врачей и их записи на прием по этой услуге",
+    });
   }
-  };
+};

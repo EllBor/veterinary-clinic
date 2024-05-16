@@ -39,6 +39,8 @@ export const getAll = async (req, res) => {
         appointmentDateTime: appointment.appointment_date_time,
         doctor: doctor.fullName,
         petName: pet.name,
+        clinic_address: appointment.clinic_address,
+        online_consultation_link: appointment.online_consultation_link,
       });
     }
     

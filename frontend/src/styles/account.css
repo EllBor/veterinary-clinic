@@ -93,6 +93,10 @@
     gap: 20px;
     align-items: center;
     width: 200px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    font-size: 18px;
 }
 
 .info__title{
@@ -351,6 +355,7 @@
     font-size: 16px;
     box-shadow: 0px 4px 20px rgba(120, 147, 245, 0.5);
     transition: 1s;
+    margin-top: 10px;
 }
 
 .btn_download:hover {
@@ -373,7 +378,12 @@
     background-repeat: no-repeat;
 }
 
-
 .account__link:hover{
     color: #7893F5;
+}
+
+.medical-history__text{
+    font-size: 30px;
+    max-width: 400px;
+    margin-bottom: 20px;
 }
