@@ -1,26 +1,19 @@
-import React from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import TextField from "@mui/material/TextField";
-import {
-  fetchAuth,
-  selectIsAuth,
-  selectIsAuthId,
-  fetchAuthMe,
-} from "../redux/slices/auth";
+import { fetchCheckPhone } from "../redux/slices/auth";
+import OneTimeCode from "../components/modal/OneTimeCode";
 
 import "../styles/login-register.css";
 
 const PasswordReset = () => {
-  const isAuth = useSelector(selectIsAuth);
-  const isAuthId = useSelector(selectIsAuthId);
   const dispatch = useDispatch();
-  const location = useLocation();
   const navigate = useNavigate();
-  const params = new URLSearchParams(location.search);
-  const from = params.get("from");
-  const source = params.get("source");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const closeModal = () => setIsModalOpen(false);
+  const [phoneExists, setPhoneExists] = useState(""); 
   const {
     register,
     handleSubmit,
@@ -33,35 +26,23 @@ const PasswordReset = () => {
     mode: "onChange",
   });
 
-  React.useEffect(() => {
-    dispatch(fetchAuthMe());
-  }, [dispatch]);
 
   const onSubmit = async (values) => {
-    const data = await dispatch(fetchAuth(values));
-
-    if (data.payload && "token" in data.payload) {
-      window.localStorage.setItem("token", data.payload.token);
-      dispatch(fetchAuthMe());
-    } else {
-      alert("Не удалось авторизоваться");
+    const resultAction = await dispatch(fetchCheckPhone(values)).unwrap();
+    if (resultAction.success) {
+      setPhoneExists(resultAction.user.phone);
+      openModal();
+    } else if (!resultAction.success) {
+      alert("Пользователь с таким номером телефона не найден");
     }
   };
 
-  if (isAuth) {
-    if (from === "appointment") {
-      if (source === "order") {
-        navigate(`/order`, { replace: true });
-      } else if (source === "order-card") {
-        navigate(`/order-card`, { replace: true });
-      }
-    } else {
-      navigate(`/account/${isAuthId}`, { replace: true });
-    }
-  }
-
   const handleBackClick = () => {
     navigate(`/login`, { replace: true });
+  };
+
+  const openModal = () => {
+    setIsModalOpen(true);
   };
 
   return (
@@ -99,17 +80,15 @@ const PasswordReset = () => {
               >
                 Получить одноразовый код
               </button>
-              
             </form>
-            <button
-              className="login__link form-link"
-              onClick={handleBackClick}
-            >
+            <button className="login__link form-link" onClick={handleBackClick}>
               Назад
             </button>
           </div>
         </div>
       </section>
+      {console.log("phoneExists",phoneExists)}
+      <OneTimeCode isOpen={isModalOpen} onClose={closeModal} phoneExists={phoneExists} />
     </main>
   );
 };

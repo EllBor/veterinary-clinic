@@ -12,10 +12,30 @@ export const fetchAuthMe = createAsyncThunk("auth/fetchAuthMe", async () => {
   return data;
 });
 
-export const fetchRegister = createAsyncThunk('auth/fetchRegister', async (params) => {
-    const {data} = await axios.post('/auth/register', params);
+export const fetchRegister = createAsyncThunk(
+  "auth/fetchRegister",
+  async (params) => {
+    const { data } = await axios.post("/auth/register", params);
     return data;
-})
+  }
+);
+
+export const fetchCheckPhone = createAsyncThunk(
+  "auth/fetchCheckPhone",
+  async (params) => {
+    const { data } = await axios.post(`/check-user-by-phone`, params);
+    return data;
+  }
+);
+
+export const fetchResetPassword = createAsyncThunk(
+  "auth/ResetPassword",
+  async (params) => {
+    console.log(params);
+    const { data } = await axios.post(`/auth/password-reset`, params);
+    return data;
+  }
+);
 
 const initialState = {
   data: null,
@@ -59,17 +79,41 @@ const authSlice = createSlice({
         state.data = null;
       })
       .addCase(fetchRegister.pending, (state) => {
-        state.status = 'loading';
+        state.status = "loading";
         state.data = null;
-    })
-    .addCase(fetchRegister.fulfilled, (state, action) => {
-        state.status = 'loaded';
+      })
+      .addCase(fetchRegister.fulfilled, (state, action) => {
+        state.status = "loaded";
         state.data = action.payload;
-    })
-    .addCase(fetchRegister.rejected, (state) => {
-        state.status = 'error';
+      })
+      .addCase(fetchRegister.rejected, (state) => {
+        state.status = "error";
         state.data = null;
-    });
+      })
+      .addCase(fetchCheckPhone.pending, (state) => {
+        state.status = "loading";
+        state.data = null;
+      })
+      .addCase(fetchCheckPhone.fulfilled, (state, action) => {
+        state.status = "loaded";
+        state.data = action.payload;
+      })
+      .addCase(fetchCheckPhone.rejected, (state) => {
+        state.status = "error";
+        state.data = null;
+      })
+      .addCase(fetchResetPassword.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(fetchResetPassword.fulfilled, (state, action) => {
+        state.status = "loaded";
+        state.items = action.payload;
+      })
+      .addCase(fetchResetPassword.rejected, (state, action) => {
+        state.status = "error";
+        state.error = action.error.message;
+      });
   },
 });
 

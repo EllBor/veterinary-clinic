@@ -27,24 +27,7 @@ const PetsSchema = new mongoose.Schema({
         ref: 'Users',
         required: true,
     },
-    avatarUrl: String,
-    analysisResults: {
-        type: [{
-            analysisName: {
-                type: String,
-                required: true
-            },
-            date: {
-                type: Date,
-                required: true
-            },
-            fileUrl: {
-                type: String,
-                required: true
-            }
-        }],
-        default: null 
-    }
+    avatarUrl: String
 }, 
     {
         timestamps: true,

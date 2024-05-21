@@ -56,6 +56,8 @@ app.post("/upload", checkAuth, upload.single("image"), (req, res) => {
 app.post("/auth/login", UserController.login);
 app.post("/auth/register", registerValidation, UserController.register);
 app.get("/auth/me", checkAuth, UserController.getMe);
+app.post("/auth/password-reset", UserController.resetPassword);
+app.post("/check-user-by-phone", UserController.checkUserByPhone);
 
 app.delete("/users/:id", UserController.remove);
 app.patch("/users/:id", updateValidation, UserController.update);
@@ -88,9 +90,10 @@ app.post("/appointments/users/:userId/doctors/:doctorId/pets/:petId", Appointmen
 app.delete("/users/:userId/appointments/:id", AppointmentController.remove);
 
 app.post("/users/:id/receipt", ReceiptController.create);
-app.get("/users/:id/receipt", ReceiptController.getAll);
+app.get("/users/:id/receipt", ReceiptController.getAllReceipt);
 app.get('/api/download-pdf/:fileName', ReceiptController.downloadPdf);
-
+app.get('/api/download-pdf-result/:fileName', ReceiptController.downloadPdfResult);
+app.get('/pets/:petId/result', ReceiptController.getAllResult);
 
 app.listen(4444, (err) => {
   if (err) {

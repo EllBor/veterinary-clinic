@@ -11,6 +11,7 @@ export const fetchUsersDelete = createAsyncThunk('users/fetchUsersDelete', async
     return data;
 })
 
+
 export const fetchUsersUpdate = createAsyncThunk(
     "users/fetchUsersUpdate",
     async ({ userId, params }, thunkAPI) => {

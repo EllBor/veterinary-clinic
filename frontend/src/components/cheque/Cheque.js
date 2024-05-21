@@ -1,6 +1,6 @@
 import pdf from "../../images/pdf.png";
 
-const Cheque = ({ paymentDate, receiptNumber, filePath }) => {
+const Cheque = ({ paymentDate, receiptNumber }) => {
   const downloadPdf = () => {
     const link = document.createElement("a");
     const fileName = `receipt_${receiptNumber}.pdf`;

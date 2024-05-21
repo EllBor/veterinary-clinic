@@ -171,3 +171,50 @@ export const update = async (req, res) => {
     });
   }
 };
+
+export const resetPassword = async (req, res) => {
+  try {
+    const { phone, newPassword } = req.body;
+    const user = await UserModel.findOne({ phone });
+    if (!user) {
+      return res.status(404).json({ message: "Пользователь не найден" });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(newPassword, salt);
+
+    user.passwordHash = hash;
+    await user.save();
+
+    res.json({ message: "Пароль успешно обновлен" });
+  } catch (error) {
+    console.error("Ошибка при сбросе пароля:", error);
+    res.status(500).json({ message: "Ошибка при сбросе пароля" });
+  }
+};
+
+export const checkUserByPhone = async (req, res) => {
+  try {
+    const { phone } = req.body;
+    if (!phone) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Номер телефона обязателен" });
+    }
+
+    const user = await UserModel.findOne({ phone });
+
+    if (user) {
+      return res
+        .status(200)
+        .json({ success: true, message: "Пользователь существует", user });
+    } else {
+      return res
+        .status(200)
+        .json({ success: false, message: "Пользователь не найден" });
+    }
+  } catch (error) {
+    console.error("Error checking user by phone:", error);
+    return res.status(500).json({ success: false, message: "Ошибка сервера" });
+  }
+};

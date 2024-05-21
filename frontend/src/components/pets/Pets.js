@@ -3,12 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { fetchPetsDelete, fetchPets } from "../../redux/slices/pets";
 import PetUpdateModal from "../modal/PetUpdateModal";
-import {fetchMedicalHistory} from "../../redux/slices/histories";
+import { fetchMedicalHistory, fetchAnalysisResults } from "../../redux/slices/histories";
+import Analyzes from "../analyzes/Analyzes";
+
 import foto from "../../images/account-foto.png";
 import pdf from "../../images/pdf.png";
 import trash from "../../images/trash.svg";
 import update from "../../images/update.svg";
-
 
 const Pets = ({
   userId,
@@ -22,12 +23,17 @@ const Pets = ({
 }) => {
   const dispatch = useDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const medicalCardNumber = useSelector(state => state.histories.medicalCardNumber);
+  const medicalCardNumber = useSelector(
+    (state) => state.histories.medicalCardNumber
+  );
+  const analyzes = useSelector((state) => state.histories);
+  const isAnalyzesLoading = analyzes.status === "loading";
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
   React.useEffect(() => {
     dispatch(fetchMedicalHistory(petId));
+    dispatch(fetchAnalysisResults(petId));
   }, [dispatch, petId]);
 
   const onClickRemovePets = async () => {
@@ -42,7 +48,11 @@ const Pets = ({
   return (
     <div className="info__card-pet">
       <div className="info__card-foto card-foto">
-        <img className= "info__card-img" src={avatarUrl ? `http://localhost:4444${avatarUrl}` : foto} alt="avatar" />
+        <img
+          className="info__card-img"
+          src={avatarUrl ? `http://localhost:4444${avatarUrl}` : foto}
+          alt="avatar"
+        />
       </div>
       <div className="info__card-info">
         <h3 className="info__card-main">{name}</h3>
@@ -58,36 +68,28 @@ const Pets = ({
 
       <div className="info__card-health">
         <h4 className="info__medical-title">Медицинская карта</h4>
-        <NavLink  className="medical-card__file" to={`/medical-card/${petId}`}>
-        <div className="medical-card">
+        <NavLink className="medical-card__file" to={`/medical-card/${petId}`}>
+          <div className="medical-card">
             <img src={pdf} alt="medical card" />
             {medicalCardNumber}
-          <span className="medical-card__date">обновлена</span>
-        </div>
-        </NavLink >
+            <span className="medical-card__date">обновлена</span>
+          </div>
+        </NavLink>
         <h4 className="info__analyzes-title">Результаты анализов</h4>
         <div className="analyzes__box">
-          <div className="analyzes__list-item">
-            <a className="analyzes__item-file" href="">
-              <img src={pdf} alt="pdf" />
-              ОАК
-            </a>
-            <span className="analyzes-card__date">25.06.23</span>
-          </div>
-          <div className="analyzes__list-item">
-            <a className="analyzes__item-file" href="">
-              <img src={pdf} alt="pdf" />
-              Узи брюшной полости
-            </a>
-            <span className="analyzes-card__date">25.06.23</span>
-          </div>
-          <div className="analyzes__list-item">
-            <a className="analyzes__item-file" href="">
-              <img src={pdf} alt="pdf" />
-              Биохимия крови
-            </a>
-            <span className="analyzes-card__date">25.06.23</span>
-          </div>
+          {(isAnalyzesLoading ? [...Array(3)] : analyzes.items || []).map(
+            (obj, index) =>
+              isAnalyzesLoading ? (
+                <Analyzes key={`loading-analyzes-${index}`} isLoading={true} />
+              ) : (
+                <Analyzes
+                  key={obj._id}
+                  petId={petId}
+                  resultDate={new Date(obj.date).toLocaleDateString()}
+                  analysisName={obj.analysisName}
+                />
+              )
+          )}
         </div>
       </div>
       <div className="info__buttons">

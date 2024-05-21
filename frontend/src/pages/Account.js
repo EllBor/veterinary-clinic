@@ -95,7 +95,6 @@ const Account = () => {
                         id={id}
                         paymentDate={new Date(obj.paymentDate).toLocaleDateString()}
                         receiptNumber={obj.receiptNumber}
-                        filePath={obj.filePath}
                       />
                     )
                 )}
