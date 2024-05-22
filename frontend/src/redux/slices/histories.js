@@ -48,6 +48,7 @@ const historiesSlice = createSlice({
     .addCase(fetchAnalysisResults.fulfilled, (state, action) => {
       state.status = "loaded";
       state.items = action.payload;
+      console.log("action.payload",action.payload);
     })
     .addCase(fetchAnalysisResults.rejected, (state, action) => {
       state.status = "error";

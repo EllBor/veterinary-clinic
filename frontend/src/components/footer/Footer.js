@@ -22,7 +22,7 @@ const Footer = () => {
         <div className="footer__top">
           <div className="top__logo">
             <NavLink  to="/">
-              <img src={logo_footer} alt="" />
+              <img className="logo_footer" src={logo_footer} alt="" />
             </NavLink>
           </div>
           <div className="top__name">

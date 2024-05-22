@@ -133,8 +133,8 @@ export const getAllResult = async (req, res) => {
       const doc = new PDFDocument();
       const __filename = fileURLToPath(import.meta.url);
       const __dirname = dirname(__filename);
-      const fileName = `receipt_${new Date(date).toLocaleDateString()}-${petId}.pdf`;
-      const filePath = path.join(__dirname, "../uploads/cheque/", fileName);
+      const fileName = `receipt_${new Date(result.date).toLocaleDateString()}-${petId}.pdf`;
+      const filePath = path.join(__dirname, "../uploads/analyzes/", fileName);
       doc.font(path.join(__dirname, "../fonts/Inter-Regular.otf"));
 
       const stream = fs.createWriteStream(filePath);
@@ -147,8 +147,7 @@ export const getAllResult = async (req, res) => {
       result.fileUrl = filePath; 
       await result.save();
     }
-  
-    res.json(fileUrls);
+    res.json(analysisResults);
   } catch (error) {
     console.log(error);
     res.status(500).json({

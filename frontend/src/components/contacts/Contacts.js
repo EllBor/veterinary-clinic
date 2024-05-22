@@ -68,6 +68,7 @@ const Contacts = () => {
             width="800"
             height="530"
             frameborder="0"
+            className="contacts__map-iframe"
           ></iframe>
         </div>
       </div>

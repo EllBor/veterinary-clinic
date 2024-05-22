@@ -7,6 +7,7 @@ import { HashLink as Link } from 'react-router-hash-link';
 import "./style.css";
 import logo from "../../images/logo.svg";
 import question from "../../images/question.svg";
+import menu_header from "../../images/menu-header.svg";
 
 
 const Header = () => {
@@ -59,7 +60,46 @@ const Header = () => {
                 Вопрос - ответ
               </span>
             </li>
-          </ul>
+            </ul>
+            
+            <button class="header__btn">
+              <img src={menu_header} alt="icon menu" />
+            </button>
+            <div class="rightside-menu rightside-menu--close">
+              <button class="rightside-menu__close">
+                <img src="images/close.svg" alt="close" />
+              </button>
+              <div class="rightside-menu__content">
+                <ul class="rightside-menu__list">
+                  <li class="rightside-menu__list-item">
+                    <NavLink className="rightside-menu__item-link" to={`/account/${userId}`}>
+                      ЛИЧНЫЙ КАБИНЕТ
+                  </NavLink>
+                  </li>
+                  <li class="rightside-menu__list-item">
+                  <NavLink className="rightside-menu__item-link" to="/history">
+                    О НАС
+                  </NavLink>
+                  </li>
+                  <li class="rightside-menu__list-item">
+                  <NavLink className="rightside-menu__item-link" to="/stocks">
+                    НОВОСТИ И АКЦИИ
+                  </NavLink>
+                  </li>
+                  <li class="rightside-menu__list-item">
+                  <Link className="rightside-menu__item-link" to="/#contacts-section">
+                    КОНТАКТЫ
+                  </Link>
+                  </li>
+                  <li class="rightside-menu__list-item">
+                  <NavLink className="rightside-menu__item-link" to="/question-answer">
+                    Вопрос-ответ
+                  </NavLink>
+                  </li>
+                </ul>
+                </div>
+            </div>
+
         </div>
       </div>
     </header>

@@ -90,6 +90,7 @@ const Pets = ({
                 />
               )
           )}
+          {console.log(analyzes)}
         </div>
       </div>
       <div className="info__buttons">

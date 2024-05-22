@@ -15,6 +15,7 @@ import { specialistsList } from "./../helpers/specialistsList";
 import { topSliderList } from "../helpers/topSliderList";
 
 import "../styles/style.css";
+import "../styles/style-adaptive.css";
 import "../styles/flickity.css";
 
 const Home = () => {

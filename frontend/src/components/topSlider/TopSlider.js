@@ -15,13 +15,13 @@ const TopSlider = ({title, img}) => {
           <NavLink to="/appointment" className="top__slider-btn">ЗАПИСАТЬСЯ</NavLink>
           <div className="top__slider-social">
             <NavLink to="">
-              <img src={facebook_top} alt="facebook" />
+              <img className="top__slider-social-img" src={facebook_top} alt="facebook" />
             </NavLink>
             <NavLink to="">
-              <img src={vk_top} alt="vk" />
+              <img className="top__slider-social-img" src={vk_top} alt="vk" />
             </NavLink>
             <NavLink to="">
-              <img src={instagram_top} alt="instagram" />
+              <img className="top__slider-social-img" src={instagram_top} alt="instagram" />
             </NavLink>
           </div>
         </div>
