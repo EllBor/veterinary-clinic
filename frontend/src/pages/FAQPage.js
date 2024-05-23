@@ -27,7 +27,7 @@ const FAQPage = () => {
   };
 
   return (
-    <main>
+    <main className="main">
       <section className="faq-page">
         <div className="container">
           <div className="faq-page__inner">

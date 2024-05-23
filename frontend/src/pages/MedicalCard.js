@@ -25,7 +25,7 @@ const MedicalCard = () => {
   }, [dispatch, userId, id]);
 
   return (
-    <main>
+    <main className="main">
       <section className="account">
         <div className="container">
         <NavLink className="account__link" to={`/account/${userId}`}>В личный кабинет</NavLink>

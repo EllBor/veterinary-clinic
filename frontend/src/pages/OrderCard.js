@@ -146,7 +146,7 @@ const OrderCard = () => {
   };
 
   return (
-    <main>
+    <main className="main">
       {isLoading ? (
         <div>Loading...</div>
       ) : (
@@ -349,7 +349,7 @@ const OrderCard = () => {
                           className="order__label order__label-date"
                           htmlFor="date"
                         >
-                          Дата истечения срока действия
+                          Срок действия
                         </label>
                         <div className="order__date-wrapper">
                           <input

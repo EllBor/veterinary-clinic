@@ -42,7 +42,7 @@ const Account = () => {
   const closeModal = () => setIsModalOpen(false);
 
   return (
-    <main>
+    <main className="main">
       <section className="account">
         <div className="container">
           <div className="account__top">

@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 import { HashLink as Link } from 'react-router-hash-link';
 
 import "./style.css";
+import "../../styles/style.css";
 import logo_footer from "../../images/logo-footer.svg";
 import vk from "../../images/vk.svg";
 import facebook from "../../images/facebook.svg";

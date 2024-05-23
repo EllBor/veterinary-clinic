@@ -6,6 +6,7 @@
 .stocks__inner{
     display: flex;
     justify-content: space-between;
+    /* margin-bottom: 150px; */
 }
 
 .stocks__title{

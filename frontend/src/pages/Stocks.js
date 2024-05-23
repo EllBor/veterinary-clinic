@@ -18,7 +18,7 @@ const Stocks = () => {
   };
 
   return (
-    <main>
+    <main className="main">
       <section className="stocks">
         <div className="container">
           <div className="stocks__inner">

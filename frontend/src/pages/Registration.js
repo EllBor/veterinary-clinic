@@ -85,7 +85,7 @@ const Registration = () => {
   };
 
   return (
-    <main>
+    <main className="main">
       <section className="registration">
         <div className="container">
           <div className="registration__inner inner">

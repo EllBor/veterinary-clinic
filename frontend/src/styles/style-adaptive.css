@@ -62,11 +62,22 @@
         max-width: 700px;
     }
 
+    .appointment__title{
+        font-size: 60px !important;
+        max-width: none !important;
+    }
+
+    .appointment__inner{
+        flex-direction: column;
+        gap: 40px;
+        align-items: center !important;
+    }
+
 }
 
 @media (max-width: 1300px) {
     .container {
-        max-width: 1000px;
+        max-width: 1100px;
       }
 
     .services {
@@ -235,6 +246,35 @@
     .contacts__address {
         margin-bottom: 30px;
     }
+
+    .form__select, .personal{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .order-btn {
+        margin: 0 auto;
+    }
+
+    .top__slider-btn {
+        width: 173px !important;
+        padding: 23px;
+        font-size: 14px;
+    }
+
+    .order__card {
+        width: 496px !important;
+    }
+
+    .order__input {
+        width: 280px !important;
+    }
+
+    .order__date-cvv {
+        width: 50px !important;
+    }
+    
 }
 
 @media (max-width: 850px) {
@@ -313,6 +353,14 @@
         display: none; 
         
     }
+
+    .payment__item {
+        width: 500px !important;
+    }
+
+    .appointment__title {
+        font-size: 50px !important;
+    }
 }
 
 @media (max-width: 600px) {
@@ -359,7 +407,7 @@
 
 @media (max-width: 1700px) {
     .container {
-        max-width: 1200px;
+        max-width: 1350px;
     }
 
     .personal__card, .info__btn-add {
@@ -398,12 +446,21 @@
     .analyzes__list-item {
         flex-direction: column;
     }
+
+    .appointment__title{
+        font-size: 50px !important;
+        max-width: none;
+    }
+
+   .history__item-imgs{
+       flex-direction: column;
+   }
 }
 
 
 @media (max-width: 1350px) {
     .container {
-        max-width: 1000px;
+        max-width: 1150px;
     }
 
     .cheque__list-item {
@@ -417,27 +474,9 @@
     .account__title{
         font-size: 50px !important;
     }
-}
 
-@media (max-width: 1150px) {
-
-    .container {
-        max-width: 800px;
-    }
-
-    .account__top {
-        gap: 90px !important;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .account__bottom {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .cheque__list-item {
-        width: 350px !important;
+    .stocks__title{
+        font-size: 64px !important;
     }
 }
 
@@ -529,32 +568,14 @@
     .account-container {
         max-width: 516px !important;
     }
+
+    .stocks__item-img{
+        width: 200px !important;
+        height: 200px !important;
+    }
 }
 
 /* appointment */
-
-@media (max-width: 1700px) {
-    .container {
-        max-width: 1400px;
-      }
-}
-
-@media (max-width: 1500px) {
-    .container {
-        max-width: 1100px;
-    }
-
-    .appointment__title{
-        font-size: 60px !important;
-        max-width: none !important;
-    }
-
-    .appointment__inner{
-        flex-direction: column;
-        gap: 40px;
-        align-items: center !important;
-    }
-}
 
 @media (max-width: 1150px) {
     .container {
@@ -564,21 +585,29 @@
     .payment__item {
         width: 646px !important;
     }
-}
 
-@media (max-width: 850px) {
-    .container {
-        max-width: 500px;
-      }
-
-    .payment__item {
-        width: 500px !important;
+    .account__top {
+        gap: 90px !important;
+        flex-direction: column;
+        align-items: center;
     }
 
-    .appointment__title {
-        font-size: 50px !important;
+    .account__bottom {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .cheque__list-item {
+        width: 350px !important;
+    }
+
+    .stocks__inner, .history__inner{
+        flex-direction: column;
+        align-items: center;
+        gap: 64px;
     }
 }
+
 
 @media (max-width: 500px) {
     .container {
@@ -593,3 +622,6 @@
         font-size: 40px !important;
     }
 }
+
+/* order */
+

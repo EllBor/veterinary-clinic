@@ -18,7 +18,7 @@ const Collective = () => {
   }, [dispatch]);
 
   return (
-    <main>
+    <main className="main">
       <section className="collective">
         <div className="container">
           <div className="collective__inner">

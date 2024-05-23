@@ -33,7 +33,7 @@ const Appointment = () => {
   };
 
   return (
-    <main>
+    <main className="main">
       <section className="appointment">
         <div className="container">
           <div className="appointment__inner">

@@ -14,6 +14,8 @@ import {
 import { fetchPets } from "../redux/slices/pets";
 import AppointmentModal from "../components/modal/AppointmentModal";
 
+import "../styles/style-adaptive.css";
+
 const Order = () => {
   const id = useSelector(selectIsAuthId);
   const dispatch = useDispatch();
@@ -130,7 +132,7 @@ const Order = () => {
   };
 
   return (
-    <main>
+    <main className="main">
       {isLoading ? (
         <div>Loading...</div>
       ) : (

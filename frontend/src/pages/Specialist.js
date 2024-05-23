@@ -52,7 +52,7 @@ const Specialist = () => {
   };
 
   return (
-    <main>
+    <main className="main">
       <section className="account-specialist">
         <div className="container">
           <div className="account-specialist__inner">

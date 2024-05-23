@@ -8,7 +8,7 @@ import history_3 from "../images/history-3.png";
 
 const History = () => {
   return (
-    <main>
+    <main className="main">
       <section className="history">
         <div className="container">
           <div className="history__inner">
