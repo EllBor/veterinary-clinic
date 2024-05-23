@@ -273,7 +273,7 @@
 
     .choice__grid-list {
         grid-template-columns: repeat(1, 100%);
-        grid-template-rows: repeat(5, 349px);
+        grid-template-rows: repeat(9, 120px);
         justify-items: center;
     }
     
@@ -297,5 +297,299 @@
     
     .nav__list {
         display: none;
+    }
+
+    .rightside-menu__logo{
+        display: block;
+    }
+
+    .nav{
+        display: flex;
+        justify-content: space-around;
+        align-items: center
+    }
+
+    .choice__item-text {
+        display: none; 
+        
+    }
+}
+
+@media (max-width: 600px) {
+    .container {
+        max-width: 450px;
+    }
+
+    .top__slider {
+        width: 450px;
+    }
+    .services__inner {
+        grid-template-columns: repeat(1, 100%);
+        grid-template-rows: repeat(12, 222px);
+        justify-items: center;
+    }
+
+    .specialists__slider, .contacts__map{
+        display: none;
+    }
+
+    .nav{
+        justify-content: space-around
+    }
+
+    .logo__img, .logo_footer{
+        width: 45px;
+        height: 45px;
+    }
+
+    .name__title{
+        font-size: 40px;
+    }
+
+    .quantity__title{
+        font-size: 55px;
+    }
+
+    .quantity__text{
+        font-size: 45px;
+    }
+}
+
+/* account */
+
+@media (max-width: 1700px) {
+    .container {
+        max-width: 1200px;
+    }
+
+    .personal__card, .info__btn-add {
+        width: 700px !important;
+    }
+
+    .info__btn-add {
+        background-position: 50px !important;
+    }
+
+    .info__card-pet {
+        flex: 0 0 682px !important;
+    }
+
+    .note__card {
+        flex: 0 0 682px !important;
+    }
+
+    .account-container {
+        max-width: 700px !important;
+    }
+
+    .info__card-img{
+        width: 114px !important;
+        height: 100px !important;
+    }
+
+    .account__bottom {
+        gap: 84px !important;
+    }
+
+    .account__top {
+        gap: 185px !important;
+    }
+
+    .analyzes__list-item {
+        flex-direction: column;
+    }
+}
+
+
+@media (max-width: 1350px) {
+    .container {
+        max-width: 1000px;
+    }
+
+    .cheque__list-item {
+        width: 230px !important;
+    }
+
+    .account__top {
+        gap: 0 !important;
+    }
+
+    .account__title{
+        font-size: 50px !important;
+    }
+}
+
+@media (max-width: 1150px) {
+
+    .container {
+        max-width: 800px;
+    }
+
+    .account__top {
+        gap: 90px !important;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .account__bottom {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .cheque__list-item {
+        width: 350px !important;
+    }
+}
+
+@media (max-width: 800px) {
+
+    .container {
+        max-width: 500px;
+    }
+    .personal__card {
+        width: 500px !important;
+        justify-content: flex-start;
+        gap: 40px !important;
+    }
+
+    .info__btn-add {
+        width: 500px !important;
+        background-image: none !important;
+        padding: 60px 40px;
+    }
+
+    .info__card-pet {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr); 
+        grid-template-rows: repeat(1, 380px); 
+        flex: 0 0 490px !important;
+    }
+      
+    .info__card-pet > div:nth-child(3) { 
+        grid-column: span 2; 
+    }
+
+    .info__card-health{
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-around;
+    }
+
+    .info__medical-title{
+        width: 200px;
+        font-size: 20px;
+    }
+
+    .medical-card__file {
+        align-items: flex-start;
+    }
+
+    .info__analyzes-title {
+        margin-top: 0px !important;
+    }
+
+    .info__card-img {
+        width: 130px !important;
+        height: 130px !important;
+    }
+
+    .account__info{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .analyzes__list-item {
+        gap: 20px !important;
+    }
+
+    .analyzes__item-file {
+        flex-direction: column;
+    }
+
+    .note__card {
+        flex-direction: column;
+        align-items: center
+    }
+
+    .note__card-info {
+        align-items: center;
+    }
+
+    .note__card {
+        flex: 0 0 490px !important;
+    }
+
+    .account__note{
+        display: flex;
+        flex-direction: column;
+        align-items: center
+    }
+
+    .account-container {
+        max-width: 516px !important;
+    }
+}
+
+/* appointment */
+
+@media (max-width: 1700px) {
+    .container {
+        max-width: 1400px;
+      }
+}
+
+@media (max-width: 1500px) {
+    .container {
+        max-width: 1100px;
+    }
+
+    .appointment__title{
+        font-size: 60px !important;
+        max-width: none !important;
+    }
+
+    .appointment__inner{
+        flex-direction: column;
+        gap: 40px;
+        align-items: center !important;
+    }
+}
+
+@media (max-width: 1150px) {
+    .container {
+        max-width: 900px;
+      }
+
+    .payment__item {
+        width: 646px !important;
+    }
+}
+
+@media (max-width: 850px) {
+    .container {
+        max-width: 500px;
+      }
+
+    .payment__item {
+        width: 500px !important;
+    }
+
+    .appointment__title {
+        font-size: 50px !important;
+    }
+}
+
+@media (max-width: 500px) {
+    .container {
+        max-width: 300px;
+      }
+
+    .payment__item {
+        width: 300px !important;
+    }
+
+    .appointment__title {
+        font-size: 40px !important;
     }
 }

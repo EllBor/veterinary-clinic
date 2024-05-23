@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import "../styles/account.css";
+import "../styles/style-adaptive.css";
 
 import { fetchPets } from "../redux/slices/pets";
 import { fetchUsers } from "../redux/slices/users";
@@ -15,6 +16,7 @@ import PetCreateModal from "../components/modal/PetCreateModal";
 import MakeAppointment from "../components/makeAppointment/MakeAppointment";
 import Cheque from "../components/cheque/Cheque";
 import Pets from "../components/pets/Pets";
+
 
 const Account = () => {
   const id = useSelector(selectIsAuthId);

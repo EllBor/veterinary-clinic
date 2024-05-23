@@ -53,6 +53,12 @@ const Pets = ({
           src={avatarUrl ? `http://localhost:4444${avatarUrl}` : foto}
           alt="avatar"
         />
+        <button className="info__btn" onClick={onClickRemovePets}>
+          <img src={trash} alt=""></img>
+        </button>
+        <button className="info__btn" onClick={openModal}>
+          <img src={update} alt="update"></img>
+        </button>
       </div>
       <div className="info__card-info">
         <h3 className="info__card-main">{name}</h3>
@@ -67,16 +73,18 @@ const Pets = ({
       </div>
 
       <div className="info__card-health">
-        <h4 className="info__medical-title">Медицинская карта</h4>
-        <NavLink className="medical-card__file" to={`/medical-card/${petId}`}>
+    
           <div className="medical-card">
+          <NavLink className="medical-card__file" to={`/medical-card/${petId}`}>
+            <h4 className="info__medical-title">Медицинская карта</h4>
             <img src={pdf} alt="medical card" />
             {medicalCardNumber}
             <span className="medical-card__date">обновлена</span>
+            </NavLink>
           </div>
-        </NavLink>
-        <h4 className="info__analyzes-title">Результаты анализов</h4>
+
         <div className="analyzes__box">
+        <h4 className="info__analyzes-title">Результаты анализов</h4>
           {(isAnalyzesLoading ? [...Array(3)] : analyzes.items || []).map(
             (obj, index) =>
               isAnalyzesLoading ? (
@@ -93,10 +101,6 @@ const Pets = ({
           {console.log(analyzes)}
         </div>
       </div>
-      <div className="info__buttons">
-        <button className="info__btn" onClick={openModal}>
-          <img src={update} alt="update"></img>
-        </button>
         <PetUpdateModal
           isOpen={isModalOpen}
           onClose={closeModal}
@@ -109,10 +113,6 @@ const Pets = ({
           age={age}
           avatarUrl={avatarUrl}
         />
-        <button className="info__btn" onClick={onClickRemovePets}>
-          <img src={trash} alt=""></img>
-        </button>
-      </div>
     </div>
   );
 };

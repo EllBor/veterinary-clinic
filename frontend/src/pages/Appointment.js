@@ -3,6 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { selectIsAuth } from "../redux/slices/auth";
 
 import "../styles/style-appointment.css";
+import "../styles/style-adaptive.css";
 
 const Appointment = () => {
   const isAuth = useSelector(selectIsAuth);

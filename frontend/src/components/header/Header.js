@@ -1,5 +1,5 @@
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import React from 'react';
 import { useSelector } from "react-redux";
 import { selectIsAuth, selectIsAuthId } from "../../redux/slices/auth";
 import { HashLink as Link } from 'react-router-hash-link';
@@ -8,11 +8,18 @@ import "./style.css";
 import logo from "../../images/logo.svg";
 import question from "../../images/question.svg";
 import menu_header from "../../images/menu-header.svg";
-
+import app_back from "../../images/app-back.svg";
 
 const Header = () => {
   const isAuth = useSelector(selectIsAuth);
   const userId = useSelector(selectIsAuthId);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  }
+
+  const menuClass = isMenuOpen ? "rightside-menu rightside-menu--open" : "rightside-menu rightside-menu--close";
 
   return (
     <header className="header">
@@ -61,39 +68,49 @@ const Header = () => {
               </span>
             </li>
             </ul>
-            
-            <button class="header__btn">
+            <NavLink className="rightside-menu__logo" to="/">
+                <img className="logo__img" src={logo} alt="logo" />
+            </NavLink>
+            <button class="header__btn" onClick={toggleMenu}>
               <img src={menu_header} alt="icon menu" />
             </button>
-            <div class="rightside-menu rightside-menu--close">
-              <button class="rightside-menu__close">
-                <img src="images/close.svg" alt="close" />
+            <div className={menuClass}>
+              <button class="rightside-menu__close" onClick={toggleMenu}>
+                <img src={app_back} alt="close" />
               </button>
               <div class="rightside-menu__content">
                 <ul class="rightside-menu__list">
+                {isAuth ? (
+                    <li className="rightside-menu__list-item">
+                      <NavLink className="rightside-menu__list-link" to={`/account/${userId}`}>
+                        ЛИЧНЫЙ КАБИНЕТ
+                      </NavLink>
+                    </li>
+                  ) : (
+                    <li className="rightside-menu__list-item">
+                      <NavLink className="rightside-menu__list-link" to="/login">
+                        ЛИЧНЫЙ КАБИНЕТ
+                      </NavLink>
+                    </li>
+                  )}
                   <li class="rightside-menu__list-item">
-                    <NavLink className="rightside-menu__item-link" to={`/account/${userId}`}>
-                      ЛИЧНЫЙ КАБИНЕТ
-                  </NavLink>
-                  </li>
-                  <li class="rightside-menu__list-item">
-                  <NavLink className="rightside-menu__item-link" to="/history">
+                  <NavLink className="rightside-menu__list-link" to="/history">
                     О НАС
                   </NavLink>
                   </li>
                   <li class="rightside-menu__list-item">
-                  <NavLink className="rightside-menu__item-link" to="/stocks">
+                  <NavLink className="rightside-menu__list-link" to="/stocks">
                     НОВОСТИ И АКЦИИ
                   </NavLink>
                   </li>
                   <li class="rightside-menu__list-item">
-                  <Link className="rightside-menu__item-link" to="/#contacts-section">
+                  <Link className="rightside-menu__list-link" to="/#contacts-section">
                     КОНТАКТЫ
                   </Link>
                   </li>
                   <li class="rightside-menu__list-item">
-                  <NavLink className="rightside-menu__item-link" to="/question-answer">
-                    Вопрос-ответ
+                  <NavLink className="rightside-menu__list-link" to="/question-answer">
+                    ВОПРОС-ОТВЕТ
                   </NavLink>
                   </li>
                 </ul>
