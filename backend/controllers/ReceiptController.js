@@ -5,7 +5,6 @@ import AnalysisResultModel from "../models/AnalysisResult.js";
 import PDFDocument from "pdfkit";
 import path from "path";
 import fs from "fs";
-import { v4 as uuidv4 } from 'uuid';
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 
@@ -71,11 +70,20 @@ function generateReceipt(receipt) {
   const fileName = `receipt_${receipt.receiptNumber}.pdf`;
   const filePath = path.join(__dirname, "../uploads/cheque/", fileName);
   doc.font(path.join(__dirname, "../fonts/Inter-Regular.otf"));
+  const paymentDate = new Date(receipt.paymentDate);
+  const options = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  };
+  const formattedDate = paymentDate.toLocaleDateString('ru-RU', options);
 
   const stream = fs.createWriteStream(filePath);
   doc.pipe(stream);
   doc.text(`Номер чека: ${receipt.receiptNumber}`);
-  doc.text(`Дата оплаты: ${receipt.paymentDate}`);
+  doc.text(`Дата оплаты: ${formattedDate}`);
   doc.text(`Сумма: ${receipt.amount}`);
   doc.text(`Услуга: ${receipt.service}`);
   doc.text(`ФИО пользователя: ${receipt.userFullName}`);
@@ -121,25 +129,35 @@ export const getAllResult = async (req, res) => {
       });
     }
 
-    const analysisResults = await AnalysisResultModel.find({ pet: petId });
+    const analysisResults = await AnalysisResultModel.find({ pet: petId }).populate("pet").populate("doctor");
     if (analysisResults.length === 0) {
       return res.status(404).json({ 
         message: "Результаты анализов не найдены",
       });
     }
 
-    const fileUrls = [];
     for (const result of analysisResults) {
       const doc = new PDFDocument();
       const __filename = fileURLToPath(import.meta.url);
       const __dirname = dirname(__filename);
       const fileName = `receipt_${new Date(result.date).toLocaleDateString()}-${petId}.pdf`;
       const filePath = path.join(__dirname, "../uploads/analyzes/", fileName);
+      const resultDate = new Date(result.date);
+      const options = {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      };
+      const formattedDate = resultDate.toLocaleDateString('ru-RU', options);
       doc.font(path.join(__dirname, "../fonts/Inter-Regular.otf"));
 
       const stream = fs.createWriteStream(filePath);
       doc.pipe(stream);
-      doc.text(`Дата: ${result.date}`);
+      doc.text(`Дата: ${formattedDate}`);
+      doc.text(`Питомец: ${result.pet.name}`);
+      doc.text(`Доктор: ${result.doctor.fullName}`);
       doc.text(`Анализ: ${result.analysisName}`);
       doc.text(`Результат: ${result.result}`);
       doc.end();

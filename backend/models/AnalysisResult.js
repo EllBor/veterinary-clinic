@@ -7,6 +7,11 @@ const AnalysisResultSchema = new mongoose.Schema(
       ref: "Pets",
       required: true,
     },
+    doctor: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Doctors",
+      required: true,
+    },
     analysisName: {
       type: String,
       required: true,

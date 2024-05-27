@@ -8,6 +8,8 @@ import { fetchMedicalHistory } from "../redux/slices/histories";
 import { selectIsAuthId, fetchAuthMe } from "../redux/slices/auth";
 import PDFDocumentHistory from "../components/pdfDocument/PDFDocumentHistory";
 
+import "./../styles/style-adaptive.css";
+
 const MedicalCard = () => {
   const { id } = useParams();
   const dispatch = useDispatch();

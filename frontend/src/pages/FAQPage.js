@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "../styles/faq-page.css";
+import "../styles/style-adaptive.css";
 
 const FAQPage = () => {
   const [expandedIndex, setExpandedIndex] = useState(null);
@@ -18,7 +19,7 @@ const FAQPage = () => {
     {
       question: "Как связаться с поддержкой?",
       answer:
-        "Чтобы связаться с нашей службой поддержки, отправьте нам электронное письмо на aibolit34@gmail.com или позвоните по телефону +123456789",
+        "Чтобы связаться с нашей службой поддержки, отправьте нам электронное письмо на aibolit34@gmail.com",
     },
   ];
 
