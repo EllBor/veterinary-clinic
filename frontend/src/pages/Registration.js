@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import TextField from "@mui/material/TextField";
+import InputLabel from "@mui/material/InputLabel";
 import { Navigate } from "react-router-dom";
 import {
   selectIsAuth,
@@ -31,6 +32,7 @@ const Registration = () => {
       phone: "",
       password: "",
       fullName: "",
+      secretAnswer: "",
     },
     mode: "onChange",
   });
@@ -104,7 +106,7 @@ const Registration = () => {
               ></TextField>
 
               <TextField
-                className="login__form-input form-input"
+                className="registration__form-input form-input"
                 type="tel"
                 label="Номер телефона"
                 {...register("phone", {
@@ -119,7 +121,7 @@ const Registration = () => {
                 }}
                 error={Boolean(errors.phone)}
                 helperText={errors.phone ? errors.phone.message : ""}
-              />
+              ></TextField>
 
               <TextField
                 className="registration__form-input form-input"
@@ -129,6 +131,18 @@ const Registration = () => {
                 error={Boolean(errors.password)}
                 helperText={errors.password ? errors.password.message : ""}
               ></TextField>
+
+              <InputLabel className="registration__form-label">Секретный вопрос: Ваш первый номер телефона</InputLabel>
+
+              <TextField
+                className="registration__form-input form-input"
+                type="text"
+                label="Ответ на секретный вопрос"
+                {...register("secretAnswer", { required: "Введите ответ на секретный вопрос" })}
+                error={Boolean(errors.secretAnswer)}
+                helperText={errors.secretAnswer ? errors.secretAnswer.message : ""}
+              ></TextField>
+
               <button
                 className="registration__form-btn form-btn"
                 type="submit"

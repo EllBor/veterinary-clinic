@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 import TextField from "@mui/material/TextField";
-import { fetchCheckPhone } from "../redux/slices/auth";
-import OneTimeCode from "../components/modal/OneTimeCode";
+import { fetchCheckPhoneAnswer } from "../redux/slices/auth";
+import PasswordChange from "../components/modal/PasswordChange";
 
 import "../styles/login-register.css";
 
@@ -14,6 +14,7 @@ const PasswordReset = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const closeModal = () => setIsModalOpen(false);
   const [phoneExists, setPhoneExists] = useState(""); 
+  const [secretAnswerExists, setSecretAnswerExists] = useState("");
   const {
     register,
     handleSubmit,
@@ -21,19 +22,19 @@ const PasswordReset = () => {
   } = useForm({
     defaultValue: {
       phone: "",
-      password: "",
+      secretAnswer: "",
     },
     mode: "onChange",
   });
 
-
   const onSubmit = async (values) => {
-    const resultAction = await dispatch(fetchCheckPhone(values)).unwrap();
+    const resultAction = await dispatch(fetchCheckPhoneAnswer(values)).unwrap();
     if (resultAction.success) {
       setPhoneExists(resultAction.user.phone);
+      setSecretAnswerExists(resultAction.user.secretAnswer);
       openModal();
     } else if (!resultAction.success) {
-      alert("Пользователь с таким номером телефона не найден");
+      alert("Неверный номер телефона или ответ на вопрос");
     }
   };
 
@@ -73,12 +74,23 @@ const PasswordReset = () => {
                 helperText={errors.phone ? errors.phone.message : ""}
               />
 
+              <TextField
+                className="login__form-input form-input"
+                type="text"
+                label="Ответ на секретный вопрос"
+                {...register("secretAnswer", {
+                  required: "Укажите ответ на секретный вопрос",
+                })}
+                error={Boolean(errors.secretAnswer)}
+                helperText={errors.secretAnswer ? errors.secretAnswer.message : ""}
+              />
+
               <button
                 className="reset__form-btn form-btn"
                 type="submit"
                 disabled={!isValid}
               >
-                Получить одноразовый код
+                Подтвердить
               </button>
             </form>
             <button className="login__link form-link" onClick={handleBackClick}>
@@ -87,8 +99,12 @@ const PasswordReset = () => {
           </div>
         </div>
       </section>
-      {console.log("phoneExists",phoneExists)}
-      <OneTimeCode isOpen={isModalOpen} onClose={closeModal} phoneExists={phoneExists} />
+      <PasswordChange
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        phoneExists={phoneExists}
+        secretAnswerExists={secretAnswerExists}
+      />
     </main>
   );
 };

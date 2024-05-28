@@ -71,3 +71,7 @@
     align-items: center;
     padding: 18px;
 }
+
+.css-1q6at85-MuiInputBase-root-MuiOutlinedInput-root{
+    border-radius: 14px !important;
+}

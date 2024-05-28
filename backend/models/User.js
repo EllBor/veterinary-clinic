@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import PaymentReceiptModel from "./PaymentReceipt.js";
 
 const UserSchema = new mongoose.Schema({
     
@@ -6,13 +7,15 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    email: {
-        type: String,
-    },
+    email: String,
     phone: {
         type: Number,
         required: true,
         unique: true,
+    },
+    secretAnswer: {
+        type: String,
+        required: true
     },
     passwordHash: {
         type: String,
@@ -26,4 +29,13 @@ const UserSchema = new mongoose.Schema({
     },
 );
 
+UserSchema.pre('deleteOne', { document: true, query: false }, async function(next) {
+    try {
+      await PaymentReceiptModel.deleteMany({ user: this._id });
+      next();
+    } catch (error) {
+      next(error);
+    }
+  });
+  
 export default mongoose.model('Users', UserSchema);

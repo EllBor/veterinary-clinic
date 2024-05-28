@@ -6,7 +6,7 @@ export const registerValidation = [
   ),
   body("fullName", "Имя должно быть больше 3 символов").isLength({ min: 3 }),
   body("phone", "Некорректный номер телефона").isMobilePhone(),
-
+  body("secretAnswer", "Ответ должен быть больше 3 символов").isLength({ min: 3 }),
 ];
 
 export const updateValidation = [

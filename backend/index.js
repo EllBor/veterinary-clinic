@@ -56,8 +56,8 @@ app.post("/upload", checkAuth, upload.single("image"), (req, res) => {
 app.post("/auth/login", UserController.login);
 app.post("/auth/register", registerValidation, UserController.register);
 app.get("/auth/me", checkAuth, UserController.getMe);
-app.post("/auth/password-reset", UserController.resetPassword);
-app.post("/check-user-by-phone", UserController.checkUserByPhone);
+app.post('/auth/password-reset', UserController.resetPassword);
+app.post("/check-user-by-phone-answer", UserController.checkUserByPhoneAnswer);
 
 app.delete("/users/:id", UserController.remove);
 app.patch("/users/:id", updateValidation, UserController.update);

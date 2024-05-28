@@ -58,7 +58,13 @@ export const remove = async (req, res) => {
   try {
     const petId = req.params.id;
     const userId = req.params.userId;
-    await PetsModel.deleteOne({ _id: petId, user: userId });
+    const pet = await PetsModel.findOne({ _id: petId, user: userId });
+    if (!pet) {
+      return res.status(404).json({
+        message: "Питомец не найден",
+      });
+    }
+    await pet.deleteOne();
     res.json({
       success: true,
     });

@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import AnalysisResultModel from "./AnalysisResult.js"; 
+import MedicalHistoryModel from "./MedicalHistory.js";
 
 const PetsSchema = new mongoose.Schema({
     
@@ -33,5 +35,15 @@ const PetsSchema = new mongoose.Schema({
         timestamps: true,
     },
 );
+
+PetsSchema.pre('deleteOne', { document: true, query: false }, async function(next) {
+    try {
+      await AnalysisResultModel.deleteMany({ pet: this._id });
+      await MedicalHistoryModel.deleteMany({ pet: this._id });
+      next();
+    } catch (error) {
+      next(error);
+    }
+  });
 
 export default mongoose.model('Pets', PetsSchema);

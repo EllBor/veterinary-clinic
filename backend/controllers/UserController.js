@@ -1,8 +1,13 @@
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import twilio from "twilio";
 import { validationResult } from "express-validator";
 
 import UserModel from "../models/User.js";
+
+const accountSid = 'AC2ef54e910e1e765f8355e45a3cb1680e';
+const authToken = '41929a7dc1e46307c8915c21ad0560f3';
+const client = new twilio(accountSid, authToken);
 
 export const login = async (req, res) => {
   try {
@@ -61,6 +66,7 @@ export const register = async (req, res) => {
       fullName: req.body.fullName,
       avatarUrl: req.body.avatarUrl,
       phone: req.body.phone,
+      secretAnswer: req.body.secretAnswer,
       passwordHash: hash,
     });
 
@@ -134,7 +140,7 @@ export const remove = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "Пользователь не найден" });
     }
-    await UserModel.findByIdAndDelete(userId);
+    await user.deleteOne();
     res.status(200).json({ message: "Пользователь успешно удален" });
   } catch (error) {
     console.error("Ошибка при удалении пользователя:", error);
@@ -172,38 +178,22 @@ export const update = async (req, res) => {
   }
 };
 
-export const resetPassword = async (req, res) => {
+export const checkUserByPhoneAnswer = async (req, res) => {
   try {
-    const { phone, newPassword } = req.body;
-    const user = await UserModel.findOne({ phone });
-    if (!user) {
-      return res.status(404).json({ message: "Пользователь не найден" });
-    }
-
-    const salt = await bcrypt.genSalt(10);
-    const hash = await bcrypt.hash(newPassword, salt);
-
-    user.passwordHash = hash;
-    await user.save();
-
-    res.json({ message: "Пароль успешно обновлен" });
-  } catch (error) {
-    console.error("Ошибка при сбросе пароля:", error);
-    res.status(500).json({ message: "Ошибка при сбросе пароля" });
-  }
-};
-
-export const checkUserByPhone = async (req, res) => {
-  try {
-    const { phone } = req.body;
+    const { phone, secretAnswer } = req.body;
     if (!phone) {
       return res
         .status(400)
         .json({ success: false, message: "Номер телефона обязателен" });
     }
 
-    const user = await UserModel.findOne({ phone });
+    if (!secretAnswer) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Ответ обязателен" });
+    }
 
+    const user = await UserModel.findOne({ phone: phone, secretAnswer: secretAnswer });
     if (user) {
       return res
         .status(200)
@@ -216,5 +206,27 @@ export const checkUserByPhone = async (req, res) => {
   } catch (error) {
     console.error("Error checking user by phone:", error);
     return res.status(500).json({ success: false, message: "Ошибка сервера" });
+  }
+};
+
+export const resetPassword = async (req, res) => {
+  try {
+    const { phone, newPassword, secretAnswer } = req.body;
+    const user = await UserModel.findOne({ phone: phone, secretAnswer: secretAnswer });
+    if (!user) {
+      return res.status(404).json({ message: "Неверный ответ или номер телефона" });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(newPassword, salt);
+
+    user.passwordHash = hash;
+    user.resetCode = null;
+    await user.save();
+
+    res.json({ message: "Пароль успешно обновлен" });
+  } catch (error) {
+    console.error("Ошибка при сбросе пароля:", error);
+    res.status(500).json({ message: "Ошибка при сбросе пароля" });
   }
 };

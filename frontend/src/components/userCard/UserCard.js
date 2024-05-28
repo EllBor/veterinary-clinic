@@ -7,9 +7,9 @@ import UserUpdateModal from "../modal/UserUpdateModal";
 const UserCard = ({ id, phone, fullName, aboutUser, avatarUrl }) => {
   const safeFullName = fullName || "";
   const parts = safeFullName.split(" ");
-  const name = parts[2];
+  const name = parts[1];
   const surname = parts[0];
-  const patronymic = parts[1];
+  const patronymic = parts[2];
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);

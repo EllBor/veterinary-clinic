@@ -32,7 +32,6 @@ const MedicalHistorySchema = new mongoose.Schema({
                 type: Date,
             },
         }],
-        default: null,
     },
 }, 
 {

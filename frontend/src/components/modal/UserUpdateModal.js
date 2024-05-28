@@ -169,9 +169,7 @@ const UserUpdateModal = ({
                   type="text"
                   label="О себе"
                   defaultValue={aboutUser}
-                  {...register("aboutUser", {
-                    required: "Расскажите немного о себе",
-                  })}
+                  {...register("aboutUser")}
                   error={Boolean(errors.aboutUser)}
                   helperText={errors.aboutUser ? errors.aboutUser.message : ""}
                 />

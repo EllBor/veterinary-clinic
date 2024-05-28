@@ -6,7 +6,9 @@ import { useDispatch } from "react-redux";
 import TextField from "@mui/material/TextField";
 import { fetchResetPassword } from "../../redux/slices/auth";
 
-const PasswordChange = ({ isOpen, onClose, phoneExists }) => {
+import "./styles/style-code.css";
+
+const PasswordChange = ({ isOpen, onClose, phoneExists, secretAnswerExists }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {
@@ -19,7 +21,7 @@ const PasswordChange = ({ isOpen, onClose, phoneExists }) => {
 
   const onSubmit = async (data) => {
     try {
-      await dispatch(fetchResetPassword({ phone: phoneExists, newPassword: data.password }));
+      await dispatch(fetchResetPassword({ phone: phoneExists, newPassword: data.password, secretAnswer: secretAnswerExists }));
       onClose();
       navigate(`/login`, { replace: true });
     } catch (error) {
@@ -27,6 +29,7 @@ const PasswordChange = ({ isOpen, onClose, phoneExists }) => {
       alert("Ошибка при сбросе пароля. Попробуйте еще раз.");
     }
   };
+  
   return (
     <div>
       {isOpen && (

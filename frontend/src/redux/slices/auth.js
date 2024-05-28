@@ -20,10 +20,10 @@ export const fetchRegister = createAsyncThunk(
   }
 );
 
-export const fetchCheckPhone = createAsyncThunk(
-  "auth/fetchCheckPhone",
+export const fetchCheckPhoneAnswer = createAsyncThunk(
+  "auth/fetchCheckPhoneAnswer",
   async (params) => {
-    const { data } = await axios.post(`/check-user-by-phone`, params);
+    const { data } = await axios.post(`/check-user-by-phone-answer`, params);
     return data;
   }
 );
@@ -31,7 +31,6 @@ export const fetchCheckPhone = createAsyncThunk(
 export const fetchResetPassword = createAsyncThunk(
   "auth/ResetPassword",
   async (params) => {
-    console.log(params);
     const { data } = await axios.post(`/auth/password-reset`, params);
     return data;
   }
@@ -90,15 +89,15 @@ const authSlice = createSlice({
         state.status = "error";
         state.data = null;
       })
-      .addCase(fetchCheckPhone.pending, (state) => {
+      .addCase(fetchCheckPhoneAnswer.pending, (state) => {
         state.status = "loading";
         state.data = null;
       })
-      .addCase(fetchCheckPhone.fulfilled, (state, action) => {
+      .addCase(fetchCheckPhoneAnswer.fulfilled, (state, action) => {
         state.status = "loaded";
         state.data = action.payload;
       })
-      .addCase(fetchCheckPhone.rejected, (state) => {
+      .addCase(fetchCheckPhoneAnswer.rejected, (state) => {
         state.status = "error";
         state.data = null;
       })
