@@ -13,24 +13,20 @@ const Contacts = () => {
             </h3>
             <ul className="contacts__list">
               <li className="contacts__list-item">
-                <a className="contacts__item-link" href="#">
-                  <img className="contacts__item-img" src={map} alt="" />
+                  <img className="contacts__item-img" src={map} alt="map" />
                   <p className="contacts__item-text">
                     Дзержинский район, ул. Краснополянская, 30
                   </p>
-                </a>
               </li>
               <li className="contacts__list-item">
                 <a className="contacts__item-link" href="tel:962292">
-                  <img className="contacts__item-img" src={tel} alt="" />
+                  <img className="contacts__item-img" src={tel} alt="tel" />
                   <p className="contacts__item-text">96 22 92</p>
                 </a>
               </li>
               <li className="contacts__list-item">
-                <a className="contacts__item-link" href="#">
-                  <img className="contacts__item-img" src={clock} alt="" />
+                  <img className="contacts__item-img" src={clock} alt="clock" />
                   <p className="contacts__item-text">Круглосуточно</p>
-                </a>
               </li>
             </ul>
           </div>
@@ -40,24 +36,20 @@ const Contacts = () => {
             </h3>
             <ul className="contacts__list">
               <li className="contacts__list-item">
-                <a className="contacts__item-link" href="#">
-                  <img className="contacts__item-img" src={map} alt="" />
+                  <img className="contacts__item-img" src={map} alt="map" />
                   <p className="contacts__item-text">
                     Советский район, ул. Карла Маркса, 70
                   </p>
-                </a>
               </li>
               <li className="contacts__list-item">
                 <a className="contacts__item-link" href="tel:962292">
-                  <img className="contacts__item-img" src={tel} alt="" />
+                  <img className="contacts__item-img" src={tel} alt="tel" />
                   <p className="contacts__item-text">96 22 92</p>
                 </a>
               </li>
               <li className="contacts__list-item">
-                <a className="contacts__item-link" href="#">
-                  <img className="contacts__item-img" src={clock} alt="" />
+                  <img className="contacts__item-img" src={clock} alt="clock" />
                   <p className="contacts__item-text">Круглосуточно</p>
-                </a>
               </li>
             </ul>
           </div>
@@ -68,6 +60,7 @@ const Contacts = () => {
             width="800"
             height="530"
             frameborder="0"
+            title="Карта местоположения"
             className="contacts__map-iframe"
           ></iframe>
         </div>

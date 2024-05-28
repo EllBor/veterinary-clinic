@@ -144,6 +144,8 @@ a {
 }
 
 .contacts__list-item {
+  display: flex;
+  align-items: center;
   width: 260px;
 }
 
@@ -155,6 +157,7 @@ a {
 .contacts__item-text {
   margin-left: 10px;
   line-height: 25px;
+  font-size: 18px;
 }
 
 .contacts__item-img {

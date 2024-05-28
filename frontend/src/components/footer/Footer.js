@@ -23,7 +23,7 @@ const Footer = () => {
         <div className="footer__top">
           <div className="top__logo">
             <NavLink  to="/">
-              <img className="logo_footer" src={logo_footer} alt="" />
+              <img className="logo_footer" src={logo_footer} alt="logo" />
             </NavLink>
           </div>
           <div className="top__name">
@@ -63,27 +63,31 @@ const Footer = () => {
           <div className="bottom__social">
             <ul className="bottom__social-list">
               <li className="bottom__social-link">
-                <a>
+                <NavLink to="https://www.facebook.com" target="_blank">
                   <img
                     className="bottom__link-img"
                     src={facebook}
                     alt="facebook"
                   />
-                </a>
+                </NavLink>
               </li>
               <li className="bottom__social-link">
-                <a>
-                  <img className="bottom__link-img" src={vk} alt="vk" />
-                </a>
+                <NavLink to="https://m.vk.com" target="_blank">
+                  <img 
+                    className="bottom__link-img" 
+                    src={vk} 
+                    alt="vk" 
+                  />
+                </NavLink>
               </li>
               <li className="bottom__social-link">
-                <a>
+                <NavLink to="https://www.instagram.com" target="_blank">
                   <img
                     className="bottom__link-img"
                     src={instagram}
                     alt="instagram"
                   />
-                </a>
+                </NavLink>
               </li>
             </ul>
             <a
