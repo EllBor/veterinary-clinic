@@ -2,12 +2,10 @@ import mongoose from "mongoose";
 import PaymentReceiptModel from "./PaymentReceipt.js";
 
 const UserSchema = new mongoose.Schema({
-    
     fullName: {
         type: String,
         required: true
     },
-    email: String,
     phone: {
         type: Number,
         required: true,
