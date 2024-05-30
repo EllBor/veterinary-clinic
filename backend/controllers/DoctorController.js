@@ -1,5 +1,4 @@
 import DoctorModel from "../models/Doctor.js";
-import DoctorServiceModel from "../models/DoctorService.js";
 
 export const getAll = async (req, res) => {
     try {

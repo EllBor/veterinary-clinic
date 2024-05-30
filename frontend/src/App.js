@@ -25,15 +25,6 @@ import PasswordReset from "./pages/PasswordReset";
 import MedicalCard from "./pages/MedicalCard";
 
 function App() {
-  const dispatch = useDispatch();
-
-  React.useEffect(() => {
-    const token = window.localStorage.getItem("token");
-    if (token) {
-      dispatch(fetchAuthMe());
-    }
-  }, [dispatch]);
-
   return (
     <div className="App">
       <div className="wrapper">

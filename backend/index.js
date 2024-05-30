@@ -81,7 +81,7 @@ app.get("/users/:id/pets", checkAuth, PetsController.getAll);
 app.get("/users/:userId/pets/:id", PetsController.getOne);
 app.get("/medical-history/:petId", PetsController.getMedicalHistory);
 
-app.get("/services/:id/appointments", ServicesController.getAllAppointments);
+// app.get("/services/:id/appointments", ServicesController.getAllAppointments);
 app.get("/services", ServicesController.getAllServices);
 app.get("/services/:id", ServicesController.getOneServices);
 
