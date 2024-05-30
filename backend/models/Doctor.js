@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 
-const DoctorSchema = new mongoose.Schema(
-  {
+const DoctorSchema = new mongoose.Schema({
     fullName: {
       type: String,
       required: true,
@@ -58,5 +57,4 @@ const DoctorSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
-
 export default mongoose.model("Doctors", DoctorSchema);
