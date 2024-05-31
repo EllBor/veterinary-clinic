@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 
 const ReviewsSchema = new mongoose.Schema({
-    
     review_text: {
         type: String,
     },

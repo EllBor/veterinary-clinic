@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 
 const ServicesSchema = new mongoose.Schema({
-    
     service_name: {
         type: String,
         required: true,

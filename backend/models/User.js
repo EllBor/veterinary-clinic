@@ -1,5 +1,8 @@
 import mongoose from "mongoose";
 import PaymentReceiptModel from "./PaymentReceipt.js";
+import PetsModel from "./Pets.js";
+import AppointmentsModel from "./Appointments.js";
+import ReviewsModel from "./Reviews.js";
 
 const UserSchema = new mongoose.Schema({
     fullName: {
@@ -30,6 +33,9 @@ const UserSchema = new mongoose.Schema({
 UserSchema.pre('deleteOne', { document: true, query: false }, async function(next) {
     try {
       await PaymentReceiptModel.deleteMany({ user: this._id });
+      await PetsModel.deleteMany({ user: this._id });
+      await AppointmentsModel.deleteMany({ user: this._id });
+      await ReviewsModel.deleteMany({ user: this._id });
       next();
     } catch (error) {
       next(error);
