@@ -55,7 +55,7 @@ const Footer = () => {
               </li>
               <li className="nav__bottom-item">
                 <NavLink className="nav__bottom-link" to="/question-answer" onClick={scrollToTop}>
-                  Задать вопрос
+                  Часто задаваемые вопросы
                 </NavLink>
               </li>
             </ul>

@@ -16,17 +16,18 @@ import "../../styles/style-therapy.css";
 import "../../styles/flickity.css";
 
 const ServiceTherapy = () => {
-  const { id } = useParams();
+  const { slug } = useParams();
   const dispatch = useDispatch();
+  const serviceId = useSelector((state) => state.services.services.items._id);
   const doctors = useSelector((state) => state.doctors.doctorsWithAppointments);
   const services = useSelector((state) => state.services.diagnostics);
   const isServicesLoading = services.status === "loading";
   const isDoctorsLoading = doctors.status === "loading";
 
   React.useEffect(() => {
-    dispatch(fetchDoctorsWithAppointments(id));
-    dispatch(fetchOneService(id));
-  }, [dispatch, id]);
+    dispatch(fetchOneService(slug));
+    dispatch(fetchDoctorsWithAppointments(serviceId));
+  }, [dispatch, serviceId, slug]);
 
   return (
     <main>

@@ -1,8 +1,8 @@
 import { NavLink } from "react-router-dom";
 
-const Services = ({id, title, img, service_num}) => {
+const Services = ({slug, title, img, service_num}) => {
     return ( 
-      <NavLink className="services__inner-link" to={`/service-therapy/${id}`}>
+      <NavLink className="services__inner-link" to={`/service-therapy/${slug}`}>
         <div className="services__inner-item">
             <h3 className="services__item-title">{title}</h3>
             <div className="services__item-box">

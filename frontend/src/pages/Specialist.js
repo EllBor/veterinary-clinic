@@ -18,7 +18,7 @@ import { fetchReviews } from "../redux/slices/reviews";
 import { fetchDoctorAppointments, fetchOneDoctor } from "../redux/slices/doctors";
 
 const Specialist = () => {
-  const { id } = useParams();
+  const { slug } = useParams();
   const isAuth = useSelector(selectIsAuth);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => {
@@ -30,6 +30,7 @@ const Specialist = () => {
   };
   const closeModal = () => setIsModalOpen(false);
   const dispatch = useDispatch();
+  const doctorId = useSelector((state) => state.doctors.doctors.doctorId);
   const doctors = useSelector((state) => state.doctors);
   const reviews = useSelector((state) => state.reviews);
   const nearestAppointment = useSelector((state) => state.doctors.nearestAppointment);
@@ -37,11 +38,11 @@ const Specialist = () => {
   const isDoctorsLoading = doctors.status === "loading";
 
   React.useEffect(() => {
-    dispatch(fetchReviews(id));
-    dispatch(fetchOneDoctor(id));
-    dispatch(fetchDoctorAppointments(id));
+    dispatch(fetchReviews(doctorId));
+    dispatch(fetchOneDoctor(slug));
+    dispatch(fetchDoctorAppointments(slug));
     dispatch(fetchAuthMe());
-  }, [dispatch, id]);
+  }, [dispatch, doctorId, slug]);
 
   const settings = {
     dots: true,
@@ -72,7 +73,7 @@ const Specialist = () => {
                   ОСТАВИТЬ ОТЗЫВ
                 </button>
               )}
-              <FeedbackModel isOpen={isModalOpen} onClose={closeModal} id={id}/>
+              <FeedbackModel isOpen={isModalOpen} onClose={closeModal} id={doctorId}/>
             </div>
 
             <div className="account-specialist__part-main">

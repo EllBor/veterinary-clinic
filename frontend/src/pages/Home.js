@@ -69,7 +69,7 @@ const Home = () => {
               ) : (
                 <Services
                   key={obj._id}
-                  id={obj._id}
+                  slug={obj.slug}
                   title={obj.service_name}
                   img={obj.avatarUrl}
                   service_num={obj.number}

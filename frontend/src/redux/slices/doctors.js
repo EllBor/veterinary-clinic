@@ -6,13 +6,13 @@ export const fetchDoctors = createAsyncThunk('doctors/fetchDoctors', async () =>
     return data;
 })
 
-export const fetchOneDoctor = createAsyncThunk('doctors/fetchOneDoctor', async (id) => {
-    const {data} = await axios.get(`/doctor/${id}`);
+export const fetchOneDoctor = createAsyncThunk('doctors/fetchOneDoctor', async (slug) => {
+    const {data} = await axios.get(`/doctor/${slug}`);
     return data;
 })
 
-export const fetchDoctorAppointments = createAsyncThunk('doctors/fetchDoctorAppointments', async (id) => {
-    const {data} = await axios.get(`/doctor/${id}/appointments`);
+export const fetchDoctorAppointments = createAsyncThunk('doctors/fetchDoctorAppointments', async (slug) => {
+    const {data} = await axios.get(`/doctor/${slug}/appointments`);
     return data;
 })
 
@@ -22,8 +22,8 @@ export const fetchDoctorServiceAppointments = createAsyncThunk('doctors/fetchDoc
     return data;
 })
 
-export const fetchDoctorsWithAppointments = createAsyncThunk('doctors/fetchDoctorsWithAppointments', async (id) => {
-    const {data} = await axios.get(`/service/${id}/doctors`);
+export const fetchDoctorsWithAppointments = createAsyncThunk('doctors/fetchDoctorsWithAppointments', async (serviceId) => {
+    const {data} = await axios.get(`/service/${serviceId}/doctors`);
     return data;
 })
 
@@ -37,6 +37,7 @@ const initialState = {
     doctorsWithAppointments: [],
     nearestAppointment: [],
     sortedAppointments: [],
+    doctorId: null,
     doctors: {
         items: [],
         status: 'loading',
@@ -68,6 +69,7 @@ const doctorsSlice = createSlice({
             .addCase(fetchOneDoctor.fulfilled, (state, action) => {
                 state.status = 'loaded';
                 state.items = action.payload;
+                state.doctors.doctorId = action.payload[0]._id; 
             })
             .addCase(fetchOneDoctor.rejected, (state, action) => {
                 state.status = 'error';
@@ -92,7 +94,6 @@ const doctorsSlice = createSlice({
             .addCase(fetchDoctorsWithAppointments.fulfilled, (state, action) => {
                 state.status = 'loaded';
                 state.doctorsWithAppointments = action.payload.doctorsWithAppointments;
-                console.log("doctorsWithAppointments", state.doctorsWithAppointments);
             })
             .addCase(fetchDoctorsWithAppointments.rejected, (state, action) => {
                 state.status = 'error';

@@ -24,8 +24,9 @@ export const getAllServices = async (req, res) => {
 
 export const getOneServices = async (req, res) => {
   try {
-    const serviceId = req.params.id
-    const services = await ServiceModel.findById(serviceId);
+    const slug = req.params.slug;
+    console.log(slug);
+    const services = await ServiceModel.findOne({slug: slug});
     if (!services) {
       return res.status(404).json({
         message: "Услуга не найдена",

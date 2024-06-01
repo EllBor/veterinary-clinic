@@ -8,7 +8,6 @@ export const fetchAuth = createAsyncThunk("auth/fetchAuth", async (params) => {
 
 export const fetchAuthMe = createAsyncThunk("auth/fetchAuthMe", async () => {
   const { data } = await axios.get("/auth/me");
-  console.log(data);
   return data;
 });
 
@@ -43,6 +42,7 @@ const initialState = {
 
 const authSlice = createSlice({
   name: "auth",
+  slug: null,
   initialState,
   reducers: {
     logout: (state) => {
@@ -72,6 +72,7 @@ const authSlice = createSlice({
         state.status = "loaded";
         state.data = action.payload;
         state.id = action.payload._id;
+        state.slug = action.payload.slug;
       })
       .addCase(fetchAuthMe.rejected, (state) => {
         state.status = "error";
@@ -119,6 +120,7 @@ const authSlice = createSlice({
 export const selectIsAuth = (state) => Boolean(state.auth.data);
 
 export const selectIsAuthId = (state) => state.auth.id;
+export const selectIsAuthSlug = (state) => state.auth.slug;
 
 export const authReducer = authSlice.reducer;
 

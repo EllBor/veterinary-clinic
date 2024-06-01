@@ -2,12 +2,8 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import twilio from "twilio";
 import { validationResult } from "express-validator";
-
+import slugify from "slugify";
 import UserModel from "../models/User.js";
-
-const accountSid = 'AC2ef54e910e1e765f8355e45a3cb1680e';
-const authToken = '41929a7dc1e46307c8915c21ad0560f3';
-const client = new twilio(accountSid, authToken);
 
 export const login = async (req, res) => {
   try {
@@ -53,6 +49,7 @@ export const login = async (req, res) => {
 export const register = async (req, res) => {
   try {
     const errors = validationResult(req);
+
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors });
     }
@@ -61,13 +58,15 @@ export const register = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);
 
+    const slug = slugify(req.body.fullName, { lower: true });
+
     const doc = new UserModel({
-      email: req.body.email,
       fullName: req.body.fullName,
       avatarUrl: req.body.avatarUrl,
       phone: req.body.phone,
       secretAnswer: req.body.secretAnswer,
       passwordHash: hash,
+      slug,
     });
 
     const user = await doc.save();
@@ -91,7 +90,7 @@ export const register = async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({
-      message: "Не удалось зарегестрироваться",
+      message: "Не удалось зарегистрироваться",
     });
   }
 };
@@ -117,8 +116,8 @@ export const getMe = async (req, res) => {
 
 export const getOne = async (req, res) => {
   try {
-    const usersId = req.params.id;
-    const user = await UserModel.findById(usersId);
+    const usersSlug = req.params.slug;
+    const user = await UserModel.findOne( {slug: usersSlug });
     if (!user) {
       return res.status(404).json({
         message: "Пользоваель не найден",

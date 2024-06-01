@@ -6,9 +6,9 @@ export const fetchPets = createAsyncThunk("pets/fetchPets", async (userId) => {
   return data;
 });
 
-export const fetchOnePet = createAsyncThunk('pets/fetchOnePet', async ({userId, petId}) => {
+export const fetchOnePet = createAsyncThunk('pets/fetchOnePet', async ({userId, slug}) => {
 
-  const {data} = await axios.get(`/users/${userId}/pets/${petId}`);
+  const {data} = await axios.get(`/users/${userId}/pets/${slug}`);
   return data;
 });
 

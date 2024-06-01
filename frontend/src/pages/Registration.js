@@ -8,7 +8,7 @@ import { Navigate } from "react-router-dom";
 import {
   selectIsAuth,
   fetchRegister,
-  selectIsAuthId,
+  selectIsAuthSlug,
   fetchAuthMe,
 } from "../redux/slices/auth";
 
@@ -16,7 +16,7 @@ import "../styles/login-register.css";
 
 const Registration = () => {
   const isAuth = useSelector(selectIsAuth);
-  const isAuthId = useSelector(selectIsAuthId);
+  const slug = useSelector(selectIsAuthSlug);
   const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -64,7 +64,7 @@ const Registration = () => {
         return <Navigate to={`/order-services`} replace />;
       }
     } else {
-      return <Navigate to={`/account/${isAuthId}`} replace />;
+      return <Navigate to={`/account/${slug}`} replace />;
     }
   }
 

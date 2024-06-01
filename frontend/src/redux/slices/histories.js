@@ -3,6 +3,7 @@ import axios from "../../axios";
 
 export const fetchMedicalHistory = createAsyncThunk('histories/fetchMedicalHistory', async (petId) => {
   const {data} = await axios.get(`/medical-history/${petId}`);
+  console.log("data",data);
   return data;
 })
 
@@ -33,9 +34,10 @@ const historiesSlice = createSlice({
     })
     .addCase(fetchMedicalHistory.fulfilled, (state, action) => {
       state.status = "loaded";
-      state.prescriptions= action.payload.prescriptions;
-      state.diagnosis = action.payload.diagnosis;
-      state.medicalCardNumber = action.payload.medicalCardNumber;
+      const data = action.payload || {};
+      state.prescriptions = data.prescriptions || [];
+      state.diagnosis = data.diagnosis || "";
+      state.medicalCardNumber = data.medicalCardNumber || "";
     })
     .addCase(fetchMedicalHistory.rejected, (state, action) => {
       state.status = "error";
@@ -47,8 +49,7 @@ const historiesSlice = createSlice({
     })
     .addCase(fetchAnalysisResults.fulfilled, (state, action) => {
       state.status = "loaded";
-      state.items = action.payload;
-      console.log("action.payload",action.payload);
+      state.items = action.payload || [];
     })
     .addCase(fetchAnalysisResults.rejected, (state, action) => {
       state.status = "error";

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { selectIsAuth, selectIsAuthId } from "../../redux/slices/auth";
+import { selectIsAuth, selectIsAuthSlug} from "../../redux/slices/auth";
 import { HashLink as Link } from 'react-router-hash-link';
 
 import "./style.css";
@@ -12,7 +12,7 @@ import app_back from "../../images/app-back.svg";
 
 const Header = () => {
   const isAuth = useSelector(selectIsAuth);
-  const userId = useSelector(selectIsAuthId);
+  const slug = useSelector(selectIsAuthSlug);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -33,7 +33,7 @@ const Header = () => {
             </li>
             {isAuth ? (
               <li className="nav__list-item">
-                <NavLink className="nav__list-item" to={`/account/${userId}`}>
+                <NavLink className="nav__list-item" to={`/account/${slug}`}>
                   ЛИЧНЫЙ КАБИНЕТ
                 </NavLink>
               </li>
@@ -82,7 +82,7 @@ const Header = () => {
                 <ul class="rightside-menu__list">
                 {isAuth ? (
                     <li className="rightside-menu__list-item">
-                      <NavLink className="rightside-menu__list-link" to={`/account/${userId}`}>
+                      <NavLink className="rightside-menu__list-link" to={`/account/${slug}`}>
                         ЛИЧНЫЙ КАБИНЕТ
                       </NavLink>
                     </li>

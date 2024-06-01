@@ -1,9 +1,9 @@
 import { NavLink } from "react-router-dom"
 import doc_foto from "../../images/doc-foto.png";
-const Doctors = ({id, specialization, fullName, experience, level_education }) => {
+const Doctors = ({specialization, slug, fullName, experience, level_education }) => {
   return (
     <div className="specialists__item">
-      <NavLink className="specialists__item-link"  to={`/specialist/${id}`}>
+      <NavLink className="specialists__item-link"  to={`/specialist/${slug}`}>
         <div className="specialists__item-foto">
           <img src={doc_foto} alt="" />
           <p>{experience}</p>

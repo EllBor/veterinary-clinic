@@ -32,21 +32,21 @@ function App() {
           <Header />
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path={`/account/:id`} element={<Account />} />
-            <Route path="/specialist/:id" element={<Specialist />} />
+            <Route path="/account/:slug" element={<Account />} />
+            <Route path="/specialist/:slug" element={<Specialist />} />
             <Route path="/stocks" element={ <Stocks />} />
             <Route path="/history" element={ <History />} />
             <Route path="/order-card" element={ <OrderCard />} />
             <Route path="/collective" element={ <Collective />} />
             <Route path="/appointment" element={<Appointment />} />
-            <Route path="/service-therapy/:id" element={<ServiceTherapy />} />
+            <Route path="/service-therapy/:slug" element={<ServiceTherapy />} />
             <Route path="/order" element={<Order />} />
             <Route path="/login" element={<Login />} />
             <Route path="/registration" element={<Registration />} />
             <Route path="/question-answer" element={<FAQPage />} />
             <Route path="/order-services" element={<OrderServices />} />
             <Route path="/password-reset" element={<PasswordReset/>} /> 
-            <Route path="/medical-card/:id" element={<MedicalCard/>} />
+            <Route path="/medical-card/:slug" element={<MedicalCard/>} />
           </Routes>
           <Footer />
         </Router>

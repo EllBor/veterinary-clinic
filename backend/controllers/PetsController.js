@@ -1,15 +1,18 @@
 import PetsModel from "../models/Pets.js";
 import UserModel from "../models/User.js";
 import MedicalHistoryModel from  "../models/MedicalHistory.js";
+import slugify from "slugify";
 
 export const create = async (req, res) => {
   try {
+    const slug = slugify(req.body.name, { lower: true });
     const doc = new PetsModel({
       name: req.body.name,
       breed: req.body.breed,
       gender: req.body.gender,
       species: req.body.species,
       age: req.body.age,
+      slug,
       user: req.userId,
       avatarUrl: req.body.avatarUrl,
     });
@@ -26,6 +29,7 @@ export const create = async (req, res) => {
 export const update = async (req, res) => {
   try {
     const petId = req.params.id;
+    const slug = slugify(req.body.name, { lower: true });
     await PetsModel.updateOne(
       {
         _id: petId,
@@ -36,6 +40,7 @@ export const update = async (req, res) => {
         gender: req.body.gender,
         species: req.body.species,
         age: req.body.age,
+        slug,
         avatarUrl: req.body.avatarUrl,
       }
     );
@@ -102,7 +107,7 @@ export const getAll = async (req, res) => {
 
 export const getOne = async (req, res) => {
   try {
-    const petId = req.params.id;
+    const petSlug = req.params.slug;
     const userId = req.params.userId;
     const userExists = await UserModel.exists({ _id: userId });
     if (!userExists) {
@@ -110,7 +115,7 @@ export const getOne = async (req, res) => {
         message: "Пользователь не найден",
       });
     }
-    const pet = await PetsModel.findOne({ user: userId, _id: petId });
+    const pet = await PetsModel.findOne({ user: userId, slug: petSlug });
     if (!pet) {
       return res.status(404).json({
         message: "Питомец не найдены",

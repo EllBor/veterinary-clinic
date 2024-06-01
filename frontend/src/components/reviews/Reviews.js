@@ -6,7 +6,7 @@ import "../rating/style-ratingresult.css"
 const Reviews = ({review_text, rating, publication_date, userfullName, userAvatar}) => {
   const safeFullName = userfullName || "";
   const parts = safeFullName.split(" ");
-  const name = parts[0];
+  const name = parts[1];
   
     return ( 
         <div className="feedback__card-item">
@@ -14,7 +14,7 @@ const Reviews = ({review_text, rating, publication_date, userfullName, userAvata
           <img className="feedback__foto-img" src={userAvatar ? `http://localhost:4444${userAvatar}` : foto} alt="" />
         </div>
         <div className="feedback__card-main">
-          <h4 className="feedback__main-title">Пользоваель</h4>
+          <h4 className="feedback__main-title">Пользователь</h4>
           <p className="feedback__main-name">{name}</p>
           <h4 className="feedback__main-title">Отзыв</h4>
           <p className="feedback__main-comments">

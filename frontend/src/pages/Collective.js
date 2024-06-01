@@ -56,8 +56,8 @@ const Collective = () => {
                   ):(
                     <Doctors
                       key={`doctors-${obj._id}`}
-                      id={obj._id}
                       specialization = {obj.specialization}
+                      slug = {obj.slug}
                       avatarUrl = {obj.avatarUrl}
                       fullName = {obj.fullName}
                       experience = {obj.experience}

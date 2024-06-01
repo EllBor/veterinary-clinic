@@ -7,7 +7,7 @@ import "../styles/style-adaptive.css";
 import { fetchPets } from "../redux/slices/pets";
 import { fetchUsers } from "../redux/slices/users";
 import { fetchAppointment } from "../redux/slices/appointment";
-import { selectIsAuthId } from "../redux/slices/auth";
+import { selectIsAuthId, selectIsAuthSlug } from "../redux/slices/auth";
 import { fetchReceipt } from "../redux/slices/receipt";
 
 import UserCard from "../components/userCard/UserCard";
@@ -19,6 +19,7 @@ import Pets from "../components/pets/Pets";
 
 
 const Account = () => {
+  const slug = useSelector(selectIsAuthSlug);
   const id = useSelector(selectIsAuthId);
   const dispatch = useDispatch();
   const pets = useSelector((state) => state.pets);
@@ -31,11 +32,11 @@ const Account = () => {
   const isReceiptLoading = receipt.status === "loading";
 
   React.useEffect(() => {
-    dispatch(fetchUsers(id));
+    dispatch(fetchUsers(slug));
     dispatch(fetchPets(id));
     dispatch(fetchAppointment(id));
     dispatch(fetchReceipt(id));
-  }, [dispatch, id]);
+  }, [dispatch, id, slug]);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const openModal = () => setIsModalOpen(true);
@@ -123,6 +124,7 @@ const Account = () => {
                           key={obj._id}
                           userId={id}
                           petId={obj._id}
+                          slug={obj.slug}
                           name={obj.name}
                           breed={obj.breed}
                           gender={obj.gender}

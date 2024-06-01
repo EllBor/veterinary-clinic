@@ -19,15 +19,15 @@ export const getAll = async (req, res) => {
 
 export const getOne = async (req, res) => {
     try {
-        const doctorId = req.params.id;
-        const doctor = await DoctorModel.findById(doctorId);
+        const slug = req.params.slug;
+        const doctor = await DoctorModel.findOne({slug: slug});
         if(!doctor) {
             return res.status(404).json({
                 message: "Врач не найден",
             });
         }
-        res.json([doctor]);
 
+      res.json([doctor]);
     } catch (error) {
       console.log(error);
       res.status(500).json({
@@ -38,8 +38,8 @@ export const getOne = async (req, res) => {
   
 export const getDoctorAndNearestAppointment = async (req, res) => {
   try {
-    const doctorId = req.params.id;
-    const doctor = await DoctorModel.findById(doctorId);
+    const slug = req.params.slug;
+    const doctor = await DoctorModel.findOne({slug: slug});
     if (!doctor) {
       return res.status(404).json({ message: 'Врач не найден' });
     }

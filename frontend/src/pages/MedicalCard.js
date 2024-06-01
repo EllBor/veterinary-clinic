@@ -5,32 +5,34 @@ import { useParams, NavLink } from "react-router-dom";
 
 import { fetchOnePet } from "../redux/slices/pets";
 import { fetchMedicalHistory } from "../redux/slices/histories";
-import { selectIsAuthId, fetchAuthMe } from "../redux/slices/auth";
+import { selectIsAuthId, fetchAuthMe, selectIsAuthSlug } from "../redux/slices/auth";
 import PDFDocumentHistory from "../components/pdfDocument/PDFDocumentHistory";
 
 import "./../styles/style-adaptive.css";
 
 const MedicalCard = () => {
-  const { id } = useParams();
+  const { slug } = useParams();
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const userId = useSelector(selectIsAuthId);
+  const petId = useSelector((state) => state.pets.pets.items._id);
+  const slugAuth = useSelector(selectIsAuthSlug);
   const pet = useSelector((state) => state.pets.pets);
   const historyPrescriptions = useSelector((state) => state.histories.prescriptions);
   const historyDiagnosis = useSelector((state) => state.histories.diagnosis);
   const isPrescriptionsLoading = historyPrescriptions.status === "loading";
 
   React.useEffect(() => {
-    dispatch(fetchOnePet({ userId: userId, petId: id }));
-    dispatch(fetchMedicalHistory(id));
     dispatch(fetchAuthMe());
-  }, [dispatch, userId, id]);
+    dispatch(fetchOnePet({ userId, slug }));
+    dispatch(fetchMedicalHistory(petId));
+  }, [dispatch, userId, slug, petId]);
 
   return (
     <main className="main">
       <section className="account">
         <div className="container">
-        <NavLink className="account__link" to={`/account/${userId}`}>В личный кабинет</NavLink>
+        <NavLink className="account__link" to={`/account/${slugAuth}`}>В личный кабинет</NavLink>
           <div className="history-card">
             {pet && (
               <div className="base-info">

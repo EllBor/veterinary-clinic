@@ -14,6 +14,7 @@ import update from "../../images/update.svg";
 const Pets = ({
   userId,
   petId,
+  slug,
   name,
   breed,
   gender,
@@ -73,15 +74,15 @@ const Pets = ({
       </div>
 
       <div className="info__card-health">
-    
           <div className="medical-card">
-          <NavLink className="medical-card__file" to={`/medical-card/${petId}`}>
+          <NavLink className="medical-card__file" to={`/medical-card/${slug}`}>
             <h4 className="info__medical-title">Медицинская карта</h4>
             <img src={pdf} alt="medical card" />
             {medicalCardNumber}
             <span className="medical-card__date">обновлена</span>
             </NavLink>
           </div>
+
 
         <div className="analyzes__box">
         <h4 className="info__analyzes-title">Результаты анализов</h4>
@@ -98,7 +99,6 @@ const Pets = ({
                 />
               )
           )}
-          {console.log(analyzes)}
         </div>
       </div>
         <PetUpdateModal

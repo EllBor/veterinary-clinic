@@ -6,7 +6,7 @@ import TextField from "@mui/material/TextField";
 import {
   fetchAuth,
   selectIsAuth,
-  selectIsAuthId,
+  selectIsAuthSlug,
   fetchAuthMe,
 } from "../redux/slices/auth";
 
@@ -14,7 +14,7 @@ import "../styles/login-register.css";
 
 const Login = () => {
   const isAuth = useSelector(selectIsAuth);
-  const isAuthId = useSelector(selectIsAuthId);
+  const slug = useSelector(selectIsAuthSlug);
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
@@ -58,7 +58,7 @@ const Login = () => {
         navigate(`/order-services`, { replace: true });
       }
     } else {
-      navigate(`/account/${isAuthId}`, { replace: true });
+      navigate(`/account/${slug}`, { replace: true });
     }
   }
 

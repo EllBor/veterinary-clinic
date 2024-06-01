@@ -61,11 +61,11 @@ app.post("/check-user-by-phone-answer", UserController.checkUserByPhoneAnswer);
 
 app.delete("/users/:id", UserController.remove);
 app.patch("/users/:id", updateValidation, UserController.update);
-app.get("/users/:id", UserController.getOne);
+app.get("/users/:slug", UserController.getOne);
 
 app.get("/doctor", DoctorController.getAll);
-app.get("/doctor/:id", DoctorController.getOne);
-app.get("/doctor/:id/appointments", DoctorController.getDoctorAndNearestAppointment);
+app.get("/doctor/:slug", DoctorController.getOne);
+app.get("/doctor/:slug/appointments", DoctorController.getDoctorAndNearestAppointment);
 app.get("/service/:serviceId/doctor/:id/appointments", DoctorController.getDoctorServiceAndNearestAppointment);
 app.get("/service/:id/doctors", DoctorController.getAllDoctorsWithAppointments);
 app.post("/service/:serviceId/doctors/:doctorId/appointments", DoctorController.updateAppointmentStatus)
@@ -78,12 +78,11 @@ app.post("/users/:userId/pets", checkAuth, createValidation, PetsController.crea
 app.delete("/users/:userId/pets/:id", checkAuth, PetsController.remove);
 app.patch("/users/:userId/pets/:id", checkAuth, createValidation, PetsController.update);
 app.get("/users/:id/pets", checkAuth, PetsController.getAll);
-app.get("/users/:userId/pets/:id", PetsController.getOne);
+app.get("/users/:userId/pets/:slug", PetsController.getOne);
 app.get("/medical-history/:petId", PetsController.getMedicalHistory);
 
-// app.get("/services/:id/appointments", ServicesController.getAllAppointments);
 app.get("/services", ServicesController.getAllServices);
-app.get("/services/:id", ServicesController.getOneServices);
+app.get("/services/:slug", ServicesController.getOneServices);
 
 app.get("/users/:id/appointments", AppointmentController.getAll);
 app.post("/appointments/users/:userId/doctors/:doctorId/pets/:petId", AppointmentController.create);
