@@ -51,6 +51,11 @@ const DoctorSchema = new mongoose.Schema({
       },
       },
     ],
+    slug: {
+      type: String,
+      required: true,
+      unique: true,
+  },
     avatarUrl: String,
   },
   {
