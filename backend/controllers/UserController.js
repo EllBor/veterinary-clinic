@@ -150,6 +150,7 @@ export const remove = async (req, res) => {
 export const update = async (req, res) => {
   try {
     const userId = req.params.id;
+    const slug = slugify(req.body.fullName, { lower: true });
     await UserModel.updateOne(
       {
         _id: userId,
@@ -157,7 +158,7 @@ export const update = async (req, res) => {
       {
         fullName: req.body.fullName,
         phone: req.body.phone,
-        email: req.body.email,
+        slug,
         avatarUrl: req.body.avatarUrl,
         aboutUser: req.body.aboutUser,
       }
