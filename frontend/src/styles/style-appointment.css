@@ -171,7 +171,7 @@
 }
 
 .order__date-cvv{
-    width: 64px;
+    width: 70px;
     height: 48px;
     border-radius: 10px;
     border: solid 1px #A6A6A6;
@@ -237,4 +237,5 @@
     border-radius: 20px;
     border: solid 1px #C3B9B5;
     width: 284px;
+    height: 60px;
 }
