@@ -2,8 +2,6 @@ import "./styles/style.css";
 
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { fetchAuthMe } from "./redux/slices/auth";
 
 import Header from "./components/header/Header";
 import Footer from "./components/footer/Footer";
@@ -54,5 +52,4 @@ function App() {
     </div>
   );
 }
-
 export default App;

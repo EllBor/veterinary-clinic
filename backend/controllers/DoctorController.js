@@ -8,7 +8,7 @@ export const getAll = async (req, res) => {
                 message: "Врачи не найдены",
             });
         }
-        res.json(doctor);
+      res.json(doctor);
     } catch (error) {
       console.log(error);
       res.status(500).json({
@@ -26,7 +26,6 @@ export const getOne = async (req, res) => {
                 message: "Врач не найден",
             });
         }
-
       res.json([doctor]);
     } catch (error) {
       console.log(error);
@@ -96,7 +95,6 @@ export const getDoctorServiceAndNearestAppointment = async (req, res) => {
 export const getAllDoctorsWithAppointments = async (req, res) => {
   try {
     const serviceId = req.params.id; 
-
     const doctors = await DoctorModel.find({
       "appointment_dates.service_id": serviceId
     }).lean();
@@ -109,7 +107,6 @@ export const getAllDoctorsWithAppointments = async (req, res) => {
       const sortedAppointments = appointmentsForService.sort((a, b) => {
         return new Date(a.start_date_time) - new Date(b.start_date_time);
       });
-
       const nearestAppointment = sortedAppointments[0];
 
       return {
@@ -117,7 +114,6 @@ export const getAllDoctorsWithAppointments = async (req, res) => {
         nearestAppointment,
       };
     }));
-
     res.status(200).json({ doctorsWithAppointments });
   } catch (error) {
     console.log(error);

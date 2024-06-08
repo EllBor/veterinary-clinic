@@ -60,7 +60,7 @@ const Appointment = () => {
 
                 <button className="payment__btn" onClick={handleServicesClick}>
                   <div className="payment__item">
-                    <p className="payment__item-title">Услуги</p>
+                    <p className="payment__item-title">Диагностическое обследование</p>
                     <span className="payment__item-price">Платно</span>
                   </div>
                 </button>

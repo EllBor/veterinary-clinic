@@ -80,7 +80,10 @@ const OrderServices = () => {
   ]);
 
   const handleDiagnosticsChange = (event) => {
-    setSelectedDiagnostics(event.target.value);
+    const selectedOptions = Array.from(event.target.selectedOptions).map(
+      (option) => option.value
+    );
+    setSelectedDiagnostics(selectedOptions);
   };
 
   const handleServiceChange = (event) => {
@@ -89,7 +92,8 @@ const OrderServices = () => {
     setSelectedDiagnostics("");
     setAppointments("");
     if (event.target.value) {
-      dispatch(fetchOneService(event.target.value));
+      const servicesSlug = services.items.find((item) => item._id === selectedService).slug;
+      dispatch(fetchOneService(servicesSlug));
       dispatch(fetchDoctorsByService(event.target.value));
     }
   };
@@ -134,14 +138,28 @@ const OrderServices = () => {
       const petName = pets.items.find((item) => item._id === selectedPet).name;
       const paymentMethod = "card";
       const userFullName = users.items[0].fullName;
-      const [service, amount] = selectedDiagnostics.split(' ');
-      console.log("service",service);
-      const newReceipt = { service, amount, userFullName, clinic_address, doctorName, petName, paymentMethod }
-        await dispatch(
-          fetchReceiptCreate({
-            userId: id,
-            params: newReceipt
-          })
+      const serviceNames = [];
+      let totalAmount = 0;
+      selectedDiagnostics.forEach((item) => {
+        const [service, price] = item.split(" - ");
+        serviceNames.push(service);
+        totalAmount += parseFloat(price);
+      });
+      const newReceipt = { 
+        service: serviceNames.join(', '),
+        amount: totalAmount.toFixed(2), 
+        userFullName, 
+        clinic_address, 
+        doctorName, 
+        petName, 
+        paymentMethod 
+      };
+
+      await dispatch(
+        fetchReceiptCreate({
+          userId: id,
+          params: newReceipt
+        })
       );
       openModal();
     } catch (error) {
@@ -184,7 +202,6 @@ const OrderServices = () => {
                           </option>
                     </select>
 
-
                     <select
                       className="form__select-item"
                       value={selectedService}
@@ -211,6 +228,7 @@ const OrderServices = () => {
                       className="form__select-item"
                       value={selectedDiagnostics}
                       onChange={handleDiagnosticsChange}
+                      multiple
                     >
                       <option value="">Выберите услугу</option>
                       {(isServicesLoading
@@ -222,8 +240,8 @@ const OrderServices = () => {
                             Услгу нет
                           </option>
                         ) : (
-                          <option key={index} value={`${obj.diagnostics_name} ${obj.diagnostics_price}`}>
-                            {obj.diagnostics_name} {" "} {obj.diagnostics_price}
+                          <option key={index} value={`${obj.diagnostics_name}  -  ${obj.diagnostics_price}`}>
+                            {obj.diagnostics_name} {" - "} {obj.diagnostics_price}
                           </option>
                         )
                       )}

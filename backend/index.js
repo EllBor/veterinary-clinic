@@ -40,13 +40,10 @@ const storage = multer.diskStorage({
     cb(null, uniqueFileName);
   },
 });
-
 const upload = multer({ storage });
-
 app.use(express.json());
 app.use(cors());
 app.use("/uploads", express.static("uploads"));
-
 app.post("/upload", checkAuth, upload.single("image"), (req, res) => {
   res.json({
     url: `/uploads/${req.file.filename}`,
@@ -72,7 +69,6 @@ app.post("/service/:serviceId/doctors/:doctorId/appointments", DoctorController.
 
 app.get("/doctor/:id/reviews", ReviewController.getAll);
 app.post("/doctor/:doctorId/users/:userId/reviews", ReviewsValidation, ReviewController.create);
-app.get('/doctor/services/:serviceId', ServicesController.getDoctorsByService);
 
 app.post("/users/:userId/pets", checkAuth, createValidation, PetsController.create);
 app.delete("/users/:userId/pets/:id", checkAuth, PetsController.remove);
@@ -83,6 +79,7 @@ app.get("/medical-history/:petId", PetsController.getMedicalHistory);
 
 app.get("/services", ServicesController.getAllServices);
 app.get("/services/:slug", ServicesController.getOneServices);
+app.get('/doctor/services/:serviceId', ServicesController.getDoctorsByService);
 
 app.get("/users/:id/appointments", AppointmentController.getAll);
 app.post("/appointments/users/:userId/doctors/:doctorId/pets/:petId", AppointmentController.create);

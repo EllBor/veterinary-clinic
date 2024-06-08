@@ -31,9 +31,7 @@ export const update = async (req, res) => {
     const petId = req.params.id;
     const slug = slugify(req.body.name, { lower: true });
     await PetsModel.updateOne(
-      {
-        _id: petId,
-      },
+      {_id: petId,},
       {
         name: req.body.name,
         breed: req.body.breed,
@@ -46,9 +44,7 @@ export const update = async (req, res) => {
     );
     const pet = await PetsModel.findById(petId);
     if (!pet) {
-      return res.status(404).json({
-        message: "Питомец не найден",
-      });
+      return res.status(404).json({message: "Питомец не найден" });
     }
     res.json([pet]);
   } catch (error) {
